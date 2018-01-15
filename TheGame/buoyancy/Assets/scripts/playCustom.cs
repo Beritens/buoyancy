@@ -8,6 +8,8 @@ public class playCustom : MonoBehaviour {
 	public string ThePath;
 	public static string path2;
 	public static bool jaa;
+
+	
 	
 	public void click(){
 		if(GameObject.Find("Trash")){

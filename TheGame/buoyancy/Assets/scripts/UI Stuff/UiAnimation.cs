@@ -22,7 +22,6 @@ public class UiAnimation : MonoBehaviour {
 			rAnchorMin = recT.anchorMin;
 			start = false;
 		}
-		print("hey");
 		
 		StartCoroutine(move());
 	}
@@ -51,7 +50,6 @@ public class UiAnimation : MonoBehaviour {
 
 		while(t >= 0 & !an)
        {
-		   print("hi");
             t -= (Time.deltaTime / speed) * backMulti;
             recT.anchorMin = Vector2.Lerp(rAnchorMin,AnchorMin, t);
 			recT.anchorMax = Vector2.Lerp(rAnchorMax,AnchorMax, t);

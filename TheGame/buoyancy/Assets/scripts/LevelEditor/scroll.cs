@@ -16,9 +16,13 @@ public class scroll : MonoBehaviour {
 	bool delete = false;
 	bool bruh = false;
 	float deleteDistance;
+	GameObject Scroller;
 	public float ScreendeleteDistance = 100;
+	public open PleaseOpenTheMenu;
 	void Start () {
 		deleteDistance = Screen.width/ScreendeleteDistance;
+		Scroller = GameObject.Find("Scroller");
+
 	}
 	
 	// Update is called once per frame
@@ -30,7 +34,7 @@ public class scroll : MonoBehaviour {
 			kk = true;
 		}
 		//print(canIscroll +" lol "+ canIscroll2);
-		if(kk && !GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen){
+		if(kk && !Scroller.GetComponent<isSomethingOpen>().SomethingOpen){
 			if(Input.touchCount == 1){
 				Touch touch = Input.GetTouch(0);
 				if(touch.phase == TouchPhase.Began || bruh){
@@ -55,6 +59,7 @@ public class scroll : MonoBehaviour {
 						//&& (touch.position.x < Screen.width*0.73f || touch.position.y < Screen.height*0.37f || touch.position.y > Screen.height*0.45f)){
 						if(!EventSystem.current.IsPointerOverGameObject(0)){
 							delete = true;
+							print("kkkkkkkkkk");
 							
 						}
 						
@@ -74,17 +79,18 @@ public class scroll : MonoBehaviour {
 				else if(touch.phase == TouchPhase.Ended && delete){
 
 					if(GameObject.Find("sizeStuff(Clone)")){
-						GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject.layer = 0;
-						if(GameObject.Find("PleaseOpenTheMenu").GetComponent<open>().opeeen){
-							GameObject.Find("PleaseOpenTheMenu").GetComponent<open>().closeTheMenu();
-						}
-						
-						if(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.Find("outline")){
-							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.Find("outline").gameObject.SetActive(false);
-						}
-						
 						GameObject sizeStuff = GameObject.Find("sizeStuff(Clone)");
+						sizeStuff.GetComponent<sizeThing>().square.gameObject.layer = 0;
+						if(PleaseOpenTheMenu.GetComponent<open>().opeeen){
+							PleaseOpenTheMenu.GetComponent<open>().closeTheMenu();
+						}
 						
+						if(sizeStuff.GetComponent<sizeThing>().square.Find("outline")){
+							sizeStuff.GetComponent<sizeThing>().square.Find("outline").gameObject.SetActive(false);
+						}
+						
+						
+						print("miau");
 						GameObject.Destroy(sizeStuff);
 					}
 

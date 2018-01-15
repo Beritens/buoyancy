@@ -29,7 +29,6 @@ public class fadeIn : MonoBehaviour {
         // fade from opaque to transparent
         if (fadeAway)
         {
-			print("nice");
             // loop over 1 second backwards
             for (float i = 1; i >= 0; i -= Time.deltaTime * fadeSpeed)
             {

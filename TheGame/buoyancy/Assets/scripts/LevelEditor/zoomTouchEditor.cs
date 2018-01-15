@@ -40,7 +40,7 @@ public class zoomTouchEditor : MonoBehaviour {
 				
 				float distanceNow = Vector2.Distance(t1.position,t2.position);
 				float multiplier = distanceNow / initdistance;
-				cam.GetComponent<Camera>().orthographicSize = Mathf.Clamp(initorthoSize/multiplier,0,40);
+				cam.GetComponent<Camera>().orthographicSize = Mathf.Clamp(initorthoSize/multiplier,0.001f,40);
 				cam.transform.position = Vector3.Lerp(new Vector3(middlePos.x,middlePos.y,-10),initcamPosition,1/multiplier) + scrollAmount;
 
 			}

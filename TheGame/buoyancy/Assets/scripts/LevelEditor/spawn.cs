@@ -29,77 +29,80 @@ public class spawn : MonoBehaviour {
 			//Position
 			if(deko){
 				//GameObject[] lol = GameObject.FindGameObjectsWithTag("deko");
-				if(Undo.dekoL.Count < 1500){
-					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,0f - Undo.dekoL.Count* 0.001f);
+				if(Undo.dekoL < 1500){
+					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,0f - Undo.dekoL* 0.001f);
 				}
 				else{
 					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-1.5f);
 				}
-				bob.GetComponent<Draggable>().ObjectLPos = Undo.dekoL.Count;
-				Undo.dekoL.Add(bob);
+				//bob.GetComponent<Draggable>().ObjectLPos = Undo.dekoL.Count;
+				Undo.dekoL++;
 				
 				//bob.GetComponent<SpriteRenderer>().sortingOrder = Undo.x.Count -1;
 			}
 			else if(water){
 				//GameObject[] lol = GameObject.FindGameObjectsWithTag("water");
-				if(Undo.waterL.Count < 1500){
-					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-1.5f - Undo.waterL.Count* 0.001f);
+				if(Undo.waterL < 1500){
+					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-1.5f - Undo.waterL* 0.001f);
 				}
 				else{
 					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-3f);
 				}
-				bob.GetComponent<Draggable>().ObjectLPos = Undo.waterL.Count;
-				Undo.waterL.Add(bob);
+				//bob.GetComponent<Draggable>().ObjectLPos = Undo.waterL.Count;
+				Undo.waterL++;
 				
 			}
 			else if(goal){
 				//GameObject[] lol = GameObject.FindGameObjectsWithTag("goal");
-				if(Undo.goalL.Count < 1500){
-					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-3f - Undo.goalL.Count* 0.001f);
+				if(Undo.goalL < 1500){
+					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-3f - Undo.goalL* 0.001f);
 				}
 				else{
 					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-4.5f);
 				}
-				bob.GetComponent<Draggable>().ObjectLPos = Undo.goalL.Count;
-				Undo.goalL.Add(bob);
+				//bob.GetComponent<Draggable>().ObjectLPos = Undo.goalL.Count;
+				Undo.goalL++;
 				
 			}
 			else if(obstacle){
 				//GameObject[] lol = GameObject.FindGameObjectsWithTag("obstacle");
-				if(Undo.obstacleL.Count < 1500){
-					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-4.5f - Undo.obstacleL.Count* 0.001f);
+				if(Undo.obstacleL < 1500){
+					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-4.5f - Undo.obstacleL* 0.001f);
 				}
 				else{
 					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-6f);
 				}
-				bob.GetComponent<Draggable>().ObjectLPos = Undo.obstacleL.Count;
-				Undo.obstacleL.Add(bob);
+				//bob.GetComponent<Draggable>().ObjectLPos = Undo.obstacleL.Count;
+				Undo.obstacleL++;
 				
 			}
 			else if(ground){
 				//GameObject[] lol = GameObject.FindGameObjectsWithTag("ground");
-				if(Undo.groundL.Count < 1500){
-					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-6f - Undo.groundL.Count* 0.001f);
+				if(Undo.groundL < 1500){
+					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-6f - Undo.groundL* 0.001f);
 				}
 				else{
 					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-7.5f);
 				}
-				bob.GetComponent<Draggable>().ObjectLPos = Undo.groundL.Count;
-				Undo.groundL.Add(bob);
+				//bob.GetComponent<Draggable>().ObjectLPos = Undo.groundL.Count;
+				Undo.groundL++;
 				
 			}
 			else if(player){
 				//GameObject[] lol = GameObject.FindGameObjectsWithTag("Player");
-				if(Undo.playerL.Count < 1500){
-					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-7.5f - Undo.playerL.Count* 0.001f);
+				if(Undo.playerL < 1500){
+					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-7.5f - Undo.playerL* 0.001f);
 				}
 				else{
 					bob.transform.position = new Vector3(bob.transform.position.x,bob.transform.position.y,-9f);
 				}
-				bob.GetComponent<Draggable>().ObjectLPos = Undo.playerL.Count;
-				Undo.playerL.Add(bob);
+				//bob.GetComponent<Draggable>().ObjectLPos = Undo.playerL.Count;
+				Undo.playerL++;
 				
 			}
+			bob.GetComponent<Draggable>().ObjectLPos = Undo.allThings.Count;
+			Undo.allThings.Add(bob);
+			
 
 
 

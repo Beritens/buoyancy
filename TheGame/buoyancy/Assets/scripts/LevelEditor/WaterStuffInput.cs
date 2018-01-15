@@ -75,7 +75,7 @@ public class WaterStuffInput : MonoBehaviour {
 		float h,s,v;
 		Color.RGBToHSV(colori,out h, out s, out v);
 		Color col = Color.HSVToRGB(angle,s,v);
-		float alpha = Mathf.Clamp(Mathf.Sqrt(X*X+Y*Y)*0.27f,0.1f,0.9f);
+		float alpha = Mathf.Clamp(Mathf.Sqrt(X*X+Y*Y)*0.27f,0.1f,0.7f);
 		col.a = alpha;
 		water.GetComponent<SpriteRenderer>().color = col;
 		COLOR colorComponent = GameObject.Find("color picker").GetComponent<COLOR>();

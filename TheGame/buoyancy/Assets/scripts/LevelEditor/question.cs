@@ -9,12 +9,17 @@ public class question : MonoBehaviour {
 	bool load;
 	public openSomething savee;
 	bool open;
+	isSomethingOpen isopen;
 
+	void Start(){
+		isopen = GameObject.Find("Scroller").GetComponent<isSomethingOpen>();
+	}
 	public void Anfrage(bool lol){
 		if(!open){
 			open =true;
 			load = lol;
-			GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen = true;
+			if(Application.loadedLevel == 1)
+				isopen.SomethingOpen = true;
 			Fenster.gameObject.SetActive(true);
 			Fenster.open();
 		}
@@ -23,7 +28,8 @@ public class question : MonoBehaviour {
 	}
 	public void yes(){
 		open = false;
-		GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen = false;
+		if(Application.loadedLevel == 1)
+			isopen.SomethingOpen = false;
 		Fenster.close();
 		StartCoroutine(wait());
 		savee.open();
@@ -40,13 +46,14 @@ public class question : MonoBehaviour {
 		else{
 			playCustom.jaa = false;
 			save.tempoPlay = false;
-			loadLevel.useSaveName = false;
+			loadLevel.usesaveName = false;
 			Application.LoadLevel(0);
 		}
 	}
 	public void cancle(){
 		open = false;
-		GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen = false;
+		if(Application.loadedLevel == 1)
+			isopen.SomethingOpen = false;
 		Fenster.close();
 		StartCoroutine(wait());
 	}

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class options : MonoBehaviour {
 
-	public Animator anim;
 	bool aktiviert = false;
 	public GameObject panel;
 	public GameObject panelChild;

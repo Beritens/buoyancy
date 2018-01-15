@@ -17,7 +17,8 @@ public class rotate : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(mode.rotateOn){
-			if(Input.touchCount == 1 && !GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen){
+			if(Input.touchCount == 1 && !Scroller.GetComponent<isSomethingOpen>().SomethingOpen){
+
 
 				Touch touch = Input.GetTouch(0);
 				Vector3 touchPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x,touch.position.y,10));
@@ -55,6 +56,7 @@ public class rotate : MonoBehaviour {
 				}
 				
 				if(touch.phase == TouchPhase.Ended){
+					print("hihihihi");
 					if(GameObject.Find("sizeStuff(Clone)") && ok){
 						Scroller.GetComponent<undo>().add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, false);
 					}

@@ -7,11 +7,19 @@ public class sliderStuff : MonoBehaviour {
 	public bool tueEs;
 	public Transform knob;
 	public float value;
+	public undo Undo;
 	public void down () {
+		
 		tueEs = true;
+		if(GameObject.Find("sizeStuff(Clone)")){
+			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, true);
+		}
 	}
 	public void up () {
 		tueEs = false;
+		if(GameObject.Find("sizeStuff(Clone)")){
+			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, false);
+		}
 	}
 	
 	// Update is called once per frame

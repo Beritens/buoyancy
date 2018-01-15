@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class leftright : MonoBehaviour {
 
-	bool left = false;
-	bool right = false;
+	public bool left = false;
+	public bool right = false;
 	public RectTransform lefty;
 	public RectTransform righty;
 	public RectTransform jumpi;
-
+	GameObject[] Player;
 	public float leftorright = 0;
 	float bsize;
-
+	public void addPlayers(){
+		Player = GameObject.FindGameObjectsWithTag("Player");
+	}
 	void Start(){
+		Player = GameObject.FindGameObjectsWithTag("Player");
 		if(!PlayerPrefs.HasKey("buttonSize"))
 		 {
  			PlayerPrefs.SetFloat("buttonSize",0.5f);
@@ -24,11 +27,10 @@ public class leftright : MonoBehaviour {
 		righty.anchorMax = new Vector2((bsize*0.25f+0.05f)*2+0.04f,(bsize*0.25f+0.05f)+0.02f);
 		jumpi.anchorMin =new Vector2(1-((bsize*0.25f+0.05f)+0.02f),0.02f);
 		jumpi.anchorMax =new Vector2(0.98f,(bsize*0.25f+0.05f)+0.02f);
-		print("hi");
 	}
 	public void leftOn(){
 		left = true;
-		print("lollololol");
+		
 		if(right){
 			leftorright = 0;
 		}
@@ -66,7 +68,7 @@ public class leftright : MonoBehaviour {
 		
 	}
 	public void jumpy(){
-		GameObject[] Player =GameObject.FindGameObjectsWithTag("Player");
+		
 		for(int i = 0; i < Player.Length; i++){
 			Player[i].GetComponent<move>().Jump();
 		}

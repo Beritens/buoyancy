@@ -14,16 +14,18 @@ public class zoomTouch : MonoBehaviour {
 		cameraa = GameObject.Find("Main Camera");
 	}
 	void Update(){
-		bsize = PlayerPrefs.GetFloat("buttonSize");
+		
 		if(Input.touchCount >= 2){
 			for(int i=Input.touchCount-1;i>=0;i--){
-				 if(Input.GetTouch(i).position.y > Screen.height*((bsize*0.25f+0.05f)+0.02f) ||Input.GetTouch(i).position.x > Screen.width*((bsize*0.25f+0.05f)*2+0.04f) && Input.GetTouch(i).position.x < Screen.width*(1-((bsize*0.25f+0.05f)+0.02f))){
-					 
-					 touches.Add(Input.GetTouch(i));
+				bsize = PlayerPrefs.GetFloat("buttonSize");
+				if(Input.GetTouch(i).position.y > Screen.height*((bsize*0.25f+0.07f)) ||(Input.GetTouch(i).position.x > Screen.width*((bsize*0.25f+0.07f)*2) && Input.GetTouch(i).position.x < Screen.width*(1-(bsize*0.25f+0.07f)))){
+					print(i);
+					touches.Add(Input.GetTouch(i));
 
-				 }
+				}
 			}
 		}
+		//print(touches.Count);
 		if(touches.Count == 2){
 			Vector2 t0prevpos = touches[0].position - touches[0].deltaPosition;
 			Vector2 t1prevpos = touches[1].position - touches[1].deltaPosition;
@@ -35,11 +37,12 @@ public class zoomTouch : MonoBehaviour {
 
 			cameraa.GetComponent<Camera>().orthographicSize += distancedediff * zoomSpeed;
 			cameraa.GetComponent<Camera>().orthographicSize = Mathf.Clamp(cameraa.GetComponent<Camera>().orthographicSize, 3,40);
-			touches.Clear();
+			//touches.Clear();
 		}
-		else if(touches.Count >2){
-			touches.Clear();
-		}
+		//else if(touches.Count >2){
+			
+		//}
+		touches.Clear();
 	}
 	
 }

@@ -26,15 +26,14 @@ public class follow : MonoBehaviour {
 			if(player.position.y > -20){
 				transform.position = new Vector3(player.position.x,player.position.y,-10);
 			}
-			else if(player.position.y < -30 && GameObject.FindGameObjectWithTag("MainCamera").GetComponent<inGoal>().inTheGoal == false){
+			else if(player.position.y < -30 && GetComponent<inGoal>().inTheGoal == false){
 				Application.LoadLevel(Application.loadedLevel);
 			}
 		}
-		else{
-			if(GameObject.FindGameObjectWithTag("Player")){
-				player = GameObject.FindGameObjectWithTag("Player").transform;
-			}
+		else if(GameObject.FindGameObjectWithTag("Player")){
+			player = GameObject.FindGameObjectWithTag("Player").transform;
 		}
+		
 		
      	 
  	 }

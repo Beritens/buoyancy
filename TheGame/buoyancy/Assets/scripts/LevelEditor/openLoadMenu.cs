@@ -8,15 +8,19 @@ public class openLoadMenu : MonoBehaviour {
 	bool openn = false;
 	public GameObject TheThing;
 	public Transform container;
+	isSomethingOpen isopen;
 
+	void Start(){
+		isopen = GameObject.Find("Scroller").GetComponent<isSomethingOpen>();
+	}
 	public void open(){
-		if(!GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen || openn){
+		if(!isopen.SomethingOpen || openn){
 			openn = !openn;
 		
 			//anim.SetBool("open", !anim.GetBool("open"));
 			if(openn){
 				//anim.SetBool("open", true);
-				GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen = true;
+				isopen.SomethingOpen = true;
 				TheThing.SetActive(true);
 				//anim.Play("open");
 				TheThing.GetComponent<UiAnimation>().open();
@@ -27,7 +31,7 @@ public class openLoadMenu : MonoBehaviour {
 				foreach (Transform child in container) {
 					GameObject.Destroy(child.gameObject);
 				}
-				GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen = false;
+				isopen.SomethingOpen = false;
 				TheThing.GetComponent<UiAnimation>().close();
 				StartCoroutine(wait());
 			}
@@ -41,7 +45,7 @@ public class openLoadMenu : MonoBehaviour {
      		GameObject.Destroy(child.gameObject);
  		}
 		openn = false;
-		GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen = false;
+		isopen.SomethingOpen = false;
 		TheThing.GetComponent<UiAnimation>().close();
 		StartCoroutine(wait());
 	}

@@ -15,7 +15,6 @@ public class makeButtons : MonoBehaviour {
 		}
 		LevelCount = Application.levelCount;
 		int unlock = PlayerPrefs.GetInt("unlockedLevel");
-		print(unlock);
 
 		for(int i = unlock-2; i < transform.childCount; i++){
 			transform.GetChild(i).GetComponent<Button>().interactable = false;

@@ -12,15 +12,20 @@ public class loadLevel : MonoBehaviour {
 	public GameObject goal;
 	public GameObject deko;
 	public GameObject player;
-	public GameObject InputField;
+	public TMP_InputField InputField;
+	public TMP_InputField InputField2;
 	public static string SaveName;
-	public static bool useSaveName;
+	public static bool usesaveName;
 	public undo undoThing;
+	public string random;
+	bool randomy = false;
+	public leftright leftright;
+	 const string characters= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
 	void Start () {
 		if(openFile.jaa){
 			readFile(openFile.path);
+			usesaveName = true;
 			openFile.jaa = false;
-			useSaveName = true;
 			
 
 			string[] splitString = openFile.path.Split(new char[]{'/','\\'});
@@ -28,7 +33,7 @@ public class loadLevel : MonoBehaviour {
 			if(Application.loadedLevel == 1){
 				isSomethingOpen.modified = false;
 				if(InputField != null){
-				InputField.GetComponent<TMP_InputField>().text = SaveName;
+				InputField.text = SaveName;
 				}
 			}
 			
@@ -38,23 +43,47 @@ public class loadLevel : MonoBehaviour {
 		}
 		else if(playCustom.jaa){
 			readFile(playCustom.path2);
+			string[] splitString = playCustom.path2.Split(new char[]{'/','\\'});
+			SaveName = splitString[splitString.Length-1].Substring(0, splitString[splitString.Length-1].Length-4);
+			InputField.text = SaveName;
+			InputField2.text = SaveName;
 			
 		}
 		else if(save.tempoPlay){
 			readFile(Application.persistentDataPath+"/temporary/temporary.txt");
+			if(usesaveName){
+				InputField.text = SaveName;
+			}
+				
 			if(Application.loadedLevel == 1){
 				save.tempoPlay = false;
-				if(useSaveName){
-					InputField.GetComponent<TMP_InputField>().text = SaveName;
-				}
+				
+			}
+			else if(usesaveName){
+				InputField2.text = SaveName;
 			}
 		}
-		if(Application.loadedLevel == 1 && GameObject.FindGameObjectWithTag("Player")){
-			Transform player =GameObject.FindGameObjectWithTag("Player").transform;
-			transform.position = new Vector3(player.position.x,player.position.y,-10);
+		else if(changeSceneOnline.tempo){
+			readFile(Application.persistentDataPath+"/temporary/temporaryOnline.txt");
+
+		}
+		if(Application.loadedLevel == 1){
+			if(GameObject.FindGameObjectWithTag("Player")){
+				Transform player =GameObject.FindGameObjectWithTag("Player").transform;
+				transform.position = new Vector3(player.position.x,player.position.y,-10);
+			}
+			
+			if(!randomy){
+				for(int i = 0; i<9; i++){
+					random += characters[Random.Range(0,characters.Length)];
+					
+				}
+				print(random);
+			}
 		}
 	}
 	void readFile(string FilePath){
+
 		StreamReader sReader = new StreamReader(FilePath);
 		while(!sReader.EndOfStream){
 			Quaternion rot;
@@ -67,26 +96,25 @@ public class loadLevel : MonoBehaviour {
 			else{
 				rot = Quaternion.identity;
 			}
-			GameObject thing;
+			GameObject thing = null;
 			switch(info[0]){
 				
-				case "ground":
+				case "gr":
 					thing = GameObject.Instantiate(ground,StringToVector3(info[1]),rot);
-					thing.transform.localScale = StringToVector3(info[2]);
+					thing.transform.localScale = StringToScale(info[2]);
 					
 					
 					if(info.Length > 4){
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
 					}
 					if(Application.loadedLevel == 1){
-						undoThing.groundL.Add(thing);
-						thing.GetComponent<Draggable>().ObjectLPos = undoThing.groundL.Count-1;
+						undoThing.groundL++;
 					}
 					break;
 
-				case "water":
+				case "wa":
 					thing = GameObject.Instantiate(water,StringToVector3(info[1]),rot);
-					thing.transform.localScale = StringToVector3(info[2]);
+					thing.transform.localScale = StringToScale(info[2]);
 					
 					
 					if(info.Length > 4){
@@ -100,41 +128,38 @@ public class loadLevel : MonoBehaviour {
 						}
 					}
 					if(Application.loadedLevel == 1){
-						undoThing.waterL.Add(thing);
-						thing.GetComponent<Draggable>().ObjectLPos = undoThing.waterL.Count-1;
+						undoThing.waterL++;
 					}
 					break;
 
-				case "obstacle":
+				case "ob":
 					thing = GameObject.Instantiate(obstacle,StringToVector3(info[1]),rot);
-					thing.transform.localScale = StringToVector3(info[2]);
+					thing.transform.localScale = StringToScale(info[2]);
 					
 					if(info.Length > 4){
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
 					}
 					if(Application.loadedLevel == 1){
-						undoThing.obstacleL.Add(thing);
-						thing.GetComponent<Draggable>().ObjectLPos = undoThing.obstacleL.Count-1;
+						undoThing.obstacleL++;
 					}
 					break;
 
-				case "goal":
+				case "go":
 					thing = GameObject.Instantiate(goal,StringToVector3(info[1]),rot);
-					thing.transform.localScale = StringToVector3(info[2]);
+					thing.transform.localScale = StringToScale(info[2]);
 					
 					
 					if(info.Length > 4){
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
 					}
 					if(Application.loadedLevel == 1){
-						undoThing.goalL.Add(thing);
-						thing.GetComponent<Draggable>().ObjectLPos = undoThing.goalL.Count-1;
+						undoThing.goalL++;
 					}
 					break;
 				
-				case "deko":
+				case "de":
 					thing = GameObject.Instantiate(deko,StringToVector3(info[1]),rot);
-					thing.transform.localScale = StringToVector3(info[2]);
+					thing.transform.localScale = StringToScale(info[2]);
 					
 					
 					if(info.Length > 4){
@@ -147,27 +172,36 @@ public class loadLevel : MonoBehaviour {
 						}*/
 					}
 					if(Application.loadedLevel == 1){
-						undoThing.dekoL.Add(thing);
-						thing.GetComponent<Draggable>().ObjectLPos = undoThing.dekoL.Count-1;
+						undoThing.dekoL++;
 					}
 					break;
 				
-				case "player":
+				case "pl":
 					thing = GameObject.Instantiate(player,StringToVector3(info[1]),rot);
-					thing.transform.localScale = StringToVector3(info[2]);
+					thing.transform.localScale = StringToScale(info[2]);
 					
 					
 					if(info.Length > 4){
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
 					}
 					if(Application.loadedLevel == 1){
-						undoThing.playerL.Add(thing);
-						thing.GetComponent<Draggable>().ObjectLPos = undoThing.playerL.Count-1;
+						undoThing.playerL++;
 					}
+					break;
+				case "random":
+					random =info[1];
+					randomy = true;
 					break;
 				default:
 				print("lol");
 				break;
+			}
+			if(Application.loadedLevel == 1 && thing != null){
+				undoThing.allThings.Add(thing);
+				thing.GetComponent<Draggable>().ObjectLPos = undoThing.allThings.Count-1;
+			}
+			else{
+				leftright.addPlayers();
 			}
 			/*if(info[0] == "ground"){
 				GameObject thing = GameObject.Instantiate(ground,StringToVector3(info[1]),rot);
@@ -232,9 +266,7 @@ public class loadLevel : MonoBehaviour {
 	public static Vector3 StringToVector3(string sVector)
      {
          // Remove the parentheses
-         if (sVector.StartsWith ("(") && sVector.EndsWith (")")) {
-             sVector = sVector.Substring(1, sVector.Length-2);
-         }
+        
  
          // split the items
          string[] sArray = sVector.Split(',');
@@ -248,31 +280,39 @@ public class loadLevel : MonoBehaviour {
          return result;
      }
 
+	 public static Vector3 StringToScale(string sVector)
+     {
+         // Remove the parentheses
+        
+ 
+         // split the items
+         string[] sArray = sVector.Split(',');
+ 
+         // store as a Vector3
+         Vector3 result = new Vector3(
+             float.Parse(sArray[0]),
+             float.Parse(sArray[1]),0);
+ 
+         return result;
+     }
+
 	 public static Quaternion StringToQuaternion(string sQuaternion)
      {
          // Remove the parentheses
-         if (sQuaternion.StartsWith ("(") && sQuaternion.EndsWith (")")) {
+         /*if (sQuaternion.StartsWith ("(") && sQuaternion.EndsWith (")")) {
              sQuaternion = sQuaternion.Substring(1, sQuaternion.Length-2);
-         }
+         }*/
  
          // split the items
-         string[] sArray = sQuaternion.Split(',');
  
          // store as a Vector3
-         Quaternion result = new Quaternion(
-			 float.Parse(sArray[0]),
-			 float.Parse(sArray[1]),
-			 float.Parse(sArray[2]),
-			 float.Parse(sArray[3]));
+         Quaternion result = Quaternion.Euler(0,0,float.Parse(sQuaternion));
  
          return result;
      }
 	 public static Color StringToColor(string sColor)
      {
          // Remove the parentheses
-         if (sColor.StartsWith ("RGBA(") && sColor.EndsWith (")")) {
-             sColor = sColor.Substring(5, sColor.Length-6);
-         }
  
          // split the items
          string[] sArray = sColor.Split(',');

@@ -5,7 +5,6 @@ using UnityEngine;
 public class sizeThing : MonoBehaviour {
 
 	public Camera cam;
-	public bool IsScaling = false;
 	public Transform move;
 	public Transform alldots;
 	public Transform one;
@@ -30,8 +29,10 @@ public class sizeThing : MonoBehaviour {
 	bool scalililili = false;
 
 	//bleib beim richtigen
-	bool über = true;
-	bool links = false;
+	bool ja = true;
+	bool bro = true;
+	Vector3 difference = new Vector3();
+	Vector2 minusOrNot = new Vector2();
 
 	void Start(){
 		cam= GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -66,12 +67,18 @@ public class sizeThing : MonoBehaviour {
 	public void reselect(Transform block){
 
 		if(square != block){
+			move.GetComponent<Drag>().ok = false;
+			print("salami");
 			square.Find("outline").gameObject.SetActive(false);
 			square.gameObject.layer = 0;
 			square = block;
 
 			square.Find("outline").gameObject.SetActive(true);
 			square.gameObject.layer = 2;
+			ja = true;
+			bro = true;
+			difference = new Vector3();
+			minusOrNot = new Vector2();
 		}
 
 		
@@ -111,16 +118,14 @@ public class sizeThing : MonoBehaviour {
 		lol.GetComponent<Collider2D>().offset = lol.InverseTransformPoint(new Vector3(pointC.x,pointC.y,0));
 	}*/
 	void Update () {
-		
-		if(square.Find("outline")){
 			
-			square.Find("outline").GetComponent<LineRenderer>().widthMultiplier = cam.orthographicSize/100;
+		square.Find("outline").GetComponent<LineRenderer>().widthMultiplier = cam.orthographicSize/100;
 			
 			
 			//square.Find("outline").GetComponent<LineRenderer>().endWidth = cam.orthographicSize/50;
 			//square.Find("outline").GetComponent<LineRenderer>().startWidth = cam.orthographicSize/50;
-		}
-		if(mode.moveOn && !mode.scaleOn){
+		
+		if((mode.moveOn && !mode.scaleOn) || mode.rotateOn){
 			scalililili = true;
 			
 			move.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f+cam.orthographicSize/(move.localScale.x*4),0.02f+cam.orthographicSize/(move.localScale.y*4));
@@ -134,7 +139,7 @@ public class sizeThing : MonoBehaviour {
 		}
 
 
-		if(!GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen){
+		if(!Scroller.GetComponent<isSomethingOpen>().SomethingOpen){
 			if(square.tag == "goal" || square.tag == "water" || square.tag == "obstacle" || square.tag == "ground" || square.tag == "deko"){
 			if(!one.GetComponent<Drag>().ok && !two.GetComponent<Drag>().ok && !three.GetComponent<Drag>().ok && !four.GetComponent<Drag>().ok ){
 				Scroller.GetComponent<scroll>().canIscroll = true;
@@ -142,14 +147,7 @@ public class sizeThing : MonoBehaviour {
 			if(mode.scaleOn){
 				
 
-				if(scalililili){
-					one.position = onea.position;
-					two.position = twoa.position;
-					three.position = threea.position;
-					four.position = foura.position;
-					scalililili = false;
-					print("lol");
-				}
+				
 
 
 
@@ -170,15 +168,18 @@ public class sizeThing : MonoBehaviour {
 				
 
 
-				if(mode.scaleOn && !mode.moveOn){
-					one.GetComponent<BoxCollider2D>().size = new Vector2(0.4f, 0.4f);
-					two.GetComponent<BoxCollider2D>().size = new Vector2(0.4f, 0.4f);
-					three.GetComponent<BoxCollider2D>().size = new Vector2(0.4f, 0.4f);
-					four.GetComponent<BoxCollider2D>().size = new Vector2(0.4f, 0.4f);
+				if(!mode.moveOn){
+					if(ja){
+						one.GetComponent<BoxCollider2D>().size = new Vector2(0.4f, 0.4f);
+						two.GetComponent<BoxCollider2D>().size = new Vector2(0.4f, 0.4f);
+						three.GetComponent<BoxCollider2D>().size = new Vector2(0.4f, 0.4f);
+						four.GetComponent<BoxCollider2D>().size = new Vector2(0.4f, 0.4f);
+						
+						ja = false;
+					}
 					float colliderSize =(one.GetComponent<BoxCollider2D>().size.x/0.02f) * one.localScale.x;
 
 					//offsetX = Mathf.Clamp((colliderSize/2+((one.position.x - two.position.x)/2))/one.localScale.x * 0.02f,0f,0.1f);
-					
 					//offsetY = Mathf.Clamp((colliderSize/2+((one.position.y - four.position.y)/2))/one.localScale.x * 0.02f,0f,0.1f);
 					if(Mathf.Abs(alldots.InverseTransformPoint(one.position).x - alldots.InverseTransformPoint(two.position).x)/0.02<colliderSize){
 						if(alldots.InverseTransformPoint(one.position).x < alldots.InverseTransformPoint(two.position).x){
@@ -205,10 +206,14 @@ public class sizeThing : MonoBehaviour {
 					
 				}
 				else{
-					one.GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
-					two.GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
-					three.GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
-					four.GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
+					if(!ja){
+						one.GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
+						two.GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
+						three.GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
+						four.GetComponent<BoxCollider2D>().size = new Vector2(0.2f, 0.2f);
+						ja = true;
+					}
+					
 					if(alldots.InverseTransformPoint(one.position).y < alldots.InverseTransformPoint(four.position).y){
 						offsetY = 0.08f;
 					}
@@ -283,38 +288,49 @@ public class sizeThing : MonoBehaviour {
 				if(mode.scaleOn){
 					
 					if(one.GetComponent<Drag>().ok){
-					
+						minusOrNot.x = -1;
+						minusOrNot.y = 1;
+						print("1");
 						oneb = one;
 						twob = two;
 						threeb = three;
 						fourb = four;
-						twob.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(threeb.position).x, alldots.InverseTransformPoint(oneb.position).y));
-						fourb.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(oneb.position).x, alldots.InverseTransformPoint(threeb.position).y));
+						//twob.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(threeb.position).x, alldots.InverseTransformPoint(oneb.position).y));
+						//fourb.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(oneb.position).x, alldots.InverseTransformPoint(threeb.position).y));
 					
 					}
 					else if(two.GetComponent<Drag>().ok){
+						minusOrNot.x = 1;
+						minusOrNot.y = 1;
+						print("2");
 						oneb = two;
 						twob = three;
 						threeb = four;
 						fourb = one;
-						fourb.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(threeb.position).x, alldots.InverseTransformPoint(oneb.position).y));
-						twob.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(oneb.position).x, alldots.InverseTransformPoint(threeb.position).y));
+						//fourb.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(threeb.position).x, alldots.InverseTransformPoint(oneb.position).y));
+						//twob.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(oneb.position).x, alldots.InverseTransformPoint(threeb.position).y));
 					}
 					else if(three.GetComponent<Drag>().ok){
+						minusOrNot.x = 1;
+						minusOrNot.y = -1;
+						print("3");
 						oneb = three;
 						twob = four;
 						threeb = one;
 						fourb = two;
-						twob.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(threeb.position).x, alldots.InverseTransformPoint(oneb.position).y));
-						fourb.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(oneb.position).x, alldots.InverseTransformPoint(threeb.position).y));
+						//twob.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(threeb.position).x, alldots.InverseTransformPoint(oneb.position).y));
+						//fourb.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(oneb.position).x, alldots.InverseTransformPoint(threeb.position).y));
 					}
 					else if(four.GetComponent<Drag>().ok){
+						minusOrNot.x = -1;
+						minusOrNot.y = -1;
+						print("4");
 						oneb = four;
 						twob = one;
 						threeb = two;
 						fourb = three;
-						fourb.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(threeb.position).x, alldots.InverseTransformPoint(oneb.position).y));
-						twob.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(oneb.position).x, alldots.InverseTransformPoint(threeb.position).y));
+						//fourb.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(threeb.position).x, alldots.InverseTransformPoint(oneb.position).y));
+						//twob.position= alldots.TransformPoint(new Vector2(alldots.InverseTransformPoint(oneb.position).x, alldots.InverseTransformPoint(threeb.position).y));
 						
 					}
 					
@@ -325,47 +341,120 @@ public class sizeThing : MonoBehaviour {
 				
 				
 				if(move.GetComponent<Drag>().ok && mode.moveOn){
-					
-					IsScaling = false;
+					Touch touch = Input.GetTouch(0);
+
+					Vector3 touchPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x,touch.position.y,10));
+					Vector2 touchPosWorld2D = new Vector2(touchPos.x,touchPos.y);
+					if(bro){
+						difference = new Vector3(move.position.x-touchPos.x,move.position.y-touchPos.y,-10);
+						isSomethingOpen.modified = true;
+						Scroller.GetComponent<scroll>().canIscroll2 = false;
+						Scroller.GetComponent<undo>().add(square.gameObject, false, true);
+						bro = false;
+					}
+					print("jabadabadu");
+					Vector3 movePos = new Vector3(touchPos.x,touchPos.y, square.position.z)+new Vector3(difference.x,difference.y,0);
 					if(beep){
-						unterschied =move.position-alldots.position;
+						unterschied = movePos-alldots.position;
+						beep = false;
 					
 					}
+					
 
-					beep = false;
-					alldots.position = move.position - unterschied;
-					square.position = move.position;
+					
+					alldots.position = movePos-unterschied;
+					square.position = movePos;
+					move.position = movePos;
+					if(touch.phase == TouchPhase.Ended){
+						move.GetComponent<Drag>().ok = false;
+						Scroller.GetComponent<scroll>().canIscroll2 = true;
+						Scroller.GetComponent<undo>().add(square.gameObject, false, false);
+						bro = true;
+					}
 				}
 				else if(oneb !=null && threeb !=null && mode.scaleOn && oneb.GetComponent<Drag>().ok){
 					
 
-					if(threeb.GetComponent<Drag>().ok){
-						threeb.GetComponent<Drag>().ok = false;
-					}
-					if(twob.GetComponent<Drag>().ok){
-						two.GetComponent<Drag>().ok = false;
-					}
-					if(fourb.GetComponent<Drag>().ok){
-						four.GetComponent<Drag>().ok = false;
-					}
-					IsScaling = true;
-					move.localScale = new Vector2(Mathf.Abs(alldots.InverseTransformPoint(oneb.position).x-alldots.InverseTransformPoint(threeb.position).x),Mathf.Abs((alldots.InverseTransformPoint(oneb.position).y-(alldots.InverseTransformPoint(threeb.position).y))))*50;
-					move.position = new Vector3((oneb.position.x + threeb.position.x)/2,(oneb.position.y + threeb.position.y)/2,move.position.z);
+					Touch touch = Input.GetTouch(0);
+
+					Vector3 touchPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x,touch.position.y,10));
+					Vector2 touchPosWorld2D = new Vector2(touchPos.x,touchPos.y);
 					
-					square.localScale = new Vector2(Mathf.Abs(alldots.InverseTransformPoint(oneb.position).x-alldots.InverseTransformPoint(threeb.position).x),Mathf.Abs((alldots.InverseTransformPoint(oneb.position).y-(alldots.InverseTransformPoint(threeb.position).y))))*50;
-					square.position = new Vector3((oneb.position.x + threeb.position.x)/2,(oneb.position.y + threeb.position.y)/2,square.position.z);
+					if(bro){
+						difference = new Vector3(oneb.position.x-touchPos.x,oneb.position.y-touchPos.y,-10);
+						isSomethingOpen.modified = true;
+						print("yrah");
+						Scroller.GetComponent<scroll>().canIscroll2 = false;
+						Scroller.GetComponent<undo>().add(square.gameObject, false, true);
+						bro = false;
+						Scroller.GetComponent<scroll>().canIscroll2 = false;
+						
+					}
+					Vector3 onebPos = new Vector3(touchPos.x,touchPos.y,square.position.z)+new Vector3(difference.x,difference.y,0);
 
+					Vector2 lol = new Vector2((alldots.InverseTransformPoint(onebPos).x-alldots.InverseTransformPoint(threeb.position).x)*minusOrNot.x,(alldots.InverseTransformPoint(onebPos).y-alldots.InverseTransformPoint(threeb.position).y)*minusOrNot.y)*50;
 
-					//wenn es früher besser war... mach einfach  antatt tpos hin und lösch das touch zeug
+					move.localScale = lol;
+					move.position = new Vector3((onebPos.x + threeb.position.x)/2,(onebPos.y + threeb.position.y)/2,move.position.z);
+					
+					square.localScale = lol;
+					square.position = new Vector3((onebPos.x + threeb.position.x)/2,(onebPos.y + threeb.position.y)/2,square.position.z);
+
+					one.position = onea.position;
+					two.position = twoa.position; 
+					three.position = threea.position;
+					four.position = foura.position;
 					
 					beep = true;
 					Scroller.GetComponent<scroll>().canIscroll = false;
+					if(touch.phase == TouchPhase.Ended){
+						one.GetComponent<Drag>().ok = false;
+						two.GetComponent<Drag>().ok = false;
+						three.GetComponent<Drag>().ok = false;
+						four.GetComponent<Drag>().ok = false;
+
+						Scroller.GetComponent<undo>().add(square.gameObject, false, false);
+						bro = true;
+						Scroller.GetComponent<scroll>().canIscroll2 = true;
+						print("hilo");
+					}
 					
 				}
 			
 			}
 			else if(square.tag == "Player"){
-				square.position = move.position;
+				//square.position = move.position;
+				if(move.GetComponent<Drag>().ok && mode.moveOn){
+					Touch touch = Input.GetTouch(0);
+
+					Vector3 touchPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x,touch.position.y,10));
+					Vector2 touchPosWorld2D = new Vector2(touchPos.x,touchPos.y);
+					if(bro){
+						difference = new Vector3(move.position.x-touchPos.x,move.position.y-touchPos.y,-10);
+						isSomethingOpen.modified = true;
+						print("yrah");
+						Scroller.GetComponent<scroll>().canIscroll2 = false;
+						Scroller.GetComponent<undo>().add(square.gameObject, false, true);
+						bro = false;
+						Scroller.GetComponent<scroll>().canIscroll2 = false;
+					}
+					Vector3 movePos = new Vector3(touchPos.x,touchPos.y,0)+new Vector3(difference.x,difference.y,transform.position.z);
+					if(beep){
+						unterschied =movePos-alldots.position;
+					
+					}
+					
+
+					beep = false;
+					square.position = movePos;
+					move.position = movePos;
+					if(touch.phase == TouchPhase.Ended){
+						move.GetComponent<Drag>().ok = false;
+						Scroller.GetComponent<undo>().add(square.gameObject, false, false);
+						bro = true;
+						Scroller.GetComponent<scroll>().canIscroll2 = true;
+					}
+				}
 			}
 			if(mode.rotateOn){
 				scalililili = true;

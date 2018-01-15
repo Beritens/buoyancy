@@ -59,7 +59,6 @@ public class COLOR : MonoBehaviour {
 				s = Mathf.Clamp(x,0,1);
 				v = Mathf.Clamp(y,0,1);
 				a = alpha.value;
-				print(a);
 				color = Color.HSVToRGB(h,s,v);
 				preview.color = new Color(color.r,color.g,color.b,a);
 				alphaSlider.color = new Color(color.r,color.g,color.b,1);
@@ -82,13 +81,12 @@ public class COLOR : MonoBehaviour {
 				thing.GetComponent<SpriteRenderer>().color = new Color(color.r,color.g,color.b,a);
 				isSomethingOpen.modified = true;
 				if(thing.tag == "water"){
-					print("chachacha");
 					thing.GetComponent<water>().colorChanged = true;
 				}
 			}
-			if(touch.phase == TouchPhase.Ended && on){
+			/*if(touch.phase == TouchPhase.Ended && on){
 
-			}
+			}*/
 			 
 		}
 		

@@ -8,7 +8,8 @@ public class copy : MonoBehaviour {
 	public undo Undo;
 	public void clicki () {
 		if(GameObject.Find("sizeStuff(Clone)")){
-			GameObject copyObject = GameObject.Instantiate(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.position, GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.rotation);
+			Transform ObjectToCopy = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square;
+			GameObject copyObject = GameObject.Instantiate(ObjectToCopy.gameObject, ObjectToCopy.position, ObjectToCopy.rotation);
 			
 			
 			print("halihallo");
@@ -24,8 +25,8 @@ public class copy : MonoBehaviour {
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-1.5f);
 				}
-				copyObject.GetComponent<Draggable>().ObjectLPos = Undo.dekoL.Count;
-				Undo.dekoL.Add(copyObject);
+				//copyObject.GetComponent<Draggable>().ObjectLPos = Undo.dekoL.Count;
+				Undo.dekoL++;
 			}
 			else if(copyObject.tag == "water"){
 				GameObject[] lol = GameObject.FindGameObjectsWithTag("water");
@@ -35,8 +36,8 @@ public class copy : MonoBehaviour {
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-3f);
 				}
-				copyObject.GetComponent<Draggable>().ObjectLPos = Undo.waterL.Count;
-				Undo.waterL.Add(copyObject);
+				//copyObject.GetComponent<Draggable>().ObjectLPos = Undo.waterL.Count;
+				Undo.waterL++;
 			}
 			else if(copyObject.tag == "goal"){
 				GameObject[] lol = GameObject.FindGameObjectsWithTag("goal");
@@ -46,8 +47,8 @@ public class copy : MonoBehaviour {
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-4.5f);
 				}
-				copyObject.GetComponent<Draggable>().ObjectLPos = Undo.goalL.Count;
-				Undo.goalL.Add(copyObject);
+				//copyObject.GetComponent<Draggable>().ObjectLPos = Undo.goalL.Count;
+				Undo.goalL++;
 			}
 			else if(copyObject.tag == "obstacle"){
 				GameObject[] lol = GameObject.FindGameObjectsWithTag("obstacle");
@@ -57,8 +58,8 @@ public class copy : MonoBehaviour {
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-6f);
 				}
-				copyObject.GetComponent<Draggable>().ObjectLPos = Undo.obstacleL.Count;
-				Undo.obstacleL.Add(copyObject);
+				//copyObject.GetComponent<Draggable>().ObjectLPos = Undo.obstacleL.Count;
+				Undo.obstacleL++;
 			}
 			else if(copyObject.tag == "ground"){
 				GameObject[] lol = GameObject.FindGameObjectsWithTag("ground");
@@ -68,8 +69,8 @@ public class copy : MonoBehaviour {
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-7.5f);
 				}
-				copyObject.GetComponent<Draggable>().ObjectLPos = Undo.groundL.Count;
-				Undo.groundL.Add(copyObject);
+				//copyObject.GetComponent<Draggable>().ObjectLPos = Undo.groundL.Count;
+				Undo.groundL++;
 			}
 			else if(copyObject.tag == "Player"){
 				GameObject[] lol = GameObject.FindGameObjectsWithTag("Player");
@@ -79,9 +80,12 @@ public class copy : MonoBehaviour {
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-9f);
 				}
-				copyObject.GetComponent<Draggable>().ObjectLPos = Undo.playerL.Count;
-				Undo.playerL.Add(copyObject);
+				//copyObject.GetComponent<Draggable>().ObjectLPos = Undo.playerL.Count;
+				Undo.playerL++;
 			}
+			copyObject.name = ObjectToCopy.name;
+			copyObject.GetComponent<Draggable>().ObjectLPos = Undo.allThings.Count;
+			Undo.allThings.Add(copyObject);
 			GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(copyObject.transform);
 			Undo.add(copyObject, true, true);
 			

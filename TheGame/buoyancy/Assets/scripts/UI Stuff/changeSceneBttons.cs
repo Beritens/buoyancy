@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class changeSceneBttons : MonoBehaviour {
 	public void restart () {
-		if(Application.loadedLevel >1){
-			Application.LoadLevel(Application.loadedLevel);
-		}
+		Application.LoadLevel(Application.loadedLevel);
 	}
 	public void home(){
 		if(Application.loadedLevel >1){

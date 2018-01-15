@@ -13,6 +13,7 @@ public class changesceneExtraStuff : MonoBehaviour {
 		}
 		else{
 			Application.LoadLevel(0);
+			changeSceneOnline.tempo = false;
 		}
 	}
 }

@@ -158,8 +158,8 @@ public class move : MonoBehaviour {
 				}
 			}
 			
-			if(GameObject.Find("pause") && GameObject.Find("pause").GetComponent<openPauseMenu>().an == false){
-				GameObject.Find("pause").GetComponent<openPauseMenu>().open();
+			if(GameObject.Find("pause") && GameObject.Find("pause").GetComponent<openSomething>().openn == false){
+				GameObject.Find("pause").GetComponent<openSomething>().open();
 			}
 				
 			
@@ -211,6 +211,7 @@ public class move : MonoBehaviour {
 		}
 		
 	}
+
 	
 	public void Jump(){
 		if(grounded){

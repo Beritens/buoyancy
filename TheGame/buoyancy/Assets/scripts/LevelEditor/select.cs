@@ -15,8 +15,9 @@ public class select : MonoBehaviour {
 	Vector2 difference;
 	public float MaxDifference;
 	public GameObject WaterStuff;
-	public modis mode;
 	public COLOR colorStuff;
+
+	public open PleaseOpenTheMenu;
 	void Update () {
 		if(Input.touchCount ==1 && !EventSystem.current.IsPointerOverGameObject(0)){
 			Touch touch = Input.GetTouch(0);
@@ -28,7 +29,7 @@ public class select : MonoBehaviour {
 				Vector2 touchPosWorld2D = new Vector2(touchPos.x,touchPos.y);
 
 				
-				if(!colorStuff.eyeDropper && !GameObject.Find("Scroller").GetComponent<isSomethingOpen>().SomethingOpen){
+				if(!colorStuff.eyeDropper && !GetComponent<isSomethingOpen>().SomethingOpen){
 					
 					/*RaycastHit2D[] hits = Physics2D.RaycastAll(touchPosWorld2D, Camera.main.transform.forward);
 					if(hits.Length == 1 ){
@@ -70,14 +71,14 @@ public class select : MonoBehaviour {
 
 						if(GameObject.Find("sizeStuff(Clone)")){
 							Transform square = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square;
-							GetComponent<undo>().add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, true);
+							GetComponent<undo>().add(square.gameObject, false, true);
 							
 							square.GetComponent<SpriteRenderer>().color = color;
 							if(square.tag == "water"){
 								square.GetComponent<water>().colorChanged = true;
 							}
 							isSomethingOpen.modified = true;
-							GetComponent<undo>().add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, false);
+							GetComponent<undo>().add(square.gameObject, false, false);
 						}
 
 						colorStuff.EYEDROPPER();
@@ -95,7 +96,7 @@ public class select : MonoBehaviour {
 
 
 
-				if(!colorStuff.eyeDropper && !GetComponent<isSomethingOpen>().SomethingOpen && !EventSystem.current.IsPointerOverGameObject(0) && (mode.scaleOn || mode.moveOn || mode.rotateOn)){
+				if(!colorStuff.eyeDropper && !GetComponent<isSomethingOpen>().SomethingOpen && !EventSystem.current.IsPointerOverGameObject(0)){
 					
 					Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
 					Vector2 touchPosWorld2D = new Vector2(touchPos.x,touchPos.y);
@@ -120,7 +121,9 @@ public class select : MonoBehaviour {
 							if(GameObject.Find("sizeStuff(Clone)")){
 								GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(touchedObject.transform);
 								//ColorStuff(touchedObject.GetComponent<SpriteRenderer>().color);
-								colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color);
+								if(colorStuff.gameObject.activeSelf){
+									colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color);
+								}
 								
 							}
 							else{
@@ -170,15 +173,18 @@ public class select : MonoBehaviour {
 	void spawn(){
 		GameObject sizeStuff = GameObject.Instantiate(sizeThing,transform.position,Quaternion.identity);
 		sizeStuff.GetComponent<sizeThing>().square = touchedObject.transform;
-		if(!GameObject.Find("PleaseOpenTheMenu").GetComponent<open>().opeeen){
-			GameObject.Find("PleaseOpenTheMenu").GetComponent<open>().openTheMenu();
+		if(!PleaseOpenTheMenu.opeeen){
+			PleaseOpenTheMenu.openTheMenu();
 		}
 		if(touchedObject.transform.Find("outline")){
 			
 			touchedObject.transform.Find("outline").gameObject.SetActive(true);
 		}
 		//ColorStuff(touchedObject.GetComponent<SpriteRenderer>().color);
-		colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color);
+		if(colorStuff.gameObject.activeSelf){
+			colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color);
+		}
+		
 		
 		
 		//print("no");

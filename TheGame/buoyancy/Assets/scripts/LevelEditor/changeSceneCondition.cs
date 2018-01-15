@@ -6,7 +6,7 @@ public class changeSceneCondition : MonoBehaviour {
 
 	public int scene;
 	public bool restart = false;
-	public openPauseMenu pauseMenu;
+	public openSomething pauseMenu;
 	public void sceenChange(){
 		if(isSomethingOpen.modified){
 			GameObject.Find("QuestionStuff").GetComponent<question>().Anfrage(restart);
@@ -15,10 +15,11 @@ public class changeSceneCondition : MonoBehaviour {
 			}
 		}
 		else{
+			loadLevel.usesaveName = false;
 			playCustom.jaa = false;
 			save.tempoPlay = false;
-			loadLevel.useSaveName = false;
 			Application.LoadLevel(scene);
+			changeSceneOnline.tempo = false;
 		}
 		
 	}

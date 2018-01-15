@@ -33,9 +33,9 @@ public class Drag : MonoBehaviour {
 				Stuff();
 			}
 		}
-		else{
+		/*else{
 			Stuff();
-		}
+		}*/
 		
 	}
 	void Stuff(){
@@ -57,16 +57,17 @@ public class Drag : MonoBehaviour {
 					for(int i = 0; i<hitInformation.Length;i++){
 						GameObject touchedObject = hitInformation[i].transform.gameObject;
 					 	if(touchedObject == this.gameObject){
-							difference = new Vector3(transform.position.x-touchPos.x,transform.position.y-touchPos.y,-10);
+							
 				 			ok = true;
+							/*difference = new Vector3(transform.position.x-touchPos.x,transform.position.y-touchPos.y,-10);
 							isSomethingOpen.modified = true;
-							//print("yrah");
+							print("yrah");
 							Scroller.GetComponent<scroll>().canIscroll2 = false;
 							if(GameObject.Find("sizeStuff(Clone)")){
 								Scroller.GetComponent<undo>().add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, true);
 							}
 							
-							break;
+							break;*/
 						}
 					}
                  
@@ -89,7 +90,7 @@ public class Drag : MonoBehaviour {
              	}*/
 			 
 			}
-			if(touch.phase == TouchPhase.Ended){
+			/*if(touch.phase == TouchPhase.Ended){
 				
 				if(GameObject.Find("sizeStuff(Clone)") && ok){
 					Scroller.GetComponent<undo>().add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, false);
@@ -104,7 +105,7 @@ public class Drag : MonoBehaviour {
 				if(touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved){
 					transform.position = new Vector3(touchPos.x,touchPos.y,0)+new Vector3(difference.x,difference.y,transform.position.z);
 				}
-			}
+			}*/
 		}
 		
 	}

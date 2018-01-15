@@ -5,12 +5,13 @@ using UnityEngine;
 public class undo : MonoBehaviour {
 	//public Stuff[] history;
 
-	public List<GameObject> groundL = new List<GameObject>();
-	public List<GameObject> obstacleL = new List<GameObject>();
-	public List<GameObject> goalL = new List<GameObject>();
-	public List<GameObject> waterL = new List<GameObject>();
-	public List<GameObject> dekoL = new List<GameObject>();
-	public List<GameObject> playerL = new List<GameObject>();
+	public int groundL = 0;
+	public int obstacleL = 0;
+	public int goalL = 0;
+	public int waterL = 0;
+	public int dekoL = 0;
+	public int playerL = 0;
+	public List<GameObject> allThings = new List<GameObject>();
 	
 	public List<Stuff> history = new List<Stuff>();
 	public GameObject undoB;
@@ -149,7 +150,9 @@ public class undo : MonoBehaviour {
 	}
 	void blub(bool unddo, int Pos){
 
-		GameObject thing = GetObject(history[Pos].tag, history[Pos].number, Pos);
+		//GameObject thing = GetObject(history[Pos].tag, history[Pos].number, Pos);
+		print("hi");
+		GameObject thing = allThings[history[Pos].number];
 		
 		
 		
@@ -177,7 +180,7 @@ public class undo : MonoBehaviour {
 					thingy.transform.localScale = lol.scale;
 					thingy.GetComponent<SpriteRenderer>().color = lol.color;
 					thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
-					groundL[history[Pos].number] = thingy;
+					//groundL[history[Pos].number] = thingy;
 					break;
 
 				case "water":
@@ -188,7 +191,7 @@ public class undo : MonoBehaviour {
 					thingy.GetComponent<water>().waterForceX = lol.WaterPower.x;
 					thingy.GetComponent<water>().colorChanged = true;
 					thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
-					waterL[history[Pos].number] = thingy;
+					//waterL[history[Pos].number] = thingy;
 					
 					break;
 
@@ -197,7 +200,7 @@ public class undo : MonoBehaviour {
 					thingy.transform.localScale = lol.scale;
 					thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
 					thingy.GetComponent<SpriteRenderer>().color = lol.color;
-					obstacleL[history[Pos].number] = thingy;
+					//obstacleL[history[Pos].number] = thingy;
 					break;
 
 				case "goal":
@@ -205,7 +208,7 @@ public class undo : MonoBehaviour {
 					thingy.transform.localScale = lol.scale;
 					thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
 					thingy.GetComponent<SpriteRenderer>().color = lol.color;
-					goalL[history[Pos].number] = thingy;
+					//goalL[history[Pos].number] = thingy;
 					break;
 				
 				case "deko":
@@ -213,7 +216,7 @@ public class undo : MonoBehaviour {
 					thingy.transform.localScale = lol.scale;
 					thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
 					thingy.GetComponent<SpriteRenderer>().color = lol.color;
-					dekoL[history[Pos].number] = thingy;
+					//dekoL[history[Pos].number] = thingy;
 						/*if(info.Length >5){
 							thing.GetComponent<SpriteRenderer>().sortingOrder = int.Parse(info[5]);
 						}
@@ -227,13 +230,14 @@ public class undo : MonoBehaviour {
 					thingy = GameObject.Instantiate(player,lol.pos,lol.rotation);
 					thingy.transform.localScale = lol.scale;
 					thingy.GetComponent<SpriteRenderer>().color = lol.color;
-					playerL[history[Pos].number] = thingy;
+					//playerL[history[Pos].number] = thingy;
 					thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
 					break;
 				default:
 					print("lol");
 				break;
 			}
+			allThings[history[Pos].number] = thingy;
 			//history[HisPos]=(new Stuff(thingy, lol.pos,lol.scale,lol.rotation,lol.color, lol.delete, lol.tag,lol.WaterPower));
 
 			
@@ -256,7 +260,7 @@ public class undo : MonoBehaviour {
 			}
 		}
 	}
-	GameObject GetObject(string tag, int nummer, int pos){
+	/*GameObject GetObject(string tag, int nummer, int pos){
 		GameObject thing = null;
 
 		switch(history[pos].tag){
@@ -285,7 +289,7 @@ public class undo : MonoBehaviour {
 		}
 
 		return(thing);
-	}
+	}*/
 }
 [System.Serializable]
 public class Stuff{

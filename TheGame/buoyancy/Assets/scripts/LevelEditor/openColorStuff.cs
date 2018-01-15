@@ -5,22 +5,9 @@ using UnityEngine;
 public class openColorStuff : MonoBehaviour {
 
 	public GameObject color;
-	public Animator anim;
-	bool open;
 	public void press () {
-		open = !open;
-		if(open){
-			anim.SetBool("open", true);
-			anim.Play("OpenColorStuff");
-
+		if(color.activeSelf && GameObject.Find("sizeStuff(Clone)")){
+			color.GetComponent<COLOR>().change(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.GetComponent<SpriteRenderer>().color);
 		}
-		else{
-			
-			anim.SetBool("open", false);
-		}
-	}
-	public void close(){
-		open = false;
-		anim.SetBool("open", false);
 	}
 }
