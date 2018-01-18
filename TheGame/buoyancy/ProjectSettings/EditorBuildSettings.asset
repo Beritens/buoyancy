@@ -131,3 +131,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Levels/39SlowFall.unity
     guid: f4cee1f8745205f4c92d6481f6f03884
+  - enabled: 1
+    path: Assets/Levels/40FullSpektrum.unity
+    guid: 65a70c2b25f5b464096ee45107772da3

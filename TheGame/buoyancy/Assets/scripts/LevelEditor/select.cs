@@ -16,7 +16,7 @@ public class select : MonoBehaviour {
 	public float MaxDifference;
 	public GameObject WaterStuff;
 	public COLOR colorStuff;
-
+	public LayerMask layerMask;
 	public open PleaseOpenTheMenu;
 	void Update () {
 		if(Input.touchCount ==1 && !EventSystem.current.IsPointerOverGameObject(0)){
@@ -63,23 +63,14 @@ public class select : MonoBehaviour {
 
 				}
 				else if(colorStuff.eyeDropper){
-					RaycastHit2D hit = Physics2D.Raycast(touchPosWorld2D, Camera.main.transform.forward);
+					RaycastHit2D hit = Physics2D.Raycast(touchPosWorld2D, Camera.main.transform.forward,0 ,layerMask);
 					if(hit.collider != null){
+						print("jfdhjfsdhjifdsjfdsjufds");
 						Color color =hit.collider.GetComponent<SpriteRenderer>().color;
-						colorStuff.change(color);
+						colorStuff.change(color, true);
 						
 
-						if(GameObject.Find("sizeStuff(Clone)")){
-							Transform square = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square;
-							GetComponent<undo>().add(square.gameObject, false, true);
-							
-							square.GetComponent<SpriteRenderer>().color = color;
-							if(square.tag == "water"){
-								square.GetComponent<water>().colorChanged = true;
-							}
-							isSomethingOpen.modified = true;
-							GetComponent<undo>().add(square.gameObject, false, false);
-						}
+						
 
 						colorStuff.EYEDROPPER();
 					}
@@ -122,7 +113,7 @@ public class select : MonoBehaviour {
 								GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(touchedObject.transform);
 								//ColorStuff(touchedObject.GetComponent<SpriteRenderer>().color);
 								if(colorStuff.gameObject.activeSelf){
-									colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color);
+									colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color, false);
 								}
 								
 							}
@@ -182,7 +173,7 @@ public class select : MonoBehaviour {
 		}
 		//ColorStuff(touchedObject.GetComponent<SpriteRenderer>().color);
 		if(colorStuff.gameObject.activeSelf){
-			colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color);
+			colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color, false);
 		}
 		
 		

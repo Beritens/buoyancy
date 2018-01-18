@@ -87,7 +87,7 @@ public class copy : MonoBehaviour {
 			copyObject.GetComponent<Draggable>().ObjectLPos = Undo.allThings.Count;
 			Undo.allThings.Add(copyObject);
 			GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(copyObject.transform);
-			Undo.add(copyObject, true, true);
+			Undo.add(copyObject, 0, true);
 			
 			
 		}

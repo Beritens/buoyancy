@@ -12,8 +12,10 @@ public class changesceneExtraStuff : MonoBehaviour {
 			Application.LoadLevel(1);
 		}
 		else{
-			Application.LoadLevel(0);
+			
+			playCustom.jaa = false;
 			changeSceneOnline.tempo = false;
+			Application.LoadLevel(0);
 		}
 	}
 }

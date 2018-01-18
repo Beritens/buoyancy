@@ -120,7 +120,7 @@ public class Draggable : MonoBehaviour {
 			if(touch.phase == TouchPhase.Ended){
 				
 				
-				Scroller.GetComponent<undo>().add(this.gameObject, true, true);
+				Scroller.GetComponent<undo>().add(this.gameObject, 0, true);
 				
 				ok = false;
 				isSomethingOpen.modified = true;

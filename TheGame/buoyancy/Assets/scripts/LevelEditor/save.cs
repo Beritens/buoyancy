@@ -18,6 +18,7 @@ public class save : MonoBehaviour {
 	public string tempofileName = "temporary";
 	public static bool tempoPlay;
 	public bool tempo = false;
+	public FarbenLager cam;
 	
 	void Start(){
 		
@@ -60,6 +61,8 @@ public class save : MonoBehaviour {
 		GameObject[] goal = GameObject.FindGameObjectsWithTag("goal");
 		
 		sWriter.WriteLine("random;"+ll.random);
+		sWriter.WriteLine("bg;"+cam.bg1.r.ToString()+","+cam.bg1.g.ToString()+","+cam.bg1.b.ToString()+","+cam.bg2.r.ToString()+","+cam.bg2.g.ToString()+","+cam.bg2.b.ToString());
+
 		
 		if(ground != null || ground.Length != 0){
 			for(int i = 0; i<ground.Length;i++){

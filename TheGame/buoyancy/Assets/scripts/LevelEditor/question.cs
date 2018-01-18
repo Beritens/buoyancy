@@ -12,7 +12,10 @@ public class question : MonoBehaviour {
 	isSomethingOpen isopen;
 
 	void Start(){
-		isopen = GameObject.Find("Scroller").GetComponent<isSomethingOpen>();
+		if(Application.loadedLevel == 1){
+			isopen = GameObject.Find("Scroller").GetComponent<isSomethingOpen>();
+		}
+		
 	}
 	public void Anfrage(bool lol){
 		if(!open){

@@ -11,6 +11,7 @@ public class WaterStuffInput : MonoBehaviour {
 	public water water;
 	public Color colori;
 	public undo Undo;
+	public COLOR colorComponent;
 
 	public void changeText(){
 		float vert = 1;
@@ -35,35 +36,42 @@ public class WaterStuffInput : MonoBehaviour {
 	}
 	private void Submit(string a){
 		if(water != null){
-			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, true);
-			if(a.Length > 0){
-				water.waterForceY = float.Parse(a);
-				print(a);
+			if( float.Parse(a) != water.waterForceY){
+				Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, 8, true);
+				if(a.Length > 0){
+					water.waterForceY = float.Parse(a);
+					print(a);
+				}
+				else{
+					water.waterForceY = 0;
+				}
+				if(!water.colorChanged){
+					color();
+				}
+				Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, 8, false);
 			}
-			else{
-				water.waterForceY = 0;
-			}
-			if(!water.colorChanged){
-				color();
-			}
-			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, false);
+			
 		}
 
 	}
 	private void Submit2(string a){
 		if(water != null){
-			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, true);
-			if(a.Length > 0){
-				water.waterForceX = float.Parse(a);
-				print(a);
+			if( float.Parse(a) != water.waterForceX){
+				Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, 7, true);
+				if(a.Length > 0){
+					water.waterForceX = float.Parse(a);
+					print(a);
+				}
+				else{
+					water.waterForceX = 0;
+				}
+				if(!water.colorChanged){
+					color();
+				}
+				Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, 7, false);
+
 			}
-			else{
-				water.waterForceX = 0;
-			}
-			if(!water.colorChanged){
-				color();
-			}
-			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, false);
+			
 			
 		}
 	}
@@ -78,7 +86,6 @@ public class WaterStuffInput : MonoBehaviour {
 		float alpha = Mathf.Clamp(Mathf.Sqrt(X*X+Y*Y)*0.27f,0.1f,0.7f);
 		col.a = alpha;
 		water.GetComponent<SpriteRenderer>().color = col;
-		COLOR colorComponent = GameObject.Find("color picker").GetComponent<COLOR>();
 		colorComponent.hue.changePos(angle);
 		colorComponent.h = angle;
 		colorComponent.s = s;
@@ -87,7 +94,7 @@ public class WaterStuffInput : MonoBehaviour {
 		colorComponent.a = alpha;
 		colorComponent.color = col;
 		colorComponent.alphaSlider.color = new Color(col.r,col.g,col.b,1);
-		GameObject.Find("color picker").GetComponent<Image>().color = Color.HSVToRGB(angle,1,1);
+		colorComponent.GetComponent<Image>().color = Color.HSVToRGB(angle,1,1);
 
 	}
 

@@ -451,7 +451,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1399484249055644, guid: 4561e1716cf17394e956ed085fb0b776, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114701925958173472, guid: 4561e1716cf17394e956ed085fb0b776,
         type: 2}
@@ -664,6 +664,11 @@ Prefab:
         type: 2}
       propertyPath: friction
       value: 0.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 61637405967988762, guid: 0e734c9c82c1f4a43a1f8dc37750fba1,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e734c9c82c1f4a43a1f8dc37750fba1, type: 2}

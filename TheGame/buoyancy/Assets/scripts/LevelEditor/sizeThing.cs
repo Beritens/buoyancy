@@ -27,6 +27,7 @@ public class sizeThing : MonoBehaviour {
 	modis mode;
 	bool movee;
 	bool scalililili = false;
+	bool blub = true;
 
 	//bleib beim richtigen
 	bool ja = true;
@@ -145,6 +146,13 @@ public class sizeThing : MonoBehaviour {
 				Scroller.GetComponent<scroll>().canIscroll = true;
 			}
 			if(mode.scaleOn){
+				if(blub){
+					one.position = onea.position;
+					two.position = twoa.position;
+					three.position = threea.position;
+					four.position = foura.position;
+					blub = false;
+				}
 				
 
 				
@@ -259,12 +267,12 @@ public class sizeThing : MonoBehaviour {
 				}*/
 			}
 			else{
-				if(square.tag == "goal" || square.tag == "water" || square.tag == "obstacle" || square.tag == "ground" || square.tag == "deko"){
-					one.gameObject.SetActive(false);
-					two.gameObject.SetActive(false);
-					three.gameObject.SetActive(false);
-					four.gameObject.SetActive(false);
-				}	
+				blub = true;
+				one.gameObject.SetActive(false);
+				two.gameObject.SetActive(false);
+				three.gameObject.SetActive(false);
+				four.gameObject.SetActive(false);
+					
 			}
 			/*else if(mode.scaleOn && !mode.moveOn){
 				one.gameObject.SetActive(true);
@@ -349,7 +357,7 @@ public class sizeThing : MonoBehaviour {
 						difference = new Vector3(move.position.x-touchPos.x,move.position.y-touchPos.y,-10);
 						isSomethingOpen.modified = true;
 						Scroller.GetComponent<scroll>().canIscroll2 = false;
-						Scroller.GetComponent<undo>().add(square.gameObject, false, true);
+						Scroller.GetComponent<undo>().add(square.gameObject, 2, true);
 						bro = false;
 					}
 					print("jabadabadu");
@@ -368,7 +376,7 @@ public class sizeThing : MonoBehaviour {
 					if(touch.phase == TouchPhase.Ended){
 						move.GetComponent<Drag>().ok = false;
 						Scroller.GetComponent<scroll>().canIscroll2 = true;
-						Scroller.GetComponent<undo>().add(square.gameObject, false, false);
+						Scroller.GetComponent<undo>().add(square.gameObject, 2, false);
 						bro = true;
 					}
 				}
@@ -385,9 +393,9 @@ public class sizeThing : MonoBehaviour {
 						isSomethingOpen.modified = true;
 						print("yrah");
 						Scroller.GetComponent<scroll>().canIscroll2 = false;
-						Scroller.GetComponent<undo>().add(square.gameObject, false, true);
+						Scroller.GetComponent<undo>().add(square.gameObject, 1, true);
 						bro = false;
-						Scroller.GetComponent<scroll>().canIscroll2 = false;
+						
 						
 					}
 					Vector3 onebPos = new Vector3(touchPos.x,touchPos.y,square.position.z)+new Vector3(difference.x,difference.y,0);
@@ -406,14 +414,13 @@ public class sizeThing : MonoBehaviour {
 					four.position = foura.position;
 					
 					beep = true;
-					Scroller.GetComponent<scroll>().canIscroll = false;
 					if(touch.phase == TouchPhase.Ended){
 						one.GetComponent<Drag>().ok = false;
 						two.GetComponent<Drag>().ok = false;
 						three.GetComponent<Drag>().ok = false;
 						four.GetComponent<Drag>().ok = false;
 
-						Scroller.GetComponent<undo>().add(square.gameObject, false, false);
+						Scroller.GetComponent<undo>().add(square.gameObject, 1, false);
 						bro = true;
 						Scroller.GetComponent<scroll>().canIscroll2 = true;
 						print("hilo");
@@ -434,11 +441,10 @@ public class sizeThing : MonoBehaviour {
 						isSomethingOpen.modified = true;
 						print("yrah");
 						Scroller.GetComponent<scroll>().canIscroll2 = false;
-						Scroller.GetComponent<undo>().add(square.gameObject, false, true);
+						Scroller.GetComponent<undo>().add(square.gameObject, 2, true);
 						bro = false;
-						Scroller.GetComponent<scroll>().canIscroll2 = false;
 					}
-					Vector3 movePos = new Vector3(touchPos.x,touchPos.y,0)+new Vector3(difference.x,difference.y,transform.position.z);
+					Vector3 movePos = new Vector3(touchPos.x,touchPos.y, square.position.z)+new Vector3(difference.x,difference.y,0);
 					if(beep){
 						unterschied =movePos-alldots.position;
 					
@@ -450,7 +456,7 @@ public class sizeThing : MonoBehaviour {
 					move.position = movePos;
 					if(touch.phase == TouchPhase.Ended){
 						move.GetComponent<Drag>().ok = false;
-						Scroller.GetComponent<undo>().add(square.gameObject, false, false);
+						Scroller.GetComponent<undo>().add(square.gameObject, 2, false);
 						bro = true;
 						Scroller.GetComponent<scroll>().canIscroll2 = true;
 					}

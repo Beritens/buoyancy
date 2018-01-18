@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;
+using UnityEngine.UI;
 
 public class loadLevel : MonoBehaviour {
 
@@ -20,6 +21,10 @@ public class loadLevel : MonoBehaviour {
 	public string random;
 	bool randomy = false;
 	public leftright leftright;
+	public GameObject cam;
+	public Image bgcol1;
+	public Image bgcol2;
+
 	 const string characters= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
 	void Start () {
 		if(openFile.jaa){
@@ -192,6 +197,23 @@ public class loadLevel : MonoBehaviour {
 					random =info[1];
 					randomy = true;
 					break;
+				case "bg":
+					string[] farben = info[1].Split(',');
+					Color col1 = new Color(float.Parse(farben[0]),float.Parse(farben[1]),float.Parse(farben[2]),1);
+					Color col2 = new Color(float.Parse(farben[3]),float.Parse(farben[4]),float.Parse(farben[5]),1);
+					if(Application.loadedLevel == 1){
+						cam.GetComponent<FarbenLager>().bg1 = col1;
+						cam.GetComponent<FarbenLager>().bg2 = col2;
+						cam.GetComponent<Camera>().backgroundColor = col1;
+						bgcol1.color = col1;
+						bgcol2.color = col2;
+					}
+					else{
+						cam.GetComponent<Camera>().backgroundColor = col1;
+						cam.GetComponent<backgroundColor>().color1 = col1;
+						cam.GetComponent<backgroundColor>().color2 = col2;
+					}
+					break;
 				default:
 				print("lol");
 				break;
@@ -200,7 +222,7 @@ public class loadLevel : MonoBehaviour {
 				undoThing.allThings.Add(thing);
 				thing.GetComponent<Draggable>().ObjectLPos = undoThing.allThings.Count-1;
 			}
-			else{
+			else if(Application.loadedLevel == 2){
 				leftright.addPlayers();
 			}
 			/*if(info[0] == "ground"){

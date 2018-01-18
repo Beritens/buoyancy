@@ -91,6 +91,8 @@ public class scroll : MonoBehaviour {
 						
 						
 						print("miau");
+						canIscroll2 = true;
+						canIscroll = true;
 						GameObject.Destroy(sizeStuff);
 					}
 

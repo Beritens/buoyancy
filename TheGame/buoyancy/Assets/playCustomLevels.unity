@@ -884,6 +884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TheThing: {fileID: 976329085}
   openn: 0
+  useIsSonethingOpen: 1
 --- !u!224 &236498663
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1556,6 +1557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TheThing: {fileID: 1570544507}
   openn: 0
+  useIsSonethingOpen: 1
 --- !u!1 &551773583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1608,6 +1610,7 @@ MonoBehaviour:
   undoThing: {fileID: 0}
   random: 
   leftright: {fileID: 266029229}
+  cam: {fileID: 338265365}
 --- !u!114 &551773586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1677,6 +1680,7 @@ MonoBehaviour:
   ll: {fileID: 0}
   tempofileName: temporary
   tempo: 0
+  cam: {fileID: 0}
 --- !u!114 &573840927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4747,6 +4751,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TheThing: {fileID: 822624032}
   openn: 0
+  useIsSonethingOpen: 1
 --- !u!114 &1539789031
 MonoBehaviour:
   m_ObjectHideFlags: 0

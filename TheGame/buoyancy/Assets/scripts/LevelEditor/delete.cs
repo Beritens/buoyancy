@@ -5,7 +5,7 @@ using UnityEngine;
 public class delete : MonoBehaviour {
 
 	GameObject Scroller;
-
+	public openSomething water;
 	void Start(){
 		Scroller = GameObject.Find("Scroller");
 	}
@@ -13,10 +13,12 @@ public class delete : MonoBehaviour {
 		GameObject thing =GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject;
 		Scroller.GetComponent<scroll>().canIscroll2 = true;
 		Scroller.GetComponent<scroll>().canIscroll = true;
-		Scroller.GetComponent<undo>().add(thing, true, true);
+		Scroller.GetComponent<undo>().add(thing, 0, true);
 		
-		if(GameObject.Find("WaterPower")){
-			GameObject.Find("WaterPowerOpen").GetComponent<openSomething>().close();
+		if(water.gameObject.activeSelf){
+			if(water.openn){
+				water.close();
+			}
 		}
 		/*switch(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.tag){
 			case "Player":

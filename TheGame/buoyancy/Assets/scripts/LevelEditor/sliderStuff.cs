@@ -8,17 +8,31 @@ public class sliderStuff : MonoBehaviour {
 	public Transform knob;
 	public float value;
 	public undo Undo;
+	public COLOR colory;
+	public bool hue;
 	public void down () {
 		
 		tueEs = true;
-		if(GameObject.Find("sizeStuff(Clone)")){
-			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, true);
+		if(hue && colory.bg1on){
+			Undo.add(null, 5, true);
+		}
+		else if(hue && colory.bg2on){
+			Undo.add(null, 6, true);
+		}
+		else if(GameObject.Find("sizeStuff(Clone)")){
+			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, 4, true);
 		}
 	}
 	public void up () {
 		tueEs = false;
+		if(hue && colory.bg1on){
+			Undo.add(null, 5, false);
+		}
+		else if(hue && colory.bg2on){
+			Undo.add(null, 6, false);
+		}
 		if(GameObject.Find("sizeStuff(Clone)")){
-			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, false, false);
+			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, 4, false);
 		}
 	}
 	
