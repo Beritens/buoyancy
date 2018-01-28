@@ -51,7 +51,7 @@ public class loadLevel : MonoBehaviour {
 			string[] splitString = playCustom.path2.Split(new char[]{'/','\\'});
 			SaveName = splitString[splitString.Length-1].Substring(0, splitString[splitString.Length-1].Length-4);
 			InputField.text = SaveName;
-			InputField2.text = SaveName;
+			//InputField2.text = SaveName;
 			
 		}
 		else if(save.tempoPlay){

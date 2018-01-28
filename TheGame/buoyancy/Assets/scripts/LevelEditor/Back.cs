@@ -7,19 +7,19 @@ public class Back : MonoBehaviour {
 
 	public GameObject backButton;
 	public GameObject online;
-	public TMP_InputField NameThing;
+	//public TMP_InputField NameThing;
 
 	void Start () {
 		if(!changeSceneOnline.tempo){
 			
-			online.SetActive(true);
 			if(!PlayerPrefs.HasKey("name")){
 				PlayerPrefs.SetString("name","");
 			}
 			if(save.tempoPlay){
 				backButton.SetActive(true);
-				NameThing.text = PlayerPrefs.GetString("name");
 			}
+			
+			//NameThing.text = PlayerPrefs.GetString("name");
 			
 		}
 	}

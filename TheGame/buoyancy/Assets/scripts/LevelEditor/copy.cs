@@ -16,10 +16,10 @@ public class copy : MonoBehaviour {
 
 
 			if(copyObject.tag == "deko"){
-				GameObject[] lol = GameObject.FindGameObjectsWithTag("deko");
+				int lol = GameObject.FindGameObjectsWithTag("deko").Length;
 				
-				if(lol.Length < 1500){
-					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,0f - lol.Length* 0.001f);
+				if(lol < 1500){
+					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,0f - lol* 0.001f);
 					print("wieso funktioniert das jetzt nicht?");
 				}
 				else{
@@ -29,9 +29,9 @@ public class copy : MonoBehaviour {
 				Undo.dekoL++;
 			}
 			else if(copyObject.tag == "water"){
-				GameObject[] lol = GameObject.FindGameObjectsWithTag("water");
-				if(lol.Length < 1500){
-					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-1.5f - lol.Length* 0.001f);
+				int lol = GameObject.FindGameObjectsWithTag("water").Length;
+				if(lol < 1500){
+					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-1.5f - lol* 0.001f);
 				}
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-3f);
@@ -40,9 +40,9 @@ public class copy : MonoBehaviour {
 				Undo.waterL++;
 			}
 			else if(copyObject.tag == "goal"){
-				GameObject[] lol = GameObject.FindGameObjectsWithTag("goal");
-				if(lol.Length < 1500){
-					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-3f - lol.Length* 0.001f);
+				int lol = GameObject.FindGameObjectsWithTag("goal").Length;
+				if(lol < 1500){
+					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-3f - lol* 0.001f);
 				}
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-4.5f);
@@ -51,9 +51,9 @@ public class copy : MonoBehaviour {
 				Undo.goalL++;
 			}
 			else if(copyObject.tag == "obstacle"){
-				GameObject[] lol = GameObject.FindGameObjectsWithTag("obstacle");
-				if(lol.Length < 1500){
-					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-4.5f - lol.Length* 0.001f);
+				int lol = GameObject.FindGameObjectsWithTag("obstacle").Length;
+				if(lol < 1500){
+					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-4.5f - lol* 0.001f);
 				}
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-6f);
@@ -62,9 +62,9 @@ public class copy : MonoBehaviour {
 				Undo.obstacleL++;
 			}
 			else if(copyObject.tag == "ground"){
-				GameObject[] lol = GameObject.FindGameObjectsWithTag("ground");
-				if(lol.Length < 1500){
-					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-6f - lol.Length* 0.001f);
+				int lol = GameObject.FindGameObjectsWithTag("ground").Length;
+				if(lol < 1500){
+					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-6f - lol* 0.001f);
 				}
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-7.5f);
@@ -73,9 +73,9 @@ public class copy : MonoBehaviour {
 				Undo.groundL++;
 			}
 			else if(copyObject.tag == "Player"){
-				GameObject[] lol = GameObject.FindGameObjectsWithTag("Player");
-				if(lol.Length < 1500){
-					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-7.5f - lol.Length* 0.001f);
+				int lol = GameObject.FindGameObjectsWithTag("Player").Length;
+				if(lol < 1500){
+					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-7.5f - lol* 0.001f);
 				}
 				else{
 					copyObject.transform.position = new Vector3(copyObject.transform.position.x,copyObject.transform.position.y,-9f);

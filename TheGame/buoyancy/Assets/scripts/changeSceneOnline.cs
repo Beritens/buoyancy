@@ -6,7 +6,7 @@ public class changeSceneOnline : MonoBehaviour {
 
 	public string name;
 	public static bool tempo = false;
-	public string url = "https://buoyancy.000webhostapp.com/Levels/";
+	public string url = "https://buoyancy.000webhostapp.com/Accounts/";
 
 	public void press () {
 		
@@ -14,7 +14,8 @@ public class changeSceneOnline : MonoBehaviour {
 	}
 	IEnumerator zeugs(){
 		WWWForm form = new WWWForm();
-		WWW w = new WWW(url+name,form);
+		string[] Splity = name.Split(';');
+		WWW w = new WWW(url+Splity[1]+"/"+Splity[0]+".txt",form);
 
 		print("www created");
  
@@ -34,7 +35,7 @@ public class changeSceneOnline : MonoBehaviour {
 				Directory.CreateDirectory (Application.persistentDataPath+"/temporary");
 			}
 			List<string> names = new List<string>(w.text.Split('\n'));
-			names.RemoveAt(0);
+			//names.RemoveAt(0);
 
 			File.WriteAllLines(Application.persistentDataPath+"/temporary/temporaryOnline.txt", names.ToArray());
 			tempo = true;

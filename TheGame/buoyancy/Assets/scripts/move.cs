@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class move : MonoBehaviour {
 
@@ -22,12 +23,16 @@ public class move : MonoBehaviour {
 	bool inWater;
 	Rigidbody2D rb;
 	List<Vector2> power = new List<Vector2>();
+	GameObject lol;
 
 	// Use this for initialization
 
 	void Start () {
 		cameraa = GameObject.Find("Main Camera");
 		rb = GetComponent<Rigidbody2D>();
+		if(Application.loadedLevel == 2 && !changeSceneOnline.tempo){
+			lol = GameObject.Find("lol").GetComponent<Back>().online;
+		}
 	}
 	
 	void Update(){
@@ -156,6 +161,10 @@ public class move : MonoBehaviour {
 				if(PlayerPrefs.GetInt("unlockedLevel")<Application.loadedLevel+1){
 				PlayerPrefs.SetInt("unlockedLevel", Application.loadedLevel+1);
 				}
+			}
+			else if(lol != null){
+				lol.SetActive(true);
+
 			}
 			
 			if(GameObject.Find("pause") && GameObject.Find("pause").GetComponent<openSomething>().openn == false){

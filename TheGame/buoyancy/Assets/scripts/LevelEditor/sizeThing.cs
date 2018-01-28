@@ -129,7 +129,7 @@ public class sizeThing : MonoBehaviour {
 		if((mode.moveOn && !mode.scaleOn) || mode.rotateOn){
 			scalililili = true;
 			
-			move.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f+cam.orthographicSize/(move.localScale.x*4),0.02f+cam.orthographicSize/(move.localScale.y*4));
+			move.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f+cam.orthographicSize/Mathf.Abs(move.localScale.x*4),0.02f+cam.orthographicSize/Mathf.Abs(move.localScale.y*4));
 			movee = true;
 		}
 		else if(movee && !mode.rotateOn){
@@ -464,7 +464,7 @@ public class sizeThing : MonoBehaviour {
 			}
 			if(mode.rotateOn){
 				scalililili = true;
-				move.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f+cam.orthographicSize/(move.localScale.x*4),0.02f+cam.orthographicSize/(move.localScale.y*4));
+				//move.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f+cam.orthographicSize/(move.localScale.x*4),0.02f+cam.orthographicSize/(move.localScale.y*4));
 				movee = true;
 				if(move.GetComponent<rotate>().ok){
 					square.rotation = move.rotation;

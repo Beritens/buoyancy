@@ -35,32 +35,48 @@ public class loadPlayerLevels : MonoBehaviour {
 	IEnumerator stuff(){
 		WWWForm form = new WWWForm();
 		WWW w = new WWW(url,form);
+        WWW names = new WWW("https://buoyancy.000webhostapp.com/AccountList.txt",form);
         print("www created");
- 
+        yield return names;
         yield return w;
         print("after yield w");
+        if (names.error != null)
+        {
+            print("error");
+            print ( w.error );    
+        }
         if (w.error != null)
         {
             print("error");
             print ( w.error );    
         }
         
-        
-        if(w.isDone){
-            string[] bruh = w.text.Split('\n');
-            string[] lol = new string[bruh.Length];
-            for(int i = 0; i<lol.Length; i++){
-                lol[i] = Encrypt(bruh[i]);
-            }
-            Names.Clear();
-            Names.AddRange(bruh);
-            File.WriteAllLines(Application.persistentDataPath+"/PlayerLevelsList.txt",lol);
+        if(names.isDone){
+            string [] split = names.text.Split(new Char[] { ';','\n' });
+            if(w.isDone){
+                string[] bruh = w.text.Split('\n');
+                string[] lol = new string[bruh.Length];
+                for(int i = 0; i<lol.Length; i++){
+                    //bruh[i] +=";"+split[Array.IndexOf(split, bruh[i].Split(';')[1])];
+                    if(bruh[i] != ""){
+                        print(bruh[i]);
+                        string emailtxt = bruh[i].Split(';')[1];
+                        bruh[i]+=";"+ split[Array.IndexOf(split, emailtxt)+1];
+                    }
+                    
+                    lol[i] = Encrypt(bruh[i]);
+                }
+                Names.Clear();
+                Names.AddRange(bruh);
+                File.WriteAllLines(Application.persistentDataPath+"/PlayerLevelsList.txt",lol);
 
-            foreach (Transform child in container.transform) {
-     		    GameObject.Destroy(child.gameObject);
- 		    }
-            ListFiles(0,100);
+                foreach (Transform child in container.transform) {
+                    GameObject.Destroy(child.gameObject);
+                }
+                ListFiles(0,100);
+            }
         }
+        
 	}
     public void loadMore(){
         GameObject.Destroy(container.transform.GetChild(container.transform.childCount-1).gameObject);
@@ -81,7 +97,7 @@ public class loadPlayerLevels : MonoBehaviour {
                     bob.GetComponent<changeSceneOnline>().name = Names[i];
                     string[] nameStuff = Names[i].Split(';');
                     bob.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = nameStuff[0];
-                    bob.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = nameStuff[nameStuff.Length-2];
+                    bob.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = nameStuff[nameStuff.Length-1];
                 }
                 
             }
@@ -103,7 +119,7 @@ public class loadPlayerLevels : MonoBehaviour {
                     bob.GetComponent<changeSceneOnline>().name = Names[i];
                     string[] nameStuff = Names[i].Split(';');
                     bob.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = nameStuff[0];
-                    bob.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = nameStuff[nameStuff.Length-2];
+                    bob.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = nameStuff[nameStuff.Length-1];
                 }
                 
             }
