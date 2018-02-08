@@ -106,8 +106,12 @@ MonoBehaviour:
   grounded: 0
   previouslyGrounded: 0
   friction: 0.95
-  color1: {r: 0.20274653, g: 0.3383614, b: 0.5514706, a: 0}
-  color2: {r: 0.73333335, g: 0.12941177, b: 0.50980395, a: 0}
+  UseCustomFriction: 1
+  JumpSound:
+  - {fileID: 8300000, guid: 95de239a15ca23847beb26394846a48b, type: 3}
+  - {fileID: 8300000, guid: 7a63c1cfa19fa084e85fe8f27a1fea00, type: 3}
+  - {fileID: 8300000, guid: 713d9797c390a044b819573ddf3f951b, type: 3}
+  - {fileID: 8300000, guid: f4150607f8278bf4fbf95f92ff4b31ab, type: 3}
 --- !u!212 &212924735786208276
 SpriteRenderer:
   m_ObjectHideFlags: 1

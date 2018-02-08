@@ -22,7 +22,7 @@ public class zoomTouchEditor : MonoBehaviour {
 			Touch t1 = Input.GetTouch(0);
 			Touch t2 = Input.GetTouch(1);
 			
-			if(t2.phase == TouchPhase.Began){
+			if(t2.phase == TouchPhase.Began || t1.phase == TouchPhase.Began){
 				initdistance = Vector2.Distance(t1.position,t2.position);
 				initcamPosition = cam.transform.position;
 				initorthoSize = cam.GetComponent<Camera>().orthographicSize;
@@ -40,7 +40,7 @@ public class zoomTouchEditor : MonoBehaviour {
 				
 				float distanceNow = Vector2.Distance(t1.position,t2.position);
 				float multiplier = distanceNow / initdistance;
-				cam.GetComponent<Camera>().orthographicSize = Mathf.Clamp(initorthoSize/multiplier,0.001f,40);
+				cam.GetComponent<Camera>().orthographicSize = Mathf.Clamp(initorthoSize/multiplier,0.01f,40);
 				cam.transform.position = Vector3.Lerp(new Vector3(middlePos.x,middlePos.y,-10),initcamPosition,1/multiplier) + scrollAmount;
 
 			}

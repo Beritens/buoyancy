@@ -9,6 +9,7 @@ TagManager:
   - obstacle
   - ground
   - deko
+  - music
   layers:
   - Default
   - TransparentFX

@@ -10,6 +10,7 @@ public class question : MonoBehaviour {
 	public openSomething savee;
 	bool open;
 	isSomethingOpen isopen;
+	public string path;
 
 	void Start(){
 		if(Application.loadedLevel == 1){
@@ -34,7 +35,6 @@ public class question : MonoBehaviour {
 		if(Application.loadedLevel == 1)
 			isopen.SomethingOpen = false;
 		Fenster.close();
-		StartCoroutine(wait());
 		savee.open();
 		if(load == true){
 			openFile.jaa = false;
@@ -44,12 +44,16 @@ public class question : MonoBehaviour {
 		open = false;
 		isSomethingOpen.modified = false;
 		if(load){
+			openFile.jaa = true;
+			openFile.path = path;
+			Time.timeScale = 1;
 			Application.LoadLevel(1);
 		}
 		else{
 			playCustom.jaa = false;
 			save.tempoPlay = false;
 			loadLevel.usesaveName = false;
+			Time.timeScale = 1;
 			Application.LoadLevel(0);
 		}
 	}
@@ -58,13 +62,5 @@ public class question : MonoBehaviour {
 		if(Application.loadedLevel == 1)
 			isopen.SomethingOpen = false;
 		Fenster.close();
-		StartCoroutine(wait());
-	}
-	IEnumerator wait(){
-		yield return new WaitForSeconds(2);
-		if(!open){
-			Fenster.gameObject.SetActive(false);
-		}
-		
 	}
 }

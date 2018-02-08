@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class changeSceneBttons : MonoBehaviour {
+
 	public void restart () {
+		Time.timeScale = 1;
 		Application.LoadLevel(Application.loadedLevel);
 	}
 	public void home(){
-		if(Application.loadedLevel >1){
-			Application.LoadLevel(0);
-		}
+		Time.timeScale = 1;
+		Application.LoadLevel(0);
+		
 		
 	}
 	public void skip(){
+		Time.timeScale = 1;
 		if(Application.loadedLevel >2 && Application.loadedLevel < PlayerPrefs.GetInt("unlockedLevel")){
 			if(Application.loadedLevel< Application.levelCount-1){
                 Application.LoadLevel(Application.loadedLevel +1);

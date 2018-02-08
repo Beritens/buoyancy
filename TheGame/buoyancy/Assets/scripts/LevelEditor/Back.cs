@@ -24,6 +24,7 @@ public class Back : MonoBehaviour {
 		}
 	}
 	public void click(){
+		Time.timeScale = 1;
 		Application.LoadLevel(1);
 	}
 	

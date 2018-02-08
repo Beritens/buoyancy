@@ -55,6 +55,9 @@ public class UiAnimation : MonoBehaviour {
 			recT.anchorMax = Vector2.Lerp(rAnchorMax,AnchorMax, t);
             yield return null;
       }
+	  if(!an){
+		  gameObject.SetActive(false);
+	  }
     }
 	
 }

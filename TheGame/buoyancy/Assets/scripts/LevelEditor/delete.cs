@@ -6,6 +6,7 @@ public class delete : MonoBehaviour {
 
 	GameObject Scroller;
 	public openSomething water;
+	public message message;
 	void Start(){
 		Scroller = GameObject.Find("Scroller");
 	}
@@ -41,6 +42,7 @@ public class delete : MonoBehaviour {
 				break;
 		}*/
 		GameObject.Destroy(thing);
+		message.Message("Object has been deleted");
 		GameObject.Destroy(GameObject.Find("sizeStuff(Clone)"));
 		if(GameObject.Find("PleaseOpenTheMenu").GetComponent<open>().opeeen){
 			GameObject.Find("PleaseOpenTheMenu").GetComponent<open>().closeTheMenu();

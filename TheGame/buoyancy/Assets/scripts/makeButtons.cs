@@ -32,7 +32,6 @@ public class makeButtons : MonoBehaviour {
 		GetComponent<RectTransform>().sizeDelta = new Vector2((LevelCount-3)*100+(LevelCount-3),61);*/
 		
 		if(unlock < LevelCount){
-			print(LevelCount);
 			skipButton.GetComponentInChildren<TextMeshProUGUI>().text = transform.GetChild(unlock-3).GetComponentInChildren<TextMeshProUGUI>().text;
 			skipButton.GetComponent<changeScene>().scene =unlock;
 		}
@@ -44,7 +43,26 @@ public class makeButtons : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public void ButtonStuff () {
+		LevelCount = Application.levelCount;
+		int unlock = PlayerPrefs.GetInt("unlockedLevel");
+		for(int i = 0; i<transform.childCount; i++){
+			if(i > unlock-3){
+				transform.GetChild(i).GetComponent<Button>().interactable = false;
+			}
+			else{
+				transform.GetChild(i).GetComponent<Button>().interactable = true;
+			}
+		}
+		if(unlock < LevelCount){
+			print(LevelCount);
+			skipButton.GetComponentInChildren<TextMeshProUGUI>().text = transform.GetChild(unlock-3).GetComponentInChildren<TextMeshProUGUI>().text;
+			skipButton.GetComponent<changeScene>().scene =unlock;
+		}
+		else{
+			skipButton.GetComponentInChildren<TextMeshProUGUI>().text = transform.GetChild(LevelCount-4).GetComponentInChildren<TextMeshProUGUI>().text;
+			skipButton.GetComponent<changeScene>().scene = LevelCount-1;
+		}
 		
 	}
 }

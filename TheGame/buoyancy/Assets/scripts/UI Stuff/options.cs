@@ -24,6 +24,7 @@ public class options : MonoBehaviour {
 		}
 		else{
 			panel.SetActive(true);
+			panelChild.SetActive(true);
 			panelChild.GetComponent<UiAnimation>().open();
 			GetComponent<UianimRot>().rotate2();
 			

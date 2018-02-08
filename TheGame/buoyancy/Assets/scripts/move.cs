@@ -12,6 +12,8 @@ public class move : MonoBehaviour {
 	public bool grounded = false;
 	public bool previouslyGrounded = false;
 	public float friction = 0.95f;
+	public bool UseCustomFriction = true;
+	public AudioClip[] JumpSound;
 	//public Color color1;
 	//public Color color2;
 	GameObject cameraa;
@@ -89,7 +91,7 @@ public class move : MonoBehaviour {
 			}
 		}
 		//lösch das später
-		if(grounded){
+		if(grounded && UseCustomFriction){
 			Vector2 vel = GetComponent<Rigidbody2D>().velocity;
 			vel.x = vel.x * friction;
 			rb.velocity = vel;
@@ -159,7 +161,8 @@ public class move : MonoBehaviour {
 			cameraa.GetComponent<inGoal>().inTheGoal = true;
 			if(Application.loadedLevel >2){
 				if(PlayerPrefs.GetInt("unlockedLevel")<Application.loadedLevel+1){
-				PlayerPrefs.SetInt("unlockedLevel", Application.loadedLevel+1);
+					PlayerPrefs.SetInt("unlockedLevel", Application.loadedLevel+1);
+					PlayerPrefs.SetInt("updated",0);
 				}
 			}
 			else if(lol != null){
@@ -168,7 +171,8 @@ public class move : MonoBehaviour {
 			}
 			
 			if(GameObject.Find("pause") && GameObject.Find("pause").GetComponent<openSomething>().openn == false){
-				GameObject.Find("pause").GetComponent<openSomething>().open();
+				GameObject pausi = GameObject.Find("pause");
+				pausi.GetComponent<openSomething>().open();
 			}
 				
 			
@@ -225,7 +229,12 @@ public class move : MonoBehaviour {
 	public void Jump(){
 		if(grounded){
 			rb.AddForce(new Vector2(0,jump), ForceMode2D.Impulse);
-				
+			if(PlayerPrefs.GetInt("sound")==1){
+				cameraa.GetComponent<AudioSource>().clip = JumpSound[Random.Range(0,JumpSound.Length-1)];
+				cameraa.GetComponent<AudioSource>().Play();
+			}
+			
+
 		}
 	}
 

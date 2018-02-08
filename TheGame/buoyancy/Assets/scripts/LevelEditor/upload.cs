@@ -14,6 +14,7 @@ public class upload : MonoBehaviour {
 			print("hi");
 		}
 		else{
+			
 			pauseMenu.close();
 		}
 	}

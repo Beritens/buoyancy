@@ -9,6 +9,7 @@ public class openSomething : MonoBehaviour {
 	public bool openn = false;
 	isSomethingOpen Scroller;
 	public bool useIsSonethingOpen = true;
+	public bool pause = true;
 	void Start(){
 		if(Application.loadedLevel == 1){
 			Scroller = GameObject.Find("Scroller").GetComponent<isSomethingOpen>();
@@ -40,28 +41,41 @@ public class openSomething : MonoBehaviour {
 		else{
 			openn = !openn;
 			if(openn){
-				print("hi");
 				//anim.SetBool("open", true);
 				TheThing.SetActive(true);
 				TheThing.GetComponent<UiAnimation>().open();
+				if(pause){
+					Time.timeScale = 0.05f;
+				}
 				//anim.Play("open");
 			}
 			else if(!openn){
 				//anim.SetBool("open", false);
 				TheThing.GetComponent<UiAnimation>().close();
-				StartCoroutine(wait());
+				//StartCoroutine(wait());
+				if(pause){
+					Time.timeScale = 1;
+				}
 			}
 		}
 		
 		
 	}
 	public void close(){
-		//anim.SetBool("open", false);
-		openn = false;
-		TheThing.GetComponent<UiAnimation>().close();
-		if(Application.loadedLevel == 1 && useIsSonethingOpen)
-			Scroller.SomethingOpen = false;
-		StartCoroutine(wait());
+		if(openn){
+			//anim.SetBool("open", false);
+			openn = false;
+			TheThing.GetComponent<UiAnimation>().close();
+			if(Application.loadedLevel == 1 && useIsSonethingOpen){
+				Scroller.SomethingOpen = false;
+			}
+			else if(pause){
+				Time.timeScale = 1;
+			}
+				
+			//StartCoroutine(wait());
+		}
+		
 	}
 	IEnumerator wait(){
 		yield return new WaitForSeconds(2);

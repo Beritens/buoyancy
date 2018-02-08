@@ -5,6 +5,8 @@ using UnityEngine;
 public class follow : MonoBehaviour {
 
 	 Transform player;
+	 public bool TwoPlayers =false;
+	 public Transform playerr;
   
 	void Start(){
 
@@ -13,9 +15,10 @@ public class follow : MonoBehaviour {
 		 {
  			PlayerPrefs.SetFloat("buttonSize",0.5f);
 		 }*/
-
-
-		if(GameObject.FindGameObjectWithTag("Player")){
+		if(TwoPlayers){
+			player = playerr;
+		}
+		else if(GameObject.FindGameObjectWithTag("Player")){
 			player = GameObject.FindGameObjectWithTag("Player").transform;
 		}
 		

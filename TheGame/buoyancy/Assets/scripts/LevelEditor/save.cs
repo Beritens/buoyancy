@@ -19,6 +19,7 @@ public class save : MonoBehaviour {
 	public static bool tempoPlay;
 	public bool tempo = false;
 	public FarbenLager cam;
+	public message message;
 	
 	void Start(){
 		
@@ -134,6 +135,7 @@ public class save : MonoBehaviour {
 		if(!tempo){
 			isSomethingOpen.modified = false;
 			openStuff.close();
+			message.Message("Level saved");
 		}
 		else{
 			tempoPlay = true;

@@ -12,14 +12,17 @@ public class changeSceneCondition : MonoBehaviour {
 			GameObject.Find("QuestionStuff").GetComponent<question>().Anfrage(restart);
 			if(Application.loadedLevel == 2){
 				pauseMenu.close();
+				Time.timeScale = 0.05f;
 			}
 		}
 		else{
 			loadLevel.usesaveName = false;
 			playCustom.jaa = false;
 			save.tempoPlay = false;
-			Application.LoadLevel(scene);
 			changeSceneOnline.tempo = false;
+			Time.timeScale = 1;
+			Application.LoadLevel(scene);
+			
 		}
 		
 	}

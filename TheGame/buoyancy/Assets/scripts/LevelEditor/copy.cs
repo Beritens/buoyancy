@@ -6,6 +6,7 @@ public class copy : MonoBehaviour {
 
 	// Use this for initialization
 	public undo Undo;
+	public message message;
 	public void clicki () {
 		if(GameObject.Find("sizeStuff(Clone)")){
 			Transform ObjectToCopy = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square;
@@ -87,6 +88,7 @@ public class copy : MonoBehaviour {
 			copyObject.GetComponent<Draggable>().ObjectLPos = Undo.allThings.Count;
 			Undo.allThings.Add(copyObject);
 			GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(copyObject.transform);
+			message.Message("Object has been copied");
 			Undo.add(copyObject, 0, true);
 			
 			

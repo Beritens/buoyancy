@@ -9,13 +9,16 @@ public class openFile : MonoBehaviour {
 	public static bool jaa;
 	
 	public void click(){
-		jaa = true;
-		path = ThePath;
+		
 		if(isSomethingOpen.modified){
-			GameObject.Find("QuestionStuff").GetComponent<question>().Anfrage(true);
+			GameObject QuestionStuff = GameObject.Find("QuestionStuff");
+			QuestionStuff.GetComponent<question>().Anfrage(true);
+			QuestionStuff.GetComponent<question>().path = ThePath;
 			GameObject.Find("Open LoadMenu").GetComponent<openLoadMenu>().close();
 		}
 		else{
+			jaa = true;
+			path = ThePath;
 			Application.LoadLevel(1);
 		}
 		

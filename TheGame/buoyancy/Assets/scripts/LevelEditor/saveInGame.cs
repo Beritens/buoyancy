@@ -12,6 +12,7 @@ public class saveInGame : MonoBehaviour {
 	private string folderName = "customLevels";
 	public string fileName = "1.txt";
 	public openSomething openStuff;
+	public message message;
 	void Start(){
 		filePath = Application.persistentDataPath+"/"+folderName;
 		
@@ -110,7 +111,9 @@ public class saveInGame : MonoBehaviour {
 		
 
 		isSomethingOpen.modified = false;
+		message.Message("Level saved");
 		openStuff.close();
+
 		
 		
 		

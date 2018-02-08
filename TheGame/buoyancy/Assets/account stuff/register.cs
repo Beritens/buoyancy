@@ -7,26 +7,41 @@ using System.Text.RegularExpressions;
 public class register : MonoBehaviour {
 
 	public TMP_InputField Name;
-	public TMP_InputField email;
 	public TMP_InputField password;
 	public TMP_InputField passwordcon;
 	public message message;
+	public TextMeshProUGUI infoText;
 	public openSomething registerThing;
 	public openSomething infoTextThing;
-	Regex regex = new Regex(@"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"+ "@"+ @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$");
+	public loggedInAs loggedInAs;
+	Regex regex = new Regex(@"\uD83D[\uDC00-\uDFFF]|\uD83C[\uDC00-\uDFFF]|\uFFFD|[^\u0020-\u007E]");
+	public Regex forbiddenStuff = new Regex(@";|/|\\");
 	string url = "http://buoyancy.000webhostapp.com/register.php";
 	public void click () {
 		if(password.text == passwordcon.text){
-			print("hi m8");
-			if(Name.text != "" && regex.Match(email.text).Success && password.text != ""){
-				print("so weit so gut");
-				StartCoroutine(createAccount());
+			if(Name.text != "" && password.text != ""){
+				if(regex.Match(Name.text).Success || regex.Match(password.text).Success){
+					print("emojis!");
+					message.speed = 0.02f;
+					message.Message("please don't use emojis or other weird stuff");
+				}
+				else if(forbiddenStuff.Match(Name.text).Success|| forbiddenStuff.Match(password.text).Success){
+					print("forbiddenStuff");
+					message.speed = 0.02f;
+					message.Message("please don't use semicolons, slashes and other stuff like that");
+				}
+				else{
+					print("so weit so gut");
+					StartCoroutine(createAccount());
+				}
+				
 			}
 			else{
 				print("nope");
 			}
 		}
 		else{
+			message.speed = 0.02f;
 			message.Message("Password does not match the confirm password.");
 		}
 		
@@ -34,25 +49,35 @@ public class register : MonoBehaviour {
 	IEnumerator createAccount(){
 		WWWForm form = new WWWForm();
 
-		form.AddField("email", email.text);
+		//form.AddField("email", email.text);
 		form.AddField("name", Name.text);
-		form.AddField("password", loadPlayerLevels.Encrypt(password.text));
+		form.AddField("password", loadPlayerLevels.Encrypt(password.text)+"\n"+PlayerPrefs.GetInt("unlockedLevel").ToString());
+
 
 		WWW w = new WWW(url,form);
 		yield return w;
 
 		if (w.error != null)
         {
-			message.Message("an error has occurred");
+			message.speed = 0.02f;
+			message.Message("sorry. an error has occurred");
             print("error");
             print ( w.error );    
         }
 		else if(w.isDone){
-		    print(w.text);
-			infoTextThing.open();
-			registerThing.close();
-			PlayerPrefs.SetInt("val",0);
-			PlayerPrefs.SetString("email",email.text);
+			if(w.text == "an account with this name already exists"){
+				message.speed = 0.02f;
+				message.Message("an account with this name already exists");
+			}
+			else{
+				infoText.text= w.text;
+				infoTextThing.open();
+				registerThing.close();
+				PlayerPrefs.SetString("Playername",Name.text);
+				loggedInAs.login(Name.text);
+				PlayerPrefs.SetInt("updated",1);
+			}
+		    
 		}
 	}
 }
