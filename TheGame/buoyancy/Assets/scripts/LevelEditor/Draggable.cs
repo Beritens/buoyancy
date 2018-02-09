@@ -8,6 +8,7 @@ public class Draggable : MonoBehaviour {
 	GameObject Scroller;
 	//ich mache hier mal eine variable hin, die nix hiermit zu tun hat, weil ich zu faul bin eine neues script zu erstellen
 	public int ObjectLPos = 0;
+	public int Shape = 0;
 
 	void Start(){
 		Scroller = GameObject.Find("Scroller");

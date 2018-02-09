@@ -71,7 +71,8 @@ public class save : MonoBehaviour {
 				string size = scaly(ground[i].transform.localScale);
 				string rot = roty(ground[i].transform.rotation);
 				string col = coly(ground[i].GetComponent<SpriteRenderer>().color);
-				sWriter.WriteLine("gr"+";"+pos+";"+size+";"+rot+";"+col);
+				string shape = ground[i].GetComponent<Draggable>().Shape.ToString();
+				sWriter.WriteLine("gr"+";"+pos+";"+size+";"+rot+";"+col+";"+shape);
 			}
 		}
 		if(water != null || water.Length != 0){
@@ -88,7 +89,8 @@ public class save : MonoBehaviour {
 				else{
 					colChange = "0";
 				}
-				sWriter.WriteLine("wa"+";"+pos+";"+size+";"+rot+";"+col+";"+pow+";"+colChange);
+				string shape = water[i].GetComponent<Draggable>().Shape.ToString();
+				sWriter.WriteLine("wa"+";"+pos+";"+size+";"+rot+";"+col+";"+pow+";"+colChange+";"+shape);
 			}
 		}
 		if(obstacle != null || obstacle.Length != 0){
@@ -97,7 +99,8 @@ public class save : MonoBehaviour {
 				string size = scaly(obstacle[i].transform.localScale);
 				string rot = roty(obstacle[i].transform.rotation);
 				string col = coly(obstacle[i].GetComponent<SpriteRenderer>().color);
-				sWriter.WriteLine("ob"+";"+pos+";"+size+";"+rot+";"+col);
+				string shape = obstacle[i].GetComponent<Draggable>().Shape.ToString();
+				sWriter.WriteLine("ob"+";"+pos+";"+size+";"+rot+";"+col+";"+shape);
 			}
 		}
 		if(goal != null || goal.Length != 0){
@@ -106,7 +109,8 @@ public class save : MonoBehaviour {
 				string size = scaly(goal[i].transform.localScale);
 				string rot = roty(goal[i].transform.rotation);
 				string col = coly(goal[i].GetComponent<SpriteRenderer>().color);
-				sWriter.WriteLine("go"+";"+pos+";"+size+";"+rot+";"+col);
+				string shape = goal[i].GetComponent<Draggable>().Shape.ToString();
+				sWriter.WriteLine("go"+";"+pos+";"+size+";"+rot+";"+col+";"+shape);
 			}
 		}
 		if(deko != null || deko.Length != 0){
@@ -115,8 +119,8 @@ public class save : MonoBehaviour {
 				string size = scaly(deko[i].transform.localScale);
 				string rot = roty(deko[i].transform.rotation);
 				string col = coly(deko[i].GetComponent<SpriteRenderer>().color);
-				//string order = deko[i].GetComponent<SpriteRenderer>().sortingOrder.ToString();
-				sWriter.WriteLine("de"+";"+pos+";"+size+";"+rot+";"+col/*+";"+order*/);
+				string shape = deko[i].GetComponent<Draggable>().Shape.ToString();
+				sWriter.WriteLine("de"+";"+pos+";"+size+";"+rot+";"+col+";"+shape);
 			}
 		}
 		if(player != null || player.Length != 0){
@@ -125,7 +129,8 @@ public class save : MonoBehaviour {
 				string size = scaly(player[i].transform.localScale);
 				string rot = roty(player[i].transform.rotation);
 				string col = coly(player[i].GetComponent<SpriteRenderer>().color);
-				sWriter.WriteLine("pl"+";"+pos+";"+size+";"+rot+";"+col);
+				string shape = player[i].GetComponent<Draggable>().Shape.ToString();
+				sWriter.WriteLine("pl"+";"+pos+";"+size+";"+rot+";"+col+";"+shape);
 			}
 		}
 		sWriter.WriteLine("end");

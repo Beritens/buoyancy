@@ -38,6 +38,9 @@ GameObject:
   - component: {fileID: 61525280047892978}
   - component: {fileID: 114418728347904000}
   - component: {fileID: 114555738356368052}
+  - component: {fileID: 58754684913401366}
+  - component: {fileID: 60828118586991766}
+  - component: {fileID: 60558118947212560}
   m_Layer: 0
   m_Name: fakeWater
   m_TagString: water
@@ -189,13 +192,91 @@ Transform:
   m_Father: {fileID: 4000666422199878}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &58754684913401366
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1465344077699402}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.01
+--- !u!60 &60558118947212560
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1465344077699402}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.02, y: 0.02}
+    newSize: {x: 0.02, y: 0.02}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.000038146976, y: 0.010037232}
+      - {x: -0.010086569, y: -0.009981283}
+      - {x: 0.01, y: -0.01}
+--- !u!60 &60828118586991766
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1465344077699402}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.02, y: 0.02}
+    newSize: {x: 0.02, y: 0.02}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.00946757, y: 0.00533549}
+      - {x: 0.008223979, y: 0.0017023723}
+      - {x: 0.006767782, y: -0.0009195964}
+      - {x: 0.0050603235, y: -0.0031728111}
+      - {x: 0.0034317018, y: -0.004821269}
+      - {x: 0.0012517294, y: -0.0065327967}
+      - {x: -0.00067698164, y: -0.007725525}
+      - {x: -0.0033411663, y: -0.008861797}
+      - {x: -0.0063669845, y: -0.009695943}
+      - {x: -0.0097981775, y: -0.00997162}
+      - {x: 0.01, y: -0.01}
+      - {x: 0.010028585, y: 0.009883118}
 --- !u!61 &61525280047892978
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1465344077699402}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -229,6 +310,7 @@ MonoBehaviour:
   sizecontrol: {fileID: 1010768312966218, guid: a22c930dc2b555948ac874ef06c2be12,
     type: 2}
   ObjectLPos: 0
+  Shape: 0
 --- !u!114 &114555738356368052
 MonoBehaviour:
   m_ObjectHideFlags: 1

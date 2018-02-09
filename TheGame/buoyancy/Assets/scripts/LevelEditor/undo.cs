@@ -25,6 +25,7 @@ public class undo : MonoBehaviour {
 	public GameObject obstacle;
 	public GameObject player;
 	public GameObject goal;
+	public Sprite[] shapes;
 	public open menu;
 	bool reddo = true;
 	int HisPos = 0;
@@ -142,7 +143,7 @@ public class undo : MonoBehaviour {
 		switch(WhatToDoo){
 			case 0:
 				if(thing.tag == "water"){
-					loli = new float[12];
+					loli = new float[13];
 					loli[0] = thing.transform.position.x;
 					loli[1] = thing.transform.position.y;
 					loli[2] = thing.transform.position.z;
@@ -153,11 +154,12 @@ public class undo : MonoBehaviour {
 					loli[7] = thing.GetComponent<SpriteRenderer>().color.g;
 					loli[8] = thing.GetComponent<SpriteRenderer>().color.b;
 					loli[9] = thing.GetComponent<SpriteRenderer>().color.a;
-					loli[10] = thing.GetComponent<water>().waterForceX;
-					loli[11] = thing.GetComponent<water>().waterForceY;
+					loli[10] = thing.GetComponent<Draggable>().Shape;
+					loli[11] = thing.GetComponent<water>().waterForceX;
+					loli[12] = thing.GetComponent<water>().waterForceY;
 				}
 				else{
-					loli = new float[10];
+					loli = new float[11];
 					loli[0] = thing.transform.position.x;
 					loli[1] = thing.transform.position.y;
 					loli[2] = thing.transform.position.z;
@@ -168,6 +170,7 @@ public class undo : MonoBehaviour {
 					loli[7] = thing.GetComponent<SpriteRenderer>().color.g;
 					loli[8] = thing.GetComponent<SpriteRenderer>().color.b;
 					loli[9] = thing.GetComponent<SpriteRenderer>().color.a;
+					loli[10] = thing.GetComponent<Draggable>().Shape;
 				}
 				break;
 			case 1:
@@ -225,7 +228,13 @@ public class undo : MonoBehaviour {
 				loli[2] = thing.GetComponent<SpriteRenderer>().color.g;
 				loli[3] = thing.GetComponent<SpriteRenderer>().color.b;
 				loli[4] = thing.GetComponent<SpriteRenderer>().color.a;
-				break;	
+				break;
+			case 9:
+				loli = new float[1];
+
+				loli[0] = thing.GetComponent<Draggable>().Shape;
+				break;
+
 
 		}
 		if(WhatToDoo != 5 && WhatToDoo != 6){
@@ -293,8 +302,8 @@ public class undo : MonoBehaviour {
 						thingy = GameObject.Instantiate(water,pos,roti);
 						thingy.transform.localScale = scali;
 						thingy.GetComponent<SpriteRenderer>().color = col;
-						thingy.GetComponent<water>().waterForceY = lol.größen[11];
-						thingy.GetComponent<water>().waterForceX = lol.größen[10];
+						thingy.GetComponent<water>().waterForceY = lol.größen[12];
+						thingy.GetComponent<water>().waterForceX = lol.größen[11];
 						thingy.GetComponent<water>().colorChanged = true;
 						thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
 						//waterL[history[Pos].number] = thingy;
@@ -343,6 +352,23 @@ public class undo : MonoBehaviour {
 						print("lol");
 					break;
 				}
+				int shape = (int)lol.größen[10];
+				switch(shape){
+					case 0:
+						
+						thingy.GetComponent<BoxCollider2D>().enabled = true;
+						break;
+					case 1:
+						thingy.GetComponent<CircleCollider2D>().enabled = true;
+						break;
+					case 2:
+						thingy.GetComponents<PolygonCollider2D>()[1].enabled = true;
+						break;
+					case 3:
+						thingy.GetComponents<PolygonCollider2D>()[0].enabled = true;
+						break;
+				}
+				thingy.GetComponent<SpriteRenderer>().sprite = shapes[shape];
 				allThings[history[Pos].number] = thingy;
 				//history[HisPos]=(new Stuff(thingy, lol.pos,lol.scale,lol.rotation,lol.color, lol.delete, lol.tag,lol.WaterPower));
 
@@ -361,6 +387,9 @@ public class undo : MonoBehaviour {
 						break;
 					case 2:
 						thing.transform.position = new Vector3(lol[0],lol[1],lol[2]);
+						if(GameObject.Find("sizeStuff(Clone)")){
+							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(thing.transform);
+						}
 						break;	
 					case 3:
 						thing.transform.rotation = Quaternion.Euler(0,0, lol[0]);
@@ -378,7 +407,26 @@ public class undo : MonoBehaviour {
 					case 8:
 						thing.GetComponent<water>().waterForceY = lol[0];
 						thing.GetComponent<SpriteRenderer>().color = new Color(lol[1],lol[2],lol[3],lol[4]);
-						break;	
+						break;
+					case 9:
+						int shape = (int)lol[0];
+						switch(shape){
+							case 0:
+								
+								thing.GetComponent<BoxCollider2D>().enabled = true;
+								break;
+							case 1:
+								thing.GetComponent<CircleCollider2D>().enabled = true;
+								break;
+							case 2:
+								thing.GetComponents<PolygonCollider2D>()[1].enabled = true;
+								break;
+							case 3:
+								thing.GetComponents<PolygonCollider2D>()[0].enabled = true;
+								break;
+							}
+							thing.GetComponent<SpriteRenderer>().sprite = shapes[shape];
+							break;
 				}
 				/*thing.transform.position = lol.pos;
 				thing.transform.localScale = lol.scale;

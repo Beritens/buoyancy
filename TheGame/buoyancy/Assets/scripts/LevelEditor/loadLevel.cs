@@ -24,6 +24,8 @@ public class loadLevel : MonoBehaviour {
 	public GameObject cam;
 	public Image bgcol1;
 	public Image bgcol2;
+	public PhysicsMaterial2D circlePhysics;
+	public Sprite[] shapes;
 
 	 const string characters= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
 	void Start () {
@@ -90,7 +92,9 @@ public class loadLevel : MonoBehaviour {
 	void readFile(string FilePath){
 
 		StreamReader sReader = new StreamReader(FilePath);
+		
 		while(!sReader.EndOfStream){
+			int shape = 0;
 			Quaternion rot;
 
 			string line = sReader.ReadLine();
@@ -111,6 +115,9 @@ public class loadLevel : MonoBehaviour {
 					
 					if(info.Length > 4){
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
+						if(info.Length > 5){
+							shape = int.Parse(info[5]);
+						}
 					}
 					if(Application.loadedLevel == 1){
 						undoThing.groundL++;
@@ -129,6 +136,9 @@ public class loadLevel : MonoBehaviour {
 							thing.GetComponent<water>().waterForceX = float.Parse(info[6]);
 							if(info.Length >6){
 								thing.GetComponent<water>().colorChanged = info[7] == "true";
+								if(info.Length > 8){
+									shape = int.Parse(info[8]);
+								}
 							}
 						}
 					}
@@ -143,6 +153,9 @@ public class loadLevel : MonoBehaviour {
 					
 					if(info.Length > 4){
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
+						if(info.Length > 5){
+							shape = int.Parse(info[5]);
+						}
 					}
 					if(Application.loadedLevel == 1){
 						undoThing.obstacleL++;
@@ -156,6 +169,9 @@ public class loadLevel : MonoBehaviour {
 					
 					if(info.Length > 4){
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
+						if(info.Length > 5){
+							shape = int.Parse(info[5]);
+						}
 					}
 					if(Application.loadedLevel == 1){
 						undoThing.goalL++;
@@ -169,12 +185,9 @@ public class loadLevel : MonoBehaviour {
 					
 					if(info.Length > 4){
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
-						/*if(info.Length >5){
-							thing.GetComponent<SpriteRenderer>().sortingOrder = int.Parse(info[5]);
+						if(info.Length > 5){
+							shape = int.Parse(info[5]);
 						}
-						else{
-							thing.GetComponent<SpriteRenderer>().sortingOrder = GameObject.FindGameObjectsWithTag("deko").Length-1;
-						}*/
 					}
 					if(Application.loadedLevel == 1){
 						undoThing.dekoL++;
@@ -188,6 +201,13 @@ public class loadLevel : MonoBehaviour {
 					
 					if(info.Length > 4){
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
+						if(info.Length > 5){
+							shape = int.Parse(info[5]);
+							if(shape ==1 && Application.loadedLevel == 2){
+								thing.GetComponent<Rigidbody2D>().sharedMaterial = circlePhysics;
+								thing.GetComponent<move>().UseCustomFriction = false;
+							}
+						}
 					}
 					if(Application.loadedLevel == 1){
 						undoThing.playerL++;
@@ -218,9 +238,31 @@ public class loadLevel : MonoBehaviour {
 				print("lol");
 				break;
 			}
+			if(thing != null){
+				switch(shape){
+					case 0:
+						
+						thing.GetComponent<BoxCollider2D>().enabled = true;
+						break;
+					case 1:
+						thing.GetComponent<CircleCollider2D>().enabled = true;
+						break;
+					case 2:
+						thing.GetComponents<PolygonCollider2D>()[1].enabled = true;
+						break;
+					case 3:
+						thing.GetComponents<PolygonCollider2D>()[0].enabled = true;
+						break;
+				}
+				thing.GetComponent<SpriteRenderer>().sprite = shapes[shape];
+				
+			}
+			
+			
 			if(Application.loadedLevel == 1 && thing != null){
 				undoThing.allThings.Add(thing);
 				thing.GetComponent<Draggable>().ObjectLPos = undoThing.allThings.Count-1;
+				thing.GetComponent<Draggable>().Shape = shape;
 			}
 			else if(Application.loadedLevel == 2){
 				leftright.addPlayers();

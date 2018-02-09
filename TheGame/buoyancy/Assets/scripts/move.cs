@@ -14,9 +14,11 @@ public class move : MonoBehaviour {
 	public float friction = 0.95f;
 	public bool UseCustomFriction = true;
 	public AudioClip[] JumpSound;
+	public AudioClip[] whooosh;
 	//public Color color1;
 	//public Color color2;
 	GameObject cameraa;
+	AudioSource audioSource2;
 	bool inGoal = false;
 
 	float leftrightinput;
@@ -31,6 +33,7 @@ public class move : MonoBehaviour {
 
 	void Start () {
 		cameraa = GameObject.Find("Main Camera");
+		audioSource2 = cameraa.transform.GetChild(0).GetComponent<AudioSource>();
 		rb = GetComponent<Rigidbody2D>();
 		if(Application.loadedLevel == 2 && !changeSceneOnline.tempo){
 			lol = GameObject.Find("lol").GetComponent<Back>().online;
@@ -121,14 +124,23 @@ public class move : MonoBehaviour {
 	}
 	void OnTriggerEnter2D(Collider2D col){
 		if(col.tag == "water"){
+			bool soundy = false;
 			inWater = true;
 			GetComponent<Rigidbody2D>().drag = 0.2f;
 			power.Add(new Vector2(col.GetComponent<water>().waterForceX,col.GetComponent<water>().waterForceY));
 			if(Mathf.Abs(col.GetComponent<water>().waterForceX) > Mathf.Abs(waterForceX)){
 				waterForceX = col.GetComponent<water>().waterForceX;
+				soundy = true;
 			}
 			if(Mathf.Abs(col.GetComponent<water>().waterForceY) > Mathf.Abs(waterForceY)){
 				waterForceY = col.GetComponent<water>().waterForceY;
+				soundy = true;
+			}
+			if(soundy){
+				if(PlayerPrefs.GetInt("sound")==1){
+					audioSource2.clip = whooosh[Random.Range(0,whooosh.Length-1)];
+					audioSource2.Play();
+				}
 			}
 
 			
@@ -219,6 +231,10 @@ public class move : MonoBehaviour {
 				waterForceX = 0;
 				waterForceY = 0;
 				rb.drag = 0f;
+				if(PlayerPrefs.GetInt("sound")==1){
+					audioSource2.clip = whooosh[Random.Range(0,whooosh.Length-1)];
+					audioSource2.Play();
+				}
 			}
 	
 		}

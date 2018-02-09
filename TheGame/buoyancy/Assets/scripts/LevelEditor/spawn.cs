@@ -13,6 +13,7 @@ public class spawn : MonoBehaviour {
 	public bool obstacle;
 	public bool goal;
 	public bool deko;
+	public changeShape shapee;
 	undo Undo;
 	void Start(){
 		Scroller = GameObject.Find("Scroller");
@@ -100,6 +101,25 @@ public class spawn : MonoBehaviour {
 				Undo.playerL++;
 				
 			}
+			int shape = shapee.shape;
+			switch(shape){
+				case 0:
+					
+					bob.GetComponent<BoxCollider2D>().enabled = true;
+					break;
+				case 1:
+					bob.GetComponent<CircleCollider2D>().enabled = true;
+					break;
+				case 2:
+					bob.GetComponents<PolygonCollider2D>()[1].enabled = true;
+					break;
+				case 3:
+					bob.GetComponents<PolygonCollider2D>()[0].enabled = true;
+					break;
+			}
+			bob.GetComponent<SpriteRenderer>().sprite = shapee.shapes[shape];
+			bob.GetComponent<Draggable>().Shape = shape;
+
 			bob.GetComponent<Draggable>().ObjectLPos = Undo.allThings.Count;
 			Undo.allThings.Add(bob);
 			
