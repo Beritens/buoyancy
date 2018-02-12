@@ -45,7 +45,6 @@ public class message : MonoBehaviour {
 		yield return new WaitForSeconds(wait); 
 		while(t > 0)
       	{
-			print("ok");
             t -= Time.deltaTime / speed;
             recT.anchorMin = Vector2.Lerp(rAnchorMin,AnchorMin, t);
 			recT.anchorMax = Vector2.Lerp(rAnchorMax,AnchorMax, t);

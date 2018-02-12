@@ -61,7 +61,7 @@ public class save : MonoBehaviour {
 		GameObject[] deko = GameObject.FindGameObjectsWithTag("deko");
 		GameObject[] goal = GameObject.FindGameObjectsWithTag("goal");
 		
-		sWriter.WriteLine("random;"+ll.random);
+		//sWriter.WriteLine("random;"+ll.random);
 		sWriter.WriteLine("bg;"+cam.bg1.r.ToString()+","+cam.bg1.g.ToString()+","+cam.bg1.b.ToString()+","+cam.bg2.r.ToString()+","+cam.bg2.g.ToString()+","+cam.bg2.b.ToString());
 
 		
@@ -143,6 +143,7 @@ public class save : MonoBehaviour {
 			message.Message("Level saved");
 		}
 		else{
+
 			tempoPlay = true;
 			Application.LoadLevel(2);
 		}

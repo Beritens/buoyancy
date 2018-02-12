@@ -6,22 +6,17 @@ using UnityEngine.Events;
 public class question : MonoBehaviour {
 
 	public UiAnimation Fenster;
-	bool load;
+	int load;
 	public openSomething savee;
-	bool open;
-	isSomethingOpen isopen;
+	public bool open;
+	public isSomethingOpen isopen;
 	public string path;
 
-	void Start(){
-		if(Application.loadedLevel == 1){
-			isopen = GameObject.Find("Scroller").GetComponent<isSomethingOpen>();
-		}
-		
-	}
-	public void Anfrage(bool lol){
+	
+	public void Anfrage(int wtd){
 		if(!open){
 			open =true;
-			load = lol;
+			load = wtd;
 			if(Application.loadedLevel == 1)
 				isopen.SomethingOpen = true;
 			Fenster.gameObject.SetActive(true);
@@ -36,25 +31,34 @@ public class question : MonoBehaviour {
 			isopen.SomethingOpen = false;
 		Fenster.close();
 		savee.open();
-		if(load == true){
+		if(load == 1){
 			openFile.jaa = false;
 		}
 	}
 	public void no(){
 		open = false;
 		isSomethingOpen.modified = false;
-		if(load){
+		if(load == 1){
 			openFile.jaa = true;
 			openFile.path = path;
 			Time.timeScale = 1;
 			Application.LoadLevel(1);
 		}
-		else{
+		else if(load == 0){
+			loadLevel.usesaveName = false;
 			playCustom.jaa = false;
 			save.tempoPlay = false;
-			loadLevel.usesaveName = false;
+			changeSceneOnline.tempo = false;
 			Time.timeScale = 1;
 			Application.LoadLevel(0);
+		}
+		else if(load == 2){
+			loadLevel.usesaveName = false;
+			playCustom.jaa = false;
+			save.tempoPlay = false;
+			changeSceneOnline.tempo = false;
+			Time.timeScale = 1;
+			Application.LoadLevel(1);
 		}
 	}
 	public void cancle(){

@@ -18,8 +18,7 @@ public class loadLevel : MonoBehaviour {
 	public static string SaveName;
 	public static bool usesaveName;
 	public undo undoThing;
-	public string random;
-	bool randomy = false;
+	//bool randomy = false;
 	public leftright leftright;
 	public GameObject cam;
 	public Image bgcol1;
@@ -80,13 +79,13 @@ public class loadLevel : MonoBehaviour {
 				transform.position = new Vector3(player.position.x,player.position.y,-10);
 			}
 			
-			if(!randomy){
+			/*if(!randomy){
 				for(int i = 0; i<9; i++){
 					random += characters[Random.Range(0,characters.Length)];
 					
 				}
 				print(random);
-			}
+			}*/
 		}
 	}
 	void readFile(string FilePath){
@@ -135,7 +134,7 @@ public class loadLevel : MonoBehaviour {
 							thing.GetComponent<water>().waterForceY = float.Parse(info[5]);
 							thing.GetComponent<water>().waterForceX = float.Parse(info[6]);
 							if(info.Length >6){
-								thing.GetComponent<water>().colorChanged = info[7] == "true";
+								thing.GetComponent<water>().colorChanged = info[7] == "1";
 								if(info.Length > 8){
 									shape = int.Parse(info[8]);
 								}
@@ -213,10 +212,10 @@ public class loadLevel : MonoBehaviour {
 						undoThing.playerL++;
 					}
 					break;
-				case "random":
+				/*case "random":
 					random =info[1];
 					randomy = true;
-					break;
+					break;*/
 				case "bg":
 					string[] farben = info[1].Split(',');
 					Color col1 = new Color(float.Parse(farben[0]),float.Parse(farben[1]),float.Parse(farben[2]),1);
@@ -239,21 +238,29 @@ public class loadLevel : MonoBehaviour {
 				break;
 			}
 			if(thing != null){
-				switch(shape){
-					case 0:
-						
-						thing.GetComponent<BoxCollider2D>().enabled = true;
-						break;
-					case 1:
-						thing.GetComponent<CircleCollider2D>().enabled = true;
-						break;
-					case 2:
-						thing.GetComponents<PolygonCollider2D>()[1].enabled = true;
-						break;
-					case 3:
-						thing.GetComponents<PolygonCollider2D>()[0].enabled = true;
-						break;
+				if(thing.tag != "deko" || Application.loadedLevel != 2){
+					switch(shape){
+						case 0:
+							
+							thing.GetComponent<BoxCollider2D>().enabled = true;
+							break;
+						case 1:
+							if(thing.tag == "Player"){
+								thing.GetComponent<CircleCollider2D>().enabled = true;
+							}
+							else{
+								thing.GetComponents<PolygonCollider2D>()[2].enabled = true;
+							}
+							break;
+						case 2:
+							thing.GetComponents<PolygonCollider2D>()[1].enabled = true;
+							break;
+						case 3:
+							thing.GetComponents<PolygonCollider2D>()[0].enabled = true;
+							break;
+					}
 				}
+				
 				thing.GetComponent<SpriteRenderer>().sprite = shapes[shape];
 				
 			}

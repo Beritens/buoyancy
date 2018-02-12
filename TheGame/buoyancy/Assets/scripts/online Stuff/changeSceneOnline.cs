@@ -24,12 +24,20 @@ public class changeSceneOnline : MonoBehaviour {
         if (w.error != null)
         {
             print("error");
-            print ( w.error );    
+            print ( w.error );
+			if(w.error == "423 "){
+				GameObject.Find("Message").GetComponent<message>().Message("sry, the server is currently sleeping. He will wake up in about 1 hour. This text is way too long to read in just a few seconds but I don't care");
+			}
+				   
+			else if(w.error == "404 "){
+				GameObject.Find("Message").GetComponent<message>().Message("this level does not exist");   
+			}
+			else{
+				GameObject.Find("Message").GetComponent<message>().Message("something went horribly wrong");
+			}
         }
-		while(!w.isDone){
-            print(w.progress);
-        }
-        if(w.isDone){
+
+        else if(w.isDone){
 			if (!Directory.Exists (Application.persistentDataPath+"/temporary")) {
 			
 				Directory.CreateDirectory (Application.persistentDataPath+"/temporary");

@@ -108,7 +108,12 @@ public class spawn : MonoBehaviour {
 					bob.GetComponent<BoxCollider2D>().enabled = true;
 					break;
 				case 1:
-					bob.GetComponent<CircleCollider2D>().enabled = true;
+					if(bob.tag == "Player"){
+						bob.GetComponent<CircleCollider2D>().enabled = true;
+					}
+					else{
+						bob.GetComponents<PolygonCollider2D>()[2].enabled = true;
+					}
 					break;
 				case 2:
 					bob.GetComponents<PolygonCollider2D>()[1].enabled = true;

@@ -17,7 +17,7 @@ public class changeShape : MonoBehaviour {
 			shape = 0;
 			
 		}
-		GetComponent<Image>().sprite = shapes[shape];
+		//GetComponent<Image>().sprite = shapes[shape];
 		for(int i = 0; i<buttons.Length; i++){
 			
 			buttons[i].sprite=shapes[shape];
@@ -30,7 +30,12 @@ public class changeShape : MonoBehaviour {
 					thing.GetComponent<BoxCollider2D>().enabled = false;
 					break;
 				case 1:
-					thing.GetComponent<CircleCollider2D>().enabled = false;
+					if(thing.tag == "Player"){
+						thing.GetComponent<CircleCollider2D>().enabled = false;
+					}
+					else{
+						thing.GetComponents<PolygonCollider2D>()[2].enabled = false;
+					}
 					break;
 				case 2:
 					thing.GetComponents<PolygonCollider2D>()[1].enabled = false;
@@ -44,7 +49,12 @@ public class changeShape : MonoBehaviour {
 					thing.GetComponent<BoxCollider2D>().enabled = true;
 					break;
 				case 1:
-					thing.GetComponent<CircleCollider2D>().enabled = true;
+					if(thing.tag == "Player"){
+						thing.GetComponent<CircleCollider2D>().enabled = true;
+					}
+					else{
+						thing.GetComponents<PolygonCollider2D>()[2].enabled = true;
+					}
 					break;
 				case 2:
 					thing.GetComponents<PolygonCollider2D>()[1].enabled = true;

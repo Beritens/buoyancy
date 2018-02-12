@@ -22,6 +22,7 @@ public class loadPlayerLevels : MonoBehaviour {
     int whereAmI = 0;
     bool loadMine = true;
     bool searchmine = false;
+    public message message;
 
     public void Start(){
         if(File.Exists(Application.persistentDataPath+"/PlayerLevelsList.txt")){
@@ -58,6 +59,10 @@ public class loadPlayerLevels : MonoBehaviour {
         
         if(w.isDone){
             string[] bruh = w.text.Split('\n');
+            if(!bruh[0].Contains(";")){
+                message.Message("sry, the server is currently sleeping. He will wake up in about 1 hour. This text is way too long to read in just a few seconds but I don't care");
+                yield break;
+            }
             //string[] lol = new string[bruh.Length];
             /*for(int i = 0; i<lol.Length; i++){
                 //bruh[i] +=";"+split[Array.IndexOf(split, bruh[i].Split(';')[1])];

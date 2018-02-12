@@ -703,7 +703,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 46.2
+  m_fontSize: 48.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -966,7 +966,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TheThing: {fileID: 976329085}
   openn: 0
-  useIsSonethingOpen: 1
+  useIsSonethingOpen: 0
+  useIsSonethingOpenABit: 0
   pause: 1
 --- !u!224 &236498663
 RectTransform:
@@ -1936,7 +1937,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TheThing: {fileID: 1570544507}
   openn: 0
-  useIsSonethingOpen: 1
+  useIsSonethingOpen: 0
+  useIsSonethingOpenABit: 0
   pause: 1
 --- !u!1 &551773583
 GameObject:
@@ -1988,7 +1990,6 @@ MonoBehaviour:
   InputField: {fileID: 1270277029}
   InputField2: {fileID: 2080749478}
   undoThing: {fileID: 0}
-  random: 
   leftright: {fileID: 621027875}
   cam: {fileID: 338265365}
   bgcol1: {fileID: 0}
@@ -2434,6 +2435,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fenster: {fileID: 665140157}
   savee: {fileID: 236498662}
+  open: 0
+  isopen: {fileID: 0}
   path: 
 --- !u!1 &665140155
 GameObject:
@@ -2678,7 +2681,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: 0
   restart: 0
+  closeStuff: 1
   pauseMenu: {fileID: 1539789030}
+  windows:
+  - {fileID: 236498662}
+  - {fileID: 458199812}
+  loadMenu: {fileID: 0}
 --- !u!1 &758592747
 GameObject:
   m_ObjectHideFlags: 0
@@ -3536,9 +3544,9 @@ MonoBehaviour:
   slider: {fileID: 1222425251}
   wert: 0.57720065
   JAA: 0
-  lefty: {fileID: 0}
-  righty: {fileID: 0}
-  jumpi: {fileID: 0}
+  lefty: {fileID: 265051879}
+  righty: {fileID: 870280484}
+  jumpi: {fileID: 577636302}
 --- !u!114 &879090428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5368,6 +5376,7 @@ MonoBehaviour:
   TheThing: {fileID: 822624032}
   openn: 0
   useIsSonethingOpen: 1
+  useIsSonethingOpenABit: 0
   pause: 1
 --- !u!114 &1539789031
 MonoBehaviour:
@@ -5436,6 +5445,17 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 236498662}
         m_MethodName: close
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 635635119}
+        m_MethodName: cancle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -26,11 +26,14 @@ public class UiAnimation : MonoBehaviour {
 		StartCoroutine(move());
 	}
 	public void close(){
-		an = false;
-		recT = GetComponent<RectTransform>();
-		if(!an){
-			StartCoroutine(moveBack());
-		}	
+		if(an){
+			an = false;
+			recT = GetComponent<RectTransform>();
+			if(!an){
+				StartCoroutine(moveBack());
+			}
+		}
+			
 		
 
 	}

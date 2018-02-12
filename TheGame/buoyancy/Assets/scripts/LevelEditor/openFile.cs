@@ -12,7 +12,7 @@ public class openFile : MonoBehaviour {
 		
 		if(isSomethingOpen.modified){
 			GameObject QuestionStuff = GameObject.Find("QuestionStuff");
-			QuestionStuff.GetComponent<question>().Anfrage(true);
+			QuestionStuff.GetComponent<question>().Anfrage(1);
 			QuestionStuff.GetComponent<question>().path = ThePath;
 			GameObject.Find("Open LoadMenu").GetComponent<openLoadMenu>().close();
 		}

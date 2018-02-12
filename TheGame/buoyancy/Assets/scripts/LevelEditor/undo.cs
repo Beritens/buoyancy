@@ -359,7 +359,12 @@ public class undo : MonoBehaviour {
 						thingy.GetComponent<BoxCollider2D>().enabled = true;
 						break;
 					case 1:
-						thingy.GetComponent<CircleCollider2D>().enabled = true;
+						if(history[Pos].tag == "Player"){
+							thingy.GetComponent<CircleCollider2D>().enabled = true;
+						}
+						else{
+							thingy.GetComponents<PolygonCollider2D>()[2].enabled = true;
+						}
 						break;
 					case 2:
 						thingy.GetComponents<PolygonCollider2D>()[1].enabled = true;
@@ -416,7 +421,13 @@ public class undo : MonoBehaviour {
 								thing.GetComponent<BoxCollider2D>().enabled = true;
 								break;
 							case 1:
-								thing.GetComponent<CircleCollider2D>().enabled = true;
+								if(thing.tag == "Player"){
+									thing.GetComponent<CircleCollider2D>().enabled = true;
+								}
+								else{
+									thing.GetComponents<PolygonCollider2D>()[2].enabled = true;
+								}
+								
 								break;
 							case 2:
 								thing.GetComponents<PolygonCollider2D>()[1].enabled = true;
