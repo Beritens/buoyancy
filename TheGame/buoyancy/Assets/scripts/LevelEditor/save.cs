@@ -81,7 +81,8 @@ public class save : MonoBehaviour {
 				string size = scaly(water[i].transform.localScale);
 				string rot = roty(water[i].transform.rotation);
 				string col = coly(water[i].GetComponent<SpriteRenderer>().color);
-				string pow = water[i].GetComponent<water>().waterForceY.ToString("F4") + ";" + water[i].GetComponent<water>().waterForceX.ToString("F4");
+				water watery = water[i].GetComponent<water>();
+				string pow =watery.waterForceY.ToString("0.####") + ";" + watery.waterForceX.ToString("0.####");
 				string colChange;
 				if(water[i].GetComponent<water>().colorChanged){
 					colChange = "1";
@@ -153,22 +154,22 @@ public class save : MonoBehaviour {
 	}
 	string coly(Color color){
 		string lol;
-		lol = color.r.ToString("F3") + "," + color.g.ToString("F3") + "," + color.b.ToString("F3") + "," + color.a.ToString("F3");
+		lol = color.r.ToString("0.###") + "," + color.g.ToString("0.###") + "," + color.b.ToString("0.###") + "," + color.a.ToString("0.###");
 		return lol;
 	}
 	string posy(Vector3 position){
 		string lol;
-		lol = position.x.ToString("F3") +","+ position.y.ToString("F3") +","+ position.z.ToString("F3");
+		lol = position.x.ToString("0.###") +","+ position.y.ToString("0.###") +","+ position.z.ToString("0.###");
 		return lol;
 	}
 	string scaly(Vector3 scale){
 		string lol;
-		lol = scale.x.ToString("F3") +","+ scale.y.ToString("F3");
+		lol = scale.x.ToString("0.###") +","+ scale.y.ToString("0.###");
 		return lol;
 	}
 	string roty(Quaternion rotation){
 		string lol;
-		lol = rotation.eulerAngles.z.ToString("F3");
+		lol = rotation.eulerAngles.z.ToString("0.###");
 		return lol;
 	}
 }

@@ -47,9 +47,9 @@ public class move : MonoBehaviour {
 		
 		//leftrightinput = GameObject.Find("Panel").GetComponent<leftrightcontrols>().leftrightcontrolinput;
 		
-		if(inWater){
+		//if(inWater){
 			groundcheck();
-		}
+		//}
 		
 		/*float r = Mathf.Clamp(0.217f + (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) + Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x)/2 )/ 50,0.2f,0.7f);
 		float g = Mathf.Clamp(0.327f - (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) + Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x)/2 )/ 50,0.1f,0.8f);
@@ -121,7 +121,7 @@ public class move : MonoBehaviour {
 		
 
 	}
-	void OnCollisionExit2D(Collision2D other){
+	/*void OnCollisionExit2D(Collision2D other){
 		//colliding = false;
 		if(!inWater){
 			groundcheck();
@@ -132,7 +132,7 @@ public class move : MonoBehaviour {
 		print("hi");
 		//colliding = true;
 		groundcheck();
-	}
+	}*/
 	
 	void OnTriggerEnter2D(Collider2D col){
 		if(col.tag == "water"){

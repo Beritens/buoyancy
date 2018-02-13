@@ -11,6 +11,8 @@ public class delete : MonoBehaviour {
 		Scroller = GameObject.Find("Scroller");
 	}
 	public void press(){
+		if(!GameObject.Find("sizeStuff(Clone)"))
+			return;
 		GameObject thing =GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject;
 		Scroller.GetComponent<scroll>().canIscroll2 = true;
 		Scroller.GetComponent<scroll>().canIscroll = true;

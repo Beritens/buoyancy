@@ -36,7 +36,6 @@ public class message : MonoBehaviour {
 		while(t <= 1)
        {
             t += Time.deltaTime / speed;
-			print(t);
             recT.anchorMin = Vector2.Lerp(rAnchorMin,AnchorMin, t);
 			recT.anchorMax = Vector2.Lerp(rAnchorMax,AnchorMax, t);
 			GetComponent<Image>().color= Color.Lerp(col1,col2,t);
