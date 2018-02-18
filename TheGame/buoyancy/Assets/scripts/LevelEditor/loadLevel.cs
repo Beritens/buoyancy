@@ -90,14 +90,27 @@ public class loadLevel : MonoBehaviour {
 	}
 	void readFile(string FilePath){
 
-		StreamReader sReader = new StreamReader(FilePath);
+		//CompressionHelper.DecompressFile(FilePath);
+		/*StreamReader sReader = new StreamReader(FilePath);
+		string file = sReader.ReadToEnd();
+		sReader.Close();*/
+		byte[] bytes = File.ReadAllBytes(FilePath);
+		print(bytes[0]);
+		string file;
+		if(bytes[0] == 21)
+			file = System.Text.Encoding.UTF8.GetString(CLZF2.Decompress(bytes));
+		else
+			file = System.Text.Encoding.UTF8.GetString(bytes);
+		//string file =  System.Text.Encoding.UTF8.GetString(bytes);
+		//CompressionHelper.DecompressString(file);
+		string[] strings = file.Split('\n');
 		
-		while(!sReader.EndOfStream){
+		for(int i = 0; i<strings.Length; i++){
 			int shape = 0;
 			Quaternion rot;
 
-			string line = sReader.ReadLine();
-			string[] info = line.Split(new char[]{';'});
+			//string line = sReader.ReadLine();
+			string[] info = strings[i].Split(new char[]{';'});
 			if(info.Length > 3){
 				rot = StringToQuaternion(info[3]);
 			}
@@ -367,7 +380,7 @@ public class loadLevel : MonoBehaviour {
 
 		}
 
-		sReader.Close();
+		//sReader.Close();
 
 	}
 	

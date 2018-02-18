@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 using UnityEngine.UI;
 using TMPro;
 
@@ -154,7 +155,7 @@ public class save : MonoBehaviour {
 		}
 		sWriter.WriteLine("end");
 		sWriter.Close();
-		
+		File.WriteAllBytes(filePath+"/"+fileName,CLZF2.Compress(File.ReadAllBytes(filePath+"/"+fileName)));
 
 		if(!tempo){
 			isSomethingOpen.modified = false;
