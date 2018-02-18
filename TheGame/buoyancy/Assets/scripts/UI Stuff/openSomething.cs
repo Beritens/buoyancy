@@ -95,4 +95,44 @@ public class openSomething : MonoBehaviour {
 		}
 		
 	}
+	public void OnlyOpen(){
+		if(!openn){
+			if(Application.loadedLevel == 1 && useIsSonethingOpen){
+				if(!Scroller.SomethingOpen){
+					print(Scroller.SomethingOpen);
+					//anim.SetBool("open", !anim.GetBool("open"));
+					openn = true;
+						//anim.SetBool("open", true);
+					Scroller.SomethingOpen = true;
+					TheThing.SetActive(true);
+					TheThing.GetComponent<UiAnimation>().open();
+						//anim.Play("open");
+					
+					
+				}
+			}
+			else if(useIsSonethingOpenABit){
+				openn = true;
+				if(!Scroller.SomethingOpen){
+					//anim.SetBool("open", true);
+					TheThing.SetActive(true);
+					TheThing.GetComponent<UiAnimation>().open();
+					//anim.Play("open");
+				}
+				else if(Scroller.SomethingOpen){
+					openn = false;
+				}
+			}
+			else{
+				openn = true;
+					//anim.SetBool("open", true);
+				TheThing.SetActive(true);
+				TheThing.GetComponent<UiAnimation>().open();
+				if(pause){
+					Time.timeScale = 0.05f;
+				}
+			}
+		}
+
+	}
 }

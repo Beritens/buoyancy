@@ -224,6 +224,8 @@ MonoBehaviour:
   ok: 0
   sizecontrol: {fileID: 1010768312966218, guid: a22c930dc2b555948ac874ef06c2be12,
     type: 2}
+  falling: 0
+  bounciness: 0
   ObjectLPos: 0
   Shape: 0
 --- !u!114 &114488626933451728
@@ -240,6 +242,8 @@ MonoBehaviour:
   ok: 0
   sizecontrol: {fileID: 1010768312966218, guid: a22c930dc2b555948ac874ef06c2be12,
     type: 2}
+  falling: 0
+  bounciness: 0
   ObjectLPos: 0
   Shape: 0
 --- !u!120 &120654289824372456
@@ -365,7 +369,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d53366f997f29de47bd00b4daa3ca0c0, type: 3}
   m_Color: {r: 0.011764707, g: 0.03529412, b: 0.14901961, a: 1}
   m_FlipX: 0

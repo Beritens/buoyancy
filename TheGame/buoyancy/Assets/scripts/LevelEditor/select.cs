@@ -18,6 +18,7 @@ public class select : MonoBehaviour {
 	public COLOR colorStuff;
 	public LayerMask layerMask;
 	public open PleaseOpenTheMenu;
+	public  optionStuff optionStuff;
 	void Update () {
 		if(Input.touchCount ==1 && !EventSystem.current.IsPointerOverGameObject(0)){
 			Touch touch = Input.GetTouch(0);
@@ -56,6 +57,7 @@ public class select : MonoBehaviour {
 						if(hit.transform.tag == "Player" || hit.transform.tag == "ground" || hit.transform.tag == "water" || hit.transform.tag == "obstacle" || hit.transform.tag == "goal" || hit.transform.tag == "deko"){
 							//touchedObject = hit.collider.gameObject;
 							bruh = true;
+							touchedObject = hit.collider.gameObject;
 							difference = touch.position;
 						}
 						
@@ -95,37 +97,40 @@ public class select : MonoBehaviour {
 
 					
 					touchPos.z = Camera.main.transform.position.z;
-					Ray ray = new Ray( touchPos, new Vector3( 0, 0, 1 ) );
-					RaycastHit2D hit = Physics2D.GetRayIntersection( ray );
-					if(hit.collider != null){
-						if(hit.transform.tag == "Player" || hit.transform.tag == "ground" || hit.transform.tag == "water" || hit.transform.tag == "obstacle" || hit.transform.tag == "goal" || hit.transform.tag == "deko"){
+					/*Ray ray = new Ray( touchPos, new Vector3( 0, 0, 1 ) );
+					RaycastHit2D hit = Physics2D.GetRayIntersection( ray );*/
+					//if(hit.collider != null){
+						//if(hit.transform.tag == "Player" || hit.transform.tag == "ground" || hit.transform.tag == "water" || hit.transform.tag == "obstacle" || hit.transform.tag == "goal" || hit.transform.tag == "deko"){
 							
-							touchedObject = hit.collider.gameObject;
 							
-							if(touchedObject.tag == "water"){
+							
+							/*if(touchedObject.tag == "water"){
 								WaterStuff.SetActive(true);
 							}
 							else{
 								WaterStuff.SetActive(false);
-							}
+							}*/
+						optionStuff.select(touchedObject);
 					
-							if(GameObject.Find("sizeStuff(Clone)")){
-								GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(touchedObject.transform);
-								//ColorStuff(touchedObject.GetComponent<SpriteRenderer>().color);
-								if(colorStuff.gameObject.activeSelf){
-									colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color, false);
-								}
-								
-							}
-							else{
-								spawn();
-							}
+						if(GameObject.Find("sizeStuff(Clone)")){
+							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(touchedObject.transform);
 							
 							
+							//ColorStuff(touchedObject.GetComponent<SpriteRenderer>().color);
+							if(colorStuff.gameObject.activeSelf){
+								colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color, false);
+							}
 							
 						}
-						
-					}
+						else{
+							spawn();
+						}
+							
+							
+							
+						//}
+					//}	
+					
 
 				}
 

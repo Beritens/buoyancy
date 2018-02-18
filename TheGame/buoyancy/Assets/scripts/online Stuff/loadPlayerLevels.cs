@@ -145,7 +145,7 @@ public class loadPlayerLevels : MonoBehaviour {
                     
                     bob.transform.parent = container.transform;
                     bob.transform.localScale = new Vector3(1,1,1);
-                    bob.GetComponent<changeSceneOnline>().name = Names[i];
+                    bob.GetComponent<changeSceneOnline>().name = list[i];
                     string[] nameStuff = list[i].Split(';');
                     bob.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = nameStuff[0];
                     bob.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = nameStuff[nameStuff.Length-1];
@@ -246,12 +246,12 @@ public class loadPlayerLevels : MonoBehaviour {
                 }
             }
             searching = true;
-            if(searchmine){
+            /*if(searchmine){
                 ListMine(mine.Count,mine.Count-100,searched);
             }
-            else{
-                ListFiles(searched.Count,searched.Count-100,searched);
-            }
+            else{*/
+            ListFiles(searched.Count,searched.Count-100,searched);
+            //}
             
             
 

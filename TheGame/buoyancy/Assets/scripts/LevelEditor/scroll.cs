@@ -19,6 +19,7 @@ public class scroll : MonoBehaviour {
 	GameObject Scroller;
 	public float ScreendeleteDistance = 100;
 	public open PleaseOpenTheMenu;
+	public optionStuff optionStuff;
 	void Start () {
 		deleteDistance = Screen.width/ScreendeleteDistance;
 		Scroller = GameObject.Find("Scroller");
@@ -79,6 +80,7 @@ public class scroll : MonoBehaviour {
 				else if(touch.phase == TouchPhase.Ended && delete){
 
 					if(GameObject.Find("sizeStuff(Clone)")){
+						optionStuff.deselect();
 						GameObject sizeStuff = GameObject.Find("sizeStuff(Clone)");
 						sizeStuff.GetComponent<sizeThing>().square.gameObject.layer = 0;
 						if(PleaseOpenTheMenu.GetComponent<open>().opeeen){

@@ -71,8 +71,16 @@ public class save : MonoBehaviour {
 				string size = scaly(ground[i].transform.localScale);
 				string rot = roty(ground[i].transform.rotation);
 				string col = coly(ground[i].GetComponent<SpriteRenderer>().color);
-				string shape = ground[i].GetComponent<Draggable>().Shape.ToString();
-				sWriter.WriteLine("gr"+";"+pos+";"+size+";"+rot+";"+col+";"+shape);
+				Draggable dragy = ground[i].GetComponent<Draggable>();
+				string shape = dragy.Shape.ToString();
+				string physics = dragy.bounciness.ToString("0.####") + ";";
+				if(dragy.falling){
+					physics+="1";
+				}
+				else{
+					physics+="0";
+				}
+				sWriter.WriteLine("gr"+";"+pos+";"+size+";"+rot+";"+col+";"+shape+";"+physics);
 			}
 		}
 		if(water != null || water.Length != 0){
@@ -100,8 +108,16 @@ public class save : MonoBehaviour {
 				string size = scaly(obstacle[i].transform.localScale);
 				string rot = roty(obstacle[i].transform.rotation);
 				string col = coly(obstacle[i].GetComponent<SpriteRenderer>().color);
-				string shape = obstacle[i].GetComponent<Draggable>().Shape.ToString();
-				sWriter.WriteLine("ob"+";"+pos+";"+size+";"+rot+";"+col+";"+shape);
+				Draggable dragy =obstacle[i].GetComponent<Draggable>();
+				string shape = dragy.Shape.ToString();
+				string physics = dragy.bounciness.ToString("0.####") + ";";
+				if(dragy.falling){
+					physics+="1";
+				}
+				else{
+					physics+="0";
+				}
+				sWriter.WriteLine("ob"+";"+pos+";"+size+";"+rot+";"+col+";"+shape +";"+physics);
 			}
 		}
 		if(goal != null || goal.Length != 0){
@@ -130,8 +146,10 @@ public class save : MonoBehaviour {
 				string size = scaly(player[i].transform.localScale);
 				string rot = roty(player[i].transform.rotation);
 				string col = coly(player[i].GetComponent<SpriteRenderer>().color);
-				string shape = player[i].GetComponent<Draggable>().Shape.ToString();
-				sWriter.WriteLine("pl"+";"+pos+";"+size+";"+rot+";"+col+";"+shape);
+				Draggable dragy = player[i].GetComponent<Draggable>();
+				string shape = dragy.Shape.ToString();
+				string physics = dragy.bounciness.ToString("0.####");
+				sWriter.WriteLine("pl"+";"+pos+";"+size+";"+rot+";"+col+";"+shape+";"+physics);
 			}
 		}
 		sWriter.WriteLine("end");

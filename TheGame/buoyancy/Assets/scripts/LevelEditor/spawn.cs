@@ -14,6 +14,8 @@ public class spawn : MonoBehaviour {
 	public bool goal;
 	public bool deko;
 	public changeShape shapee;
+	public open openMenu;
+	public optionStuff optionStuff;
 	undo Undo;
 	void Start(){
 		Scroller = GameObject.Find("Scroller");
@@ -133,9 +135,10 @@ public class spawn : MonoBehaviour {
 
 
 			if(GameObject.Find("sizeStuff(Clone)")){
+				optionStuff.deselect();
 				GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject.layer = 0;
-				if(GameObject.Find("PleaseOpenTheMenu").GetComponent<open>().opeeen){
-					GameObject.Find("PleaseOpenTheMenu").GetComponent<open>().closeTheMenu();
+				if(openMenu.opeeen){
+					openMenu.closeTheMenu();
 				}
 				
 				if(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.Find("outline")){

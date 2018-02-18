@@ -31,6 +31,7 @@ public class undo : MonoBehaviour {
 	int HisPos = 0;
 	public FarbenLager cam;
 	public openColorStuff changeBackground;
+	public optionStuff optionStuff;
 
 	public void undoo () {
 		if(!reddo && HisPos != 1){
@@ -234,6 +235,24 @@ public class undo : MonoBehaviour {
 
 				loli[0] = thing.GetComponent<Draggable>().Shape;
 				break;
+			case 10:
+				loli = new float[2];
+				loli[0] = thing.transform.localScale.x;
+				loli[1] = thing.transform.localScale.y;
+				break;
+			case 11:
+				loli = new float[1];
+				loli[0] = thing.GetComponent<Draggable>().bounciness;
+				break;	
+			case 12:
+				loli = new float[1];
+				if(thing.GetComponent<Draggable>().falling){
+					loli[0] = 1;
+				}
+				else{
+					loli[0] = 0;
+				}
+				break;	
 
 
 		}
@@ -387,31 +406,43 @@ public class undo : MonoBehaviour {
 						thing.transform.position = new Vector3(lol[0],lol[1],lol[2]);
 						thing.transform.localScale = new Vector3(lol[3],lol[4],0);
 						if(GameObject.Find("sizeStuff(Clone)")){
+							optionStuff.changePosition();
+							optionStuff.changeScale();
 							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(thing.transform);
 						}
 						break;
 					case 2:
 						thing.transform.position = new Vector3(lol[0],lol[1],lol[2]);
 						if(GameObject.Find("sizeStuff(Clone)")){
+							optionStuff.changePosition();
 							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(thing.transform);
 						}
 						break;	
 					case 3:
 						thing.transform.rotation = Quaternion.Euler(0,0, lol[0]);
 						if(GameObject.Find("sizeStuff(Clone)")){
+							optionStuff.changeRotation();
 							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(thing.transform);
 						}
 						break;
 					case 4:
-						thing.GetComponent<SpriteRenderer>().color = new Color(lol[0],lol[1],lol[2],lol[3]);
+						Color coloryy = new Color(lol[0],lol[1],lol[2],lol[3]);
+						thing.GetComponent<SpriteRenderer>().color = coloryy;
+						optionStuff.changeColor(coloryy);
 						break;	
 					case 7:
 						thing.GetComponent<water>().waterForceX = lol[0];
-						thing.GetComponent<SpriteRenderer>().color = new Color(lol[1],lol[2],lol[3],lol[4]);
+						Color colory = new Color(lol[1],lol[2],lol[3],lol[4]);
+						thing.GetComponent<SpriteRenderer>().color = colory;
+						optionStuff.changeWaterX();
+						optionStuff.changeColor(colory);
 						break;	
 					case 8:
 						thing.GetComponent<water>().waterForceY = lol[0];
-						thing.GetComponent<SpriteRenderer>().color = new Color(lol[1],lol[2],lol[3],lol[4]);
+						Color color = new Color(lol[1],lol[2],lol[3],lol[4]);
+						thing.GetComponent<SpriteRenderer>().color = color;
+						optionStuff.changeWaterY();
+						optionStuff.changeColor(color);
 						break;
 					case 9:
 						int shape = (int)lol[0];
@@ -437,7 +468,23 @@ public class undo : MonoBehaviour {
 								break;
 							}
 							thing.GetComponent<SpriteRenderer>().sprite = shapes[shape];
+							optionStuff.changeTheShape();
 							break;
+					case 10:
+						thing.transform.localScale = new Vector3(lol[3],lol[4],0);
+						if(GameObject.Find("sizeStuff(Clone)")){
+							optionStuff.changeScale();
+							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(thing.transform);
+						}
+						break;
+					case 11:
+						thing.GetComponent<Draggable>().bounciness = lol[0];
+						optionStuff.changeBounciness();
+						break;
+					case 12:
+						thing.GetComponent<Draggable>().falling = lol[0] == 1;
+						optionStuff.changeFalling();
+						break;
 				}
 				/*thing.transform.position = lol.pos;
 				thing.transform.localScale = lol.scale;

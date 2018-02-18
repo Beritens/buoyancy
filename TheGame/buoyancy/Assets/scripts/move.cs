@@ -27,8 +27,9 @@ public class move : MonoBehaviour {
 	Rigidbody2D rb;
 	List<Vector2> power = new List<Vector2>();
 	GameObject lol;
+	public float expectedTimestep = 0.02f;
 
-	// Use this for initialization
+	
 
 	void Start () {
 		cameraa = GameObject.Find("Main Camera");
@@ -45,35 +46,18 @@ public class move : MonoBehaviour {
 		}
 
 		
-		//leftrightinput = GameObject.Find("Panel").GetComponent<leftrightcontrols>().leftrightcontrolinput;
 		
-		//if(inWater){
-			groundcheck();
-		//}
-		
-		/*float r = Mathf.Clamp(0.217f + (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) + Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x)/2 )/ 50,0.2f,0.7f);
-		float g = Mathf.Clamp(0.327f - (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) + Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x)/2 )/ 50,0.1f,0.8f);
-		float b = Mathf.Clamp(0.500f - (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) + Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x)/2 )/ 50,0.3f,0.8f);
-		*/
-		//cameraa.GetComponent<Camera>().backgroundColor = Color.Lerp(color1,color2,GetComponent<Rigidbody2D>().velocity.magnitude/40);
 
 		if(Input.GetButtonDown("Jump")){
 			Jump();
 			
 		}
 		
-		/*if(grounded){
-			GetComponent<Rigidbody2D>().sharedMaterial.friction = 0.4f;
-
-		}
-		else{
-			GetComponent<Rigidbody2D>().sharedMaterial.friction = 0f;
-		}*/
+		
 	}
-	// Update is called once per frame
 	void FixedUpdate () {
 		
-		
+		groundcheck();
 		float horizontal2 = Input.GetAxis("Horizontal") * speed * 10;
 		float horizontal = leftrightinput * speed * 10;
 		if(horizontal != 0){
@@ -94,7 +78,7 @@ public class move : MonoBehaviour {
 				GetComponent<Rigidbody2D>().AddForce(new Vector2((horizontal2 - (GetComponent<Rigidbody2D>().velocity.x*2f))/2,0), ForceMode2D.Force);
 			}
 		}
-		//lösch das später
+		
 		if(grounded && UseCustomFriction){
 			Vector2 vel = GetComponent<Rigidbody2D>().velocity;
 			vel.x = vel.x * friction;
@@ -121,18 +105,7 @@ public class move : MonoBehaviour {
 		
 
 	}
-	/*void OnCollisionExit2D(Collision2D other){
-		//colliding = false;
-		if(!inWater){
-			groundcheck();
-		}
-		
-	}
-	void OnCollisionStay2D(Collision2D other){
-		print("hi");
-		//colliding = true;
-		groundcheck();
-	}*/
+	
 	
 	void OnTriggerEnter2D(Collider2D col){
 		if(col.tag == "water"){
@@ -158,29 +131,13 @@ public class move : MonoBehaviour {
 			
 		
 
-			/*if(Mathf.Abs(col.GetComponent<water>().waterForceY) > Mathf.Abs(waterForceY)){
-				waterForceY = col.GetComponent<water>().waterForceY;
-			}
-			if(Mathf.Abs(col.GetComponent<water>().waterForceX) > Mathf.Abs(waterForceX)){
-				waterForceX = col.GetComponent<water>().waterForceX;
-			}*/
+			
 			
 
 			
 		}
 		if(col.tag == "goal" && !cameraa.GetComponent<inGoal>().inTheGoal){
-			/*if(Application.loadedLevel == 1 || Application.loadedLevel == 2){
-				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<inGoal>().inTheGoal = true;
-				if(save1.tempoPlay){
-					
-					Application.LoadLevel(1);
-				}
-				else{
-					playCustom.jaa = false;
-					Application.LoadLevel(0);
-				}
-				
-			}*/
+			
 			
 			cameraa.GetComponent<inGoal>().inTheGoal = true;
 			if(Application.loadedLevel >2){
@@ -203,19 +160,6 @@ public class move : MonoBehaviour {
         
 		
 	}
-	/*void OnTriggerEnter2D(Collider2D col){
-		
-		if(col.tag == "water"){
-			
-			if(col.GetComponent<water>().waterForceY > waterForceY){
-				waterForceY = col.GetComponent<water>().waterForceY;
-			}
-			if(col.GetComponent<water>().waterForceX > waterForceX){
-				waterForceX = col.GetComponent<water>().waterForceX;
-			}
-			
-		}
-	}*/
 	void OnTriggerExit2D(Collider2D col){
 		if(col.tag == "water"){
 			power.Remove(new Vector2(col.GetComponent<water>().waterForceX,col.GetComponent<water>().waterForceY));

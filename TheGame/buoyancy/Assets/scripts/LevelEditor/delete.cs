@@ -7,6 +7,7 @@ public class delete : MonoBehaviour {
 	GameObject Scroller;
 	public openSomething water;
 	public message message;
+	public optionStuff optionStuff;
 	void Start(){
 		Scroller = GameObject.Find("Scroller");
 	}
@@ -14,6 +15,7 @@ public class delete : MonoBehaviour {
 		if(!GameObject.Find("sizeStuff(Clone)"))
 			return;
 		GameObject thing =GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject;
+		optionStuff.deselect();
 		Scroller.GetComponent<scroll>().canIscroll2 = true;
 		Scroller.GetComponent<scroll>().canIscroll = true;
 		Scroller.GetComponent<undo>().add(thing, 0, true);

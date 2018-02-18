@@ -185,8 +185,6 @@ MonoBehaviour:
   jump: 8
   radius: 0.19
   distance: 0.2
-  grounded: 0
-  previouslyGrounded: 0
   friction: 0.95
   UseCustomFriction: 1
   JumpSound:
@@ -199,6 +197,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f3f0f4888be85f540b9b4b47f6bf056b, type: 3}
   - {fileID: 8300000, guid: b94ddb061e2fedc4c835185ef0692c34, type: 3}
   - {fileID: 8300000, guid: f675c6b06cead37479916bd9b12e67d2, type: 3}
+  expectedTimestep: 0.02
 --- !u!212 &212924735786208276
 SpriteRenderer:
   m_ObjectHideFlags: 1

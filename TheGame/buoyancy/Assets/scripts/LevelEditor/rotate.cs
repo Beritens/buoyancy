@@ -9,9 +9,11 @@ public class rotate : MonoBehaviour {
 	public bool ok;
 	public LayerMask maski;
 	Quaternion IhopeThisWorks;
+	optionStuff optionStuff;
 	void Start () {
 		mode = GameObject.Find("MODE").GetComponent<modis>();
 		Scroller = GameObject.Find("Scroller");
+		optionStuff = GameObject.Find("openOptionWindow").GetComponent<optionStuff>();
 	}
 	
 	// Update is called once per frame
@@ -36,7 +38,7 @@ public class rotate : MonoBehaviour {
 								Vector3 lol = touchPos - transform.position;
 								IhopeThisWorks = Quaternion.LookRotation(transform.forward,lol) * Quaternion.Inverse(transform.rotation);
 								Scroller.GetComponent<scroll>().canIscroll2 = false;
-								Scroller.GetComponent<undo>().add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, 3, true);
+								Scroller.GetComponent<undo>().add(transform.parent.GetComponent<sizeThing>().square.gameObject, 3, true);
 								break;
 							}
 						}
@@ -52,14 +54,13 @@ public class rotate : MonoBehaviour {
 						Vector3 relativPosition = touchPos - transform.position;
 						Quaternion rotation1 = Quaternion.LookRotation(transform.forward,relativPosition);
 						transform.rotation = rotation1 * Quaternion.Inverse(IhopeThisWorks);
+						optionStuff.changeRotation();
 					}
 				}
 				
 				if(touch.phase == TouchPhase.Ended){
 					print("hihihihi");
-					if(GameObject.Find("sizeStuff(Clone)") && ok){
-						Scroller.GetComponent<undo>().add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject, 3, false);
-					}
+					Scroller.GetComponent<undo>().add(transform.parent.GetComponent<sizeThing>().square.gameObject, 3, false);
 					Scroller.GetComponent<scroll>().canIscroll2 = true;
 					ok = false;
 				}

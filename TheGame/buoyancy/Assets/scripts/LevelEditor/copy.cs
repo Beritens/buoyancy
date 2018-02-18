@@ -7,13 +7,14 @@ public class copy : MonoBehaviour {
 	// Use this for initialization
 	public undo Undo;
 	public message message;
+	public optionStuff optionStuff;
 	public void clicki () {
 		if(GameObject.Find("sizeStuff(Clone)")){
 			Transform ObjectToCopy = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square;
 			GameObject copyObject = GameObject.Instantiate(ObjectToCopy.gameObject, ObjectToCopy.position, ObjectToCopy.rotation);
 			
 			
-			print("halihallo");
+			optionStuff.select(copyObject);
 
 
 			if(copyObject.tag == "deko"){

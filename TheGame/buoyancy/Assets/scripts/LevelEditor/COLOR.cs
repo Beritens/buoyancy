@@ -29,6 +29,7 @@ public class COLOR : MonoBehaviour {
 	public Transform circle;
 	public undo Undo;
 	public GameObject Scroller;
+	public optionStuff optionStuff;
 	void Start () {
 		
 	}
@@ -54,6 +55,7 @@ public class COLOR : MonoBehaviour {
 				Scroller.GetComponent<undo>().add(square.gameObject, 4, true);
 				
 				square.GetComponent<SpriteRenderer>().color = color;
+				optionStuff.changeColor(color);
 				if(square.tag == "water"){
 					square.GetComponent<water>().colorChanged = true;
 				}
@@ -138,8 +140,11 @@ public class COLOR : MonoBehaviour {
 				preview.color = new Color(color.r,color.g,color.b,a);
 			}
 			if(GameObject.Find("sizeStuff(Clone)") && (on || alpha.tueEs || hue.tueEs) && !bg1on && !bg2on){
+				Color endColor = new Color(color.r,color.g,color.b,a);
+				
 				Transform thing = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square;
-				thing.GetComponent<SpriteRenderer>().color = new Color(color.r,color.g,color.b,a);
+				thing.GetComponent<SpriteRenderer>().color = endColor;
+				optionStuff.changeColor(endColor);
 				isSomethingOpen.modified = true;
 				if(thing.tag == "water"){
 					print("dasHier");

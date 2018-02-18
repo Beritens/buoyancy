@@ -116,6 +116,21 @@ public class loadLevel : MonoBehaviour {
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
 						if(info.Length > 5){
 							shape = int.Parse(info[5]);
+							if(info.Length > 6){
+								if(Application.loadedLevel == 2){
+									thing.GetComponent<Rigidbody2D>().sharedMaterial.bounciness = float.Parse(info[6]);
+									if(info[7] == "1"){
+										thing.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+										thing.GetComponent<detectWater>().ok = true;
+									}
+								}
+								else{
+									Draggable dragy = thing.GetComponent<Draggable>();
+									dragy.bounciness = float.Parse(info[6]);
+									dragy.falling = info[7]=="1";
+								}
+								
+							}
 						}
 					}
 					if(Application.loadedLevel == 1){
@@ -154,6 +169,20 @@ public class loadLevel : MonoBehaviour {
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
 						if(info.Length > 5){
 							shape = int.Parse(info[5]);
+							if(info.Length > 6){
+								if(Application.loadedLevel == 2){
+									thing.GetComponent<Rigidbody2D>().sharedMaterial.bounciness = float.Parse(info[6]);
+									if(info[7] == "1"){
+										thing.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+										thing.GetComponent<detectWater>().ok = true;
+									}
+								}
+								else{
+									Draggable dragy = thing.GetComponent<Draggable>();
+									dragy.bounciness = float.Parse(info[6]);
+									dragy.falling = info[7]=="1";
+								}
+							}
 						}
 					}
 					if(Application.loadedLevel == 1){
@@ -205,6 +234,14 @@ public class loadLevel : MonoBehaviour {
 							if(shape ==1 && Application.loadedLevel == 2){
 								thing.GetComponent<Rigidbody2D>().sharedMaterial = circlePhysics;
 								thing.GetComponent<move>().UseCustomFriction = false;
+							}
+							if(info.Length > 6){
+								if(Application.loadedLevel == 2){
+									thing.GetComponent<Rigidbody2D>().sharedMaterial.bounciness = float.Parse(info[6]);
+								}
+								else{
+									 thing.GetComponent<Draggable>().bounciness = float.Parse(info[6]);
+								}
 							}
 						}
 					}

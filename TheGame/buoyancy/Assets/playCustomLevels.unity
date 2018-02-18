@@ -703,7 +703,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 48.65
+  m_fontSize: 48.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1437,6 +1437,16 @@ Prefab:
     - target: {fileID: 114854718317641870, guid: 56f0f12b797e3b540817c388b50f9bc6,
         type: 2}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20739705431476602, guid: 56f0f12b797e3b540817c388b50f9bc6,
+        type: 2}
+      propertyPath: far clip plane
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 20739705431476602, guid: 56f0f12b797e3b540817c388b50f9bc6,
+        type: 2}
+      propertyPath: near clip plane
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

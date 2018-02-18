@@ -20,6 +20,7 @@ public class sizeThing : MonoBehaviour {
 	Transform twob;
 	Transform threeb;
 	Transform fourb;
+	optionStuff optionStuff;
 
 	bool beep;
 	Vector3 unterschied = new Vector3(0,0,0);
@@ -38,6 +39,7 @@ public class sizeThing : MonoBehaviour {
 	void Start(){
 		cam= GameObject.Find("Main Camera").GetComponent<Camera>();
 		Scroller = GameObject.Find("Scroller");
+		optionStuff = GameObject.Find("openOptionWindow").GetComponent<optionStuff>();
 		mode = GameObject.Find("MODE").GetComponent<modis>();
 		
 		move.rotation = square.rotation;
@@ -369,7 +371,7 @@ public class sizeThing : MonoBehaviour {
 					}
 					
 
-					
+					optionStuff.changePosition();
 					alldots.position = movePos-unterschied;
 					square.position = movePos;
 					move.position = movePos;
@@ -407,7 +409,8 @@ public class sizeThing : MonoBehaviour {
 					
 					square.localScale = lol;
 					square.position = new Vector3((onebPos.x + threeb.position.x)/2,(onebPos.y + threeb.position.y)/2,square.position.z);
-
+					optionStuff.changePosition();
+					optionStuff.changeScale();
 					one.position = onea.position;
 					two.position = twoa.position; 
 					three.position = threea.position;
@@ -453,6 +456,7 @@ public class sizeThing : MonoBehaviour {
 
 					beep = false;
 					square.position = movePos;
+					optionStuff.changePosition();
 					move.position = movePos;
 					if(touch.phase == TouchPhase.Ended){
 						move.GetComponent<Drag>().ok = false;
