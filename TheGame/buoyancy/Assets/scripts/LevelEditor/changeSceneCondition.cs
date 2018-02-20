@@ -10,6 +10,7 @@ public class changeSceneCondition : MonoBehaviour {
 	public openSomething pauseMenu;
 	public openSomething[] windows;
 	public openLoadMenu loadMenu;
+	public PhysicsMaterial2D player,player2;
 	public void sceenChange(){
 		if(isSomethingOpen.modified){
 			
@@ -39,4 +40,9 @@ public class changeSceneCondition : MonoBehaviour {
 		}
 		
 	}
+	public void resetbounciness(){
+		player.bounciness = 0;
+		player2.bounciness = 0;
+	}
+
 }

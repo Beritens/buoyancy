@@ -81,6 +81,7 @@ public class save : MonoBehaviour {
 				else{
 					physics+="0";
 				}
+				physics += ";"+dragy.mass.ToString("0.####");
 				sWriter.WriteLine("gr"+";"+pos+";"+size+";"+rot+";"+col+";"+shape+";"+physics);
 			}
 		}
@@ -118,6 +119,7 @@ public class save : MonoBehaviour {
 				else{
 					physics+="0";
 				}
+				physics += ";"+dragy.mass.ToString("0.####");
 				sWriter.WriteLine("ob"+";"+pos+";"+size+";"+rot+";"+col+";"+shape +";"+physics);
 			}
 		}
@@ -149,13 +151,12 @@ public class save : MonoBehaviour {
 				string col = coly(player[i].GetComponent<SpriteRenderer>().color);
 				Draggable dragy = player[i].GetComponent<Draggable>();
 				string shape = dragy.Shape.ToString();
-				string physics = dragy.bounciness.ToString("0.####");
+				string physics = dragy.bounciness.ToString("0.####")+";"+dragy.mass.ToString("0.####");
 				sWriter.WriteLine("pl"+";"+pos+";"+size+";"+rot+";"+col+";"+shape+";"+physics);
 			}
 		}
 		sWriter.WriteLine("end");
 		sWriter.Close();
-		File.WriteAllBytes(filePath+"/"+fileName,CLZF2.Compress(File.ReadAllBytes(filePath+"/"+fileName)));
 
 		if(!tempo){
 			isSomethingOpen.modified = false;

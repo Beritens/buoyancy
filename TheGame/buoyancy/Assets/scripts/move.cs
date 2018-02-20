@@ -154,6 +154,7 @@ public class move : MonoBehaviour {
 			if(GameObject.Find("pause") && GameObject.Find("pause").GetComponent<openSomething>().openn == false){
 				GameObject pausi = GameObject.Find("pause");
 				pausi.GetComponent<openSomething>().open();
+				pausi.GetComponent<TIME>().inGoal();
 			}
 		}
             

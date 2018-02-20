@@ -253,6 +253,10 @@ public class undo : MonoBehaviour {
 					loli[0] = 0;
 				}
 				break;	
+			case 13:
+				loli = new float[1];
+				loli[0] = thing.GetComponent<Draggable>().mass;
+				break;
 
 
 		}
@@ -294,6 +298,7 @@ public class undo : MonoBehaviour {
 						menu.closeTheMenu();
 					}
 				}
+				optionStuff.deselect();
 				Destroy(thing);
 				//history.RemoveAt(HisPos);
 				
@@ -401,48 +406,63 @@ public class undo : MonoBehaviour {
 			else{
 				int WTD =  history[Pos].whatToDo;
 				float[] lol = history[Pos].größen;
+				sizeThing sizeThing = null;
+				bool change = false;
+				if(GameObject.Find("sizeStuff(Clone)")){
+					sizeThing = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>();
+					if(history[Pos].number != sizeThing.square.GetComponent<Draggable>().ObjectLPos){
+						change = true;
+					}
+				}
 				switch(WTD){
 					case 1:
 						thing.transform.position = new Vector3(lol[0],lol[1],lol[2]);
 						thing.transform.localScale = new Vector3(lol[3],lol[4],0);
-						if(GameObject.Find("sizeStuff(Clone)")){
+						if(sizeThing != null && !change){
+							sizeThing.reselect(thing.transform);
 							optionStuff.changePosition();
 							optionStuff.changeScale();
-							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(thing.transform);
+							
 						}
 						break;
 					case 2:
 						thing.transform.position = new Vector3(lol[0],lol[1],lol[2]);
-						if(GameObject.Find("sizeStuff(Clone)")){
+						if(sizeThing != null && !change){
+							sizeThing.reselect(thing.transform);
 							optionStuff.changePosition();
-							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(thing.transform);
 						}
 						break;	
 					case 3:
 						thing.transform.rotation = Quaternion.Euler(0,0, lol[0]);
-						if(GameObject.Find("sizeStuff(Clone)")){
+						if(sizeThing != null && !change){
 							optionStuff.changeRotation();
-							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(thing.transform);
+							sizeThing.reselect(thing.transform);
 						}
 						break;
 					case 4:
 						Color coloryy = new Color(lol[0],lol[1],lol[2],lol[3]);
 						thing.GetComponent<SpriteRenderer>().color = coloryy;
-						optionStuff.changeColor(coloryy);
+						if(!change){
+							optionStuff.changeColor(coloryy);
+						}
 						break;	
 					case 7:
 						thing.GetComponent<water>().waterForceX = lol[0];
 						Color colory = new Color(lol[1],lol[2],lol[3],lol[4]);
 						thing.GetComponent<SpriteRenderer>().color = colory;
-						optionStuff.changeWaterX();
-						optionStuff.changeColor(colory);
+						if(!change){
+							optionStuff.changeWaterX();
+							optionStuff.changeColor(colory);
+						}
 						break;	
 					case 8:
 						thing.GetComponent<water>().waterForceY = lol[0];
 						Color color = new Color(lol[1],lol[2],lol[3],lol[4]);
 						thing.GetComponent<SpriteRenderer>().color = color;
-						optionStuff.changeWaterY();
-						optionStuff.changeColor(color);
+						if(!change){
+							optionStuff.changeWaterY();
+							optionStuff.changeColor(color);
+						}
 						break;
 					case 9:
 						int shape = (int)lol[0];
@@ -468,23 +488,40 @@ public class undo : MonoBehaviour {
 								break;
 							}
 							thing.GetComponent<SpriteRenderer>().sprite = shapes[shape];
-							optionStuff.changeTheShape();
+							
+							if(!change){
+								optionStuff.changeTheShape();
+							}
 							break;
 					case 10:
 						thing.transform.localScale = new Vector3(lol[3],lol[4],0);
-						if(GameObject.Find("sizeStuff(Clone)")){
+						if(sizeThing != null && !change){
 							optionStuff.changeScale();
-							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(thing.transform);
+							sizeThing.reselect(thing.transform);
 						}
 						break;
 					case 11:
 						thing.GetComponent<Draggable>().bounciness = lol[0];
-						optionStuff.changeBounciness();
+						if(!change){
+							optionStuff.changeBounciness();
+						}	
 						break;
 					case 12:
 						thing.GetComponent<Draggable>().falling = lol[0] == 1;
-						optionStuff.changeFalling();
+						if(!change){
+							optionStuff.changeFalling();
+						}	
 						break;
+					case 13:
+						thing.GetComponent<Draggable>().mass = lol[0];
+						if(!change){
+							optionStuff.changeMass();
+						}	
+						break;
+				}
+				if(change){
+					sizeThing.reselect(thing.transform);
+					optionStuff.select(thing);
 				}
 				/*thing.transform.position = lol.pos;
 				thing.transform.localScale = lol.scale;

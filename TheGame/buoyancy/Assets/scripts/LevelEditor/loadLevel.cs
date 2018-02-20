@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using TMPro;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class loadLevel : MonoBehaviour {
 
@@ -91,26 +92,13 @@ public class loadLevel : MonoBehaviour {
 	void readFile(string FilePath){
 
 		//CompressionHelper.DecompressFile(FilePath);
-		/*StreamReader sReader = new StreamReader(FilePath);
-		string file = sReader.ReadToEnd();
-		sReader.Close();*/
-		byte[] bytes = File.ReadAllBytes(FilePath);
-		print(bytes[0]);
-		string file;
-		if(bytes[0] == 21)
-			file = System.Text.Encoding.UTF8.GetString(CLZF2.Decompress(bytes));
-		else
-			file = System.Text.Encoding.UTF8.GetString(bytes);
-		//string file =  System.Text.Encoding.UTF8.GetString(bytes);
-		//CompressionHelper.DecompressString(file);
-		string[] strings = file.Split('\n');
+		StreamReader sReader = new StreamReader(FilePath);
 		
-		for(int i = 0; i<strings.Length; i++){
+		while(!sReader.EndOfStream){
 			int shape = 0;
 			Quaternion rot;
-
-			//string line = sReader.ReadLine();
-			string[] info = strings[i].Split(new char[]{';'});
+			string line = sReader.ReadLine();
+			string[] info = line.Split(';');
 			if(info.Length > 3){
 				rot = StringToQuaternion(info[3]);
 			}
@@ -131,16 +119,29 @@ public class loadLevel : MonoBehaviour {
 							shape = int.Parse(info[5]);
 							if(info.Length > 6){
 								if(Application.loadedLevel == 2){
+									print("blub");
 									thing.GetComponent<Rigidbody2D>().sharedMaterial.bounciness = float.Parse(info[6]);
+									print(info[7]);
+									
 									if(info[7] == "1"){
+										print("hi");
 										thing.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 										thing.GetComponent<detectWater>().ok = true;
+									}
+									if(info.Length > 8){
+										thing.GetComponent<Rigidbody2D>().mass = float.Parse(info[8]);
+									}
+									else{
+										thing.GetComponent<Rigidbody2D>().useAutoMass = true;
 									}
 								}
 								else{
 									Draggable dragy = thing.GetComponent<Draggable>();
 									dragy.bounciness = float.Parse(info[6]);
 									dragy.falling = info[7]=="1";
+									if(info.Length > 8){
+										dragy.mass = float.Parse(info[8]);
+									}
 								}
 								
 							}
@@ -188,12 +189,22 @@ public class loadLevel : MonoBehaviour {
 									if(info[7] == "1"){
 										thing.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 										thing.GetComponent<detectWater>().ok = true;
+										
+									}
+									if(info.Length > 8){
+										thing.GetComponent<Rigidbody2D>().mass = float.Parse(info[8]);
+									}
+									else{
+										thing.GetComponent<Rigidbody2D>().useAutoMass = true;
 									}
 								}
 								else{
 									Draggable dragy = thing.GetComponent<Draggable>();
 									dragy.bounciness = float.Parse(info[6]);
 									dragy.falling = info[7]=="1";
+									if(info.Length > 8){
+										dragy.mass = float.Parse(info[8]);
+									}
 								}
 							}
 						}
@@ -251,9 +262,16 @@ public class loadLevel : MonoBehaviour {
 							if(info.Length > 6){
 								if(Application.loadedLevel == 2){
 									thing.GetComponent<Rigidbody2D>().sharedMaterial.bounciness = float.Parse(info[6]);
+									if(info.Length > 7){
+										thing.GetComponent<Rigidbody2D>().mass = float.Parse(info[7]);
+									}
 								}
 								else{
-									 thing.GetComponent<Draggable>().bounciness = float.Parse(info[6]);
+									Draggable dragy = thing.GetComponent<Draggable>();
+									 dragy.bounciness = float.Parse(info[6]);
+									 if(info.Length > 7){
+										dragy.mass = float.Parse(info[7]);
+									}
 								}
 							}
 						}
@@ -380,7 +398,7 @@ public class loadLevel : MonoBehaviour {
 
 		}
 
-		//sReader.Close();
+		sReader.Close();
 
 	}
 	

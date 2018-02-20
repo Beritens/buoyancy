@@ -33,6 +33,9 @@ public class optionStuff : MonoBehaviour {
 	public TMP_InputField fy;
 	public TMP_InputField b1;
 	public TMP_InputField b2;
+	public TMP_InputField m1;
+	public TMP_InputField m2;
+	public GameObject mText;
 	public Image fallingStuff;
 	public Image shape;
 	public Image colorButton;
@@ -51,6 +54,8 @@ public class optionStuff : MonoBehaviour {
 		fy.onEndEdit.AddListener(fyS);
 		b1.onEndEdit.AddListener(bS);
 		b2.onEndEdit.AddListener(bS);
+		m1.onEndEdit.AddListener(mS);
+		m2.onEndEdit.AddListener(mS);
 	}
 	public void select(GameObject obj){
 		editObj = obj;
@@ -64,6 +69,7 @@ public class optionStuff : MonoBehaviour {
 		
 	}
 	public void deselect(){
+		editObj = null;
 		allOptions.SetActive(false);
 		backgroundStuff.SetActive(true);
 		delete.SetActive(false);
@@ -111,6 +117,7 @@ public class optionStuff : MonoBehaviour {
 			rotation.anchorMax = new Vector2(1,0.8f);
 			rotation.anchorMin = new Vector2(0,0.6f);
 			b2.text = (editObj.GetComponent<Draggable>().bounciness*100).ToString("0.###");
+			m2.text = (editObj.GetComponent<Draggable>().mass*10).ToString("0.###");
 
 		}
 		else{
@@ -133,11 +140,17 @@ public class optionStuff : MonoBehaviour {
 				flow.SetActive(false);
 				physics1.SetActive(true);
 				b1.text = (editObj.GetComponent<Draggable>().bounciness*100).ToString("0.###");
+				print((editObj.GetComponent<Draggable>().bounciness*100).ToString("0.###"));
+				m1.text = (editObj.GetComponent<Draggable>().mass*10).ToString("0.###");
 				if(editObj.GetComponent<Draggable>().falling){
 					fallingStuff.sprite = falling;
+					m1.gameObject.SetActive(true);
+					mText.SetActive(true);
 				}
 				else{
 					fallingStuff.sprite = notFalling;
+					m1.gameObject.SetActive(false);
+					mText.SetActive(false);
 				}
 				
 			}
@@ -159,19 +172,23 @@ public class optionStuff : MonoBehaviour {
 		draggy.falling = !draggy.falling;
 		if(draggy.falling){
 			fallingStuff.sprite = falling;
+			m1.gameObject.SetActive(true);
+			mText.SetActive(true);
 		}
 		else{
 			fallingStuff.sprite = notFalling;
+			m1.gameObject.SetActive(false);
+			mText.SetActive(false);
 		}
 		undo.add(editObj,12,false);
 	}
 	public void changeTheShape(){
-		if(on){
+		if(on && editObj != null){
 			shape.sprite = changeShape.shapes[editObj.GetComponent<Draggable>().Shape];
 		}
 	}
 	public void changePosition(){
-		if(on){
+		if(on && editObj != null){
 			px.text = editObj.transform.position.x.ToString("0.###");
 			py.text = editObj.transform.position.y.ToString("0.###");
 			pz.text = (-editObj.transform.position.z).ToString("0.###");
@@ -179,46 +196,56 @@ public class optionStuff : MonoBehaviour {
 		
 	}
 	public void changeScale(){
-		if(on){
+		if(on && editObj != null){
 			sx.text = (editObj.transform.localScale.x/50).ToString("0.###");
 			sy.text = (editObj.transform.localScale.y/50).ToString("0.###");
 		}
 		
 	}
 	public void changeColor(Color color){
-		if(on){
+		if(on && editObj != null){
 			colorButton.color = color;
 		}
 	}
 	public void changeRotation(){
-		if(on){
+		if(on && editObj != null){
 			rot.text = editObj.transform.rotation.eulerAngles.z.ToString("0.###");
 		}
 		
 	}
 	public void changeFalling(){
-		if(on){
+		if(on && editObj != null){
 			if(editObj.GetComponent<Draggable>().falling){
 				fallingStuff.sprite = falling;
+				m1.gameObject.SetActive(true);
+				mText.SetActive(true);
 			}
 			else{
 				fallingStuff.sprite = notFalling;
+				m1.gameObject.SetActive(false);
+				mText.SetActive(false);
 			}
 		}
 	}
 	public void changeBounciness(){
-		if(on){
+		if(on && editObj != null){
 			b1.text = (editObj.GetComponent<Draggable>().bounciness*100).ToString("0.###");
 			b2.text = (editObj.GetComponent<Draggable>().bounciness*100).ToString("0.###");
 		}
 	}
+	public void changeMass(){
+		if(on && editObj != null){
+			b1.text = (editObj.GetComponent<Draggable>().mass*10).ToString("0.###");
+			b2.text = (editObj.GetComponent<Draggable>().mass*10).ToString("0.###");
+		}
+	}
 	public void changeWaterX(){
-		if(on && editObj.tag == "water"){
+		if(on && editObj != null && editObj.tag == "water"){
 			fx.text = editObj.GetComponent<water>().waterForceX.ToString("0.####");
 		}
 	}
 	public void changeWaterY(){
-		if(on && editObj.tag == "water"){
+		if(on && editObj != null && editObj.tag == "water"){
 			fy.text = editObj.GetComponent<water>().waterForceY.ToString("0.####");
 		}
 	}
@@ -351,6 +378,17 @@ public class optionStuff : MonoBehaviour {
 		
 		undo.add(editObj,11,true);
 		editObj.GetComponent<Draggable>().bounciness = x/100;
+		undo.add(editObj,11,false);
+	}
+	private void mS(string a){
+		if(a == (editObj.GetComponent<Draggable>().mass*10).ToString("0.###"))
+			return;
+		float x = 0;
+		if(a != "")
+			x = float.Parse(a);
+		
+		undo.add(editObj,11,true);
+		editObj.GetComponent<Draggable>().mass = x/10;
 		undo.add(editObj,11,false);
 	}
 	void color(water water){

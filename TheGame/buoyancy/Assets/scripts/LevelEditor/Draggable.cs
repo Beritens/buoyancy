@@ -6,6 +6,7 @@ public class Draggable : MonoBehaviour {
 	public bool ok = false;
 	public GameObject sizecontrol;
 	public bool falling = false;
+	public float mass = 1f;
 	public float bounciness = 0f;
 	GameObject Scroller;
 	//ich mache hier mal eine variable hin, die nix hiermit zu tun hat, weil ich zu faul bin eine neues script zu erstellen

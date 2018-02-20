@@ -50,7 +50,7 @@ public class select : MonoBehaviour {
 					}*/
 
 					
-					touchPos.z = Camera.main.transform.position.z;
+					touchPos.z = -10.1f;
 					Ray ray = new Ray( touchPos, new Vector3( 0, 0, 1 ) );
 					RaycastHit2D hit = Physics2D.GetRayIntersection( ray );
 					if(hit.collider != null){

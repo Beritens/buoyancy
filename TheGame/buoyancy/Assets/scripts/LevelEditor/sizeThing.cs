@@ -312,7 +312,6 @@ public class sizeThing : MonoBehaviour {
 					else if(two.GetComponent<Drag>().ok){
 						minusOrNot.x = 1;
 						minusOrNot.y = 1;
-						print("2");
 						oneb = two;
 						twob = three;
 						threeb = four;
@@ -323,7 +322,6 @@ public class sizeThing : MonoBehaviour {
 					else if(three.GetComponent<Drag>().ok){
 						minusOrNot.x = 1;
 						minusOrNot.y = -1;
-						print("3");
 						oneb = three;
 						twob = four;
 						threeb = one;
@@ -334,7 +332,6 @@ public class sizeThing : MonoBehaviour {
 					else if(four.GetComponent<Drag>().ok){
 						minusOrNot.x = -1;
 						minusOrNot.y = -1;
-						print("4");
 						oneb = four;
 						twob = one;
 						threeb = two;
