@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.IO;
 using System.Text;
@@ -51,13 +52,15 @@ public class loadPlayerLevels : MonoBehaviour {
 		WWW w = new WWW(url,form);
         yield return w;
         print("after yield w");
+        
         if (w.error != null)
         {
+            message.Message("something went wrong");
             print("error");
             print ( w.error );    
         }
-        
-        if(w.isDone){
+        else if(w.isDone){
+            print("hi");
             string[] bruh = w.text.Split('\n');
             if(!bruh[0].Contains(";")){
                 message.Message("sry, the server is currently sleeping. He will wake up in about 1 hour. This text is way too long to read in just a few seconds but I don't care");
@@ -85,6 +88,7 @@ public class loadPlayerLevels : MonoBehaviour {
             }
             else{
                 ListFiles(Names.Count,Names.Count-100,Names);
+                message.Message("refreshed!");
             }
             
             
