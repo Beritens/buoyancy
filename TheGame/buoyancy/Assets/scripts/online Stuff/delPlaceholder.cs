@@ -5,7 +5,15 @@ using UnityEngine;
 public class delPlaceholder : MonoBehaviour {
 
 	public deleteOnlineLevel button;
+	public playCustom buttonLocal;
+	public bool online;
 	public void click () {
-		button.dele();
+		if(online){
+			button.dele();
+		}
+		else{
+			buttonLocal.dele();
+		}
+		
 	}
 }

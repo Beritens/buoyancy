@@ -30,7 +30,6 @@ public class login : MonoBehaviour {
 		
         if (w.error != null)
         {
-			message.speed = 0.02f;
 			message.Message("an error has occured");
             print("error");
             print ( w.error );    

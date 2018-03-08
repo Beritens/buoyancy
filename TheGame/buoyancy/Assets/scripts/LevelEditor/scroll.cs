@@ -16,13 +16,12 @@ public class scroll : MonoBehaviour {
 	bool delete = false;
 	bool bruh = false;
 	float deleteDistance;
-	GameObject Scroller;
 	public float ScreendeleteDistance = 100;
 	public open PleaseOpenTheMenu;
 	public optionStuff optionStuff;
+	public createGroup createGroup;
 	void Start () {
 		deleteDistance = Screen.width/ScreendeleteDistance;
-		Scroller = GameObject.Find("Scroller");
 
 	}
 	
@@ -35,7 +34,7 @@ public class scroll : MonoBehaviour {
 			kk = true;
 		}
 		//print(canIscroll +" lol "+ canIscroll2);
-		if(kk && !Scroller.GetComponent<isSomethingOpen>().SomethingOpen){
+		if(kk && !GetComponent<isSomethingOpen>().SomethingOpen){
 			if(Input.touchCount == 1){
 				Touch touch = Input.GetTouch(0);
 				if(touch.phase == TouchPhase.Began || bruh){
@@ -60,7 +59,6 @@ public class scroll : MonoBehaviour {
 						//&& (touch.position.x < Screen.width*0.73f || touch.position.y < Screen.height*0.37f || touch.position.y > Screen.height*0.45f)){
 						if(!EventSystem.current.IsPointerOverGameObject(0)){
 							delete = true;
-							print("kkkkkkkkkk");
 							
 						}
 						
@@ -82,20 +80,21 @@ public class scroll : MonoBehaviour {
 					if(GameObject.Find("sizeStuff(Clone)")){
 						optionStuff.deselect();
 						GameObject sizeStuff = GameObject.Find("sizeStuff(Clone)");
-						sizeStuff.GetComponent<sizeThing>().square.gameObject.layer = 0;
+						//sizeStuff.GetComponent<sizeThing>().square.gameObject.layer = 0;
 						if(PleaseOpenTheMenu.GetComponent<open>().opeeen){
 							PleaseOpenTheMenu.GetComponent<open>().closeTheMenu();
 						}
-						
-						if(sizeStuff.GetComponent<sizeThing>().square.Find("outline")){
+						createGroup.darkThingOff();
+						createGroup.editing = false;
+						createGroup.gameObject.SetActive(false);
+						/*if(sizeStuff.GetComponent<sizeThing>().square.Find("outline")){
 							sizeStuff.GetComponent<sizeThing>().square.Find("outline").gameObject.SetActive(false);
-						}
+						}*/
 						
 						
-						print("miau");
 						canIscroll2 = true;
 						canIscroll = true;
-						GameObject.Destroy(sizeStuff);
+						sizeStuff.GetComponent<sizeThing>().deselect();
 					}
 
 				}

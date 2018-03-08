@@ -22,12 +22,10 @@ public class register : MonoBehaviour {
 			if(Name.text != "" && password.text != ""){
 				if(regex.Match(Name.text).Success || regex.Match(password.text).Success){
 					print("emojis!");
-					message.speed = 0.02f;
 					message.Message("please don't use emojis or other weird stuff");
 				}
 				else if(forbiddenStuff.Match(Name.text).Success|| forbiddenStuff.Match(password.text).Success){
 					print("forbiddenStuff");
-					message.speed = 0.02f;
 					message.Message("please don't use semicolons, slashes and other stuff like that");
 				}
 				else{
@@ -41,7 +39,6 @@ public class register : MonoBehaviour {
 			}
 		}
 		else{
-			message.speed = 0.02f;
 			message.Message("Password does not match the confirm password.");
 		}
 		
@@ -59,14 +56,12 @@ public class register : MonoBehaviour {
 
 		if (w.error != null)
         {
-			message.speed = 0.02f;
 			message.Message("sorry. an error has occurred");
             print("error");
             print ( w.error );    
         }
 		else if(w.isDone){
 			if(w.text == "an account with this name already exists"){
-				message.speed = 0.02f;
 				message.Message("an account with this name already exists");
 			}
 			else{

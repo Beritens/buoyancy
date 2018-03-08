@@ -19,7 +19,7 @@ public class zoomTouch : MonoBehaviour {
 			for(int i=Input.touchCount-1;i>=0;i--){
 				bsize = PlayerPrefs.GetFloat("buttonSize");
 				if(Input.GetTouch(i).position.y > Screen.height*((bsize*0.25f+0.07f)) ||(Input.GetTouch(i).position.x > Screen.width*((bsize*0.25f+0.07f)*2) && Input.GetTouch(i).position.x < Screen.width*(1-(bsize*0.25f+0.07f)))){
-					print(i);
+					
 					touches.Add(Input.GetTouch(i));
 
 				}

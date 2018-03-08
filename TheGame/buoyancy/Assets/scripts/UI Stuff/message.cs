@@ -35,16 +35,17 @@ public class message : MonoBehaviour {
 
 		while(t <= 1)
        {
-            t += Time.deltaTime / speed;
+            t += Time.deltaTime / speed/Time.timeScale;
             recT.anchorMin = Vector2.Lerp(rAnchorMin,AnchorMin, t);
 			recT.anchorMax = Vector2.Lerp(rAnchorMax,AnchorMax, t);
 			GetComponent<Image>().color= Color.Lerp(col1,col2,t);
             yield return null;
       	}
-		yield return new WaitForSeconds(wait); 
+		yield return new WaitForSecondsRealtime(wait); 
+		print("hi");
 		while(t > 0)
       	{
-            t -= Time.deltaTime / speed;
+            t -= Time.deltaTime / speed /Time.timeScale;
             recT.anchorMin = Vector2.Lerp(rAnchorMin,AnchorMin, t);
 			recT.anchorMax = Vector2.Lerp(rAnchorMax,AnchorMax, t);
 			GetComponent<Image>().color= Color.Lerp(col1,col2,t);

@@ -15,28 +15,34 @@ public class MusikOnOff : MonoBehaviour {
 	public Image sbutton;
 	AudioSource audi;
 	void Start () {
-		audi = GameObject.Find("music").GetComponent<AudioSource>();
-		if(!PlayerPrefs.HasKey("music")){
-			PlayerPrefs.SetInt("music",1);
-		}
-		if(PlayerPrefs.GetInt("music") == 0){
-			button.sprite = Off;
-			audi.Stop();
-
-		}
-		else{
-			if(!audi.isPlaying){
-				audi.Play();
+		if(GameObject.Find("music")){
+			audi = GameObject.Find("music").GetComponent<AudioSource>();
+			if(!PlayerPrefs.HasKey("music")){
+				PlayerPrefs.SetInt("music",1);
 			}
-			
-		}
-		if(!PlayerPrefs.HasKey("sound")){
-			PlayerPrefs.SetInt("sound",1);
-		}
-		if(PlayerPrefs.GetInt("sound") == 0){
-			sbutton.sprite = sOff;
+			if(PlayerPrefs.GetInt("music") == 0){
+				button.sprite = Off;
+				audi.Stop();
 
+			}
+			else{
+				if(!audi.isPlaying){
+					audi.Play();
+				}
+				
+			}
 		}
+		
+		if(sbutton != null){
+			if(!PlayerPrefs.HasKey("sound")){
+				PlayerPrefs.SetInt("sound",1);
+			}
+			if(PlayerPrefs.GetInt("sound") == 0){
+				sbutton.sprite = sOff;
+
+			}
+		}
+		
 	}
 	
 	// Update is called once per frame

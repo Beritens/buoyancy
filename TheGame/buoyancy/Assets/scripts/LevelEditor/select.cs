@@ -19,10 +19,15 @@ public class select : MonoBehaviour {
 	public LayerMask layerMask;
 	public open PleaseOpenTheMenu;
 	public  optionStuff optionStuff;
+	public createGroup createGroup;
+	public float maxTime;
+	float timey;
 	void Update () {
 		if(Input.touchCount ==1 && !EventSystem.current.IsPointerOverGameObject(0)){
 			Touch touch = Input.GetTouch(0);
+			
 			if(Input.GetTouch(0).phase == TouchPhase.Began){
+				timey = 0;
 				nana = false;
 				
 				
@@ -51,8 +56,8 @@ public class select : MonoBehaviour {
 
 					
 					touchPos.z = -10.1f;
-					Ray ray = new Ray( touchPos, new Vector3( 0, 0, 1 ) );
-					RaycastHit2D hit = Physics2D.GetRayIntersection( ray );
+					Ray ray = new Ray( touchPos, new Vector3( 0, 0, 1 ));
+					RaycastHit2D hit = Physics2D.GetRayIntersection( ray,Mathf.Infinity,layerMask);
 					if(hit.collider != null){
 						if(hit.transform.tag == "Player" || hit.transform.tag == "ground" || hit.transform.tag == "water" || hit.transform.tag == "obstacle" || hit.transform.tag == "goal" || hit.transform.tag == "deko"){
 							//touchedObject = hit.collider.gameObject;
@@ -67,7 +72,6 @@ public class select : MonoBehaviour {
 				else if(colorStuff.eyeDropper){
 					RaycastHit2D hit = Physics2D.Raycast(touchPosWorld2D, Camera.main.transform.forward,0 ,layerMask);
 					if(hit.collider != null){
-						print("jfdhjfsdhjifdsjfdsjufds");
 						Color color =hit.collider.GetComponent<SpriteRenderer>().color;
 						colorStuff.change(color, true);
 						
@@ -84,7 +88,8 @@ public class select : MonoBehaviour {
 				
 				
 			}
-			if(bruh && Input.GetTouch(0).phase == TouchPhase.Ended && Vector2.SqrMagnitude(touch.position-difference)  < Screen.height / MaxDifference){
+			timey += Time.deltaTime;
+			if(bruh && Input.GetTouch(0).phase == TouchPhase.Ended && Vector2.SqrMagnitude(touch.position-difference)  < Screen.height / MaxDifference && timey < maxTime){
 				
 
 
@@ -110,22 +115,32 @@ public class select : MonoBehaviour {
 							else{
 								WaterStuff.SetActive(false);
 							}*/
-						optionStuff.select(touchedObject);
+						createGroup.gameObject.SetActive(true);
 					
 						if(GameObject.Find("sizeStuff(Clone)")){
-							GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().reselect(touchedObject.transform);
-							
-							
-							//ColorStuff(touchedObject.GetComponent<SpriteRenderer>().color);
-							if(colorStuff.gameObject.activeSelf){
-								colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color, false);
+							sizeThing sizeThing = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>();
+							if(touchedObject.transform.parent != null && sizeThing.square != touchedObject.transform.parent && sizeThing.square.parent != touchedObject.transform.parent){
+								sizeThing.reselect(touchedObject.transform.parent);
+								optionStuff.select(touchedObject.transform.parent.gameObject);
 							}
+							else{
+								sizeThing.reselect(touchedObject.transform);
+							
+							
+								//ColorStuff(touchedObject.GetComponent<SpriteRenderer>().color);
+								if(colorStuff.gameObject.activeSelf){
+									colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color, false);
+								}
+								optionStuff.select(touchedObject);
+							}
+							
 							
 						}
 						else{
 							spawn();
+							optionStuff.select(touchedObject);
 						}
-							
+						
 							
 							
 						//}
@@ -167,24 +182,34 @@ public class select : MonoBehaviour {
 	}*/
 	
 	void spawn(){
+		if(touchedObject.transform.parent != null && !(createGroup.editing && createGroup.groupy == touchedObject.transform.parent)){
+			touchedObject = touchedObject.transform.parent.gameObject;
+			touchedObject.GetComponent<BoxCollider2D>().enabled = true;
+			createGroup.select();
+		}
+		else {
+			if(!(touchedObject.transform.parent != null && createGroup.editing && createGroup.groupy == touchedObject.transform.parent)){
+				createGroup.darkThingOff();
+				createGroup.state = 0;
+				createGroup.editing = false;
+				createGroup.textMesh.text = "create group";
+			}
+			
+			if(colorStuff.gameObject.activeSelf){
+				colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color, false);
+			}
+		}
 		GameObject sizeStuff = GameObject.Instantiate(sizeThing,transform.position,Quaternion.identity);
 		sizeStuff.GetComponent<sizeThing>().square = touchedObject.transform;
 		if(!PleaseOpenTheMenu.opeeen){
 			PleaseOpenTheMenu.openTheMenu();
 		}
-		if(touchedObject.transform.Find("outline")){
-			
-			touchedObject.transform.Find("outline").gameObject.SetActive(true);
-		}
 		//ColorStuff(touchedObject.GetComponent<SpriteRenderer>().color);
-		if(colorStuff.gameObject.activeSelf){
-			colorStuff.change(touchedObject.GetComponent<SpriteRenderer>().color, false);
-		}
 		
 		
 		
-		//print("no");
-		touchedObject.layer = 2;
+		
+		touchedObject.layer = 8;
 	}
 	/*void ColorStuff(Color color){
 		float h, s, v;

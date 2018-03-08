@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class delete : MonoBehaviour {
 
-	GameObject Scroller;
+	public GameObject Scroller;
 	public openSomething water;
 	public message message;
 	public optionStuff optionStuff;
-	void Start(){
-		Scroller = GameObject.Find("Scroller");
-	}
+	//public createGroup createGroup;
 	public void press(){
 		if(!GameObject.Find("sizeStuff(Clone)"))
 			return;
@@ -19,6 +17,9 @@ public class delete : MonoBehaviour {
 		Scroller.GetComponent<scroll>().canIscroll2 = true;
 		Scroller.GetComponent<scroll>().canIscroll = true;
 		Scroller.GetComponent<undo>().add(thing, 0, true);
+		/*if(thing.transform.parent != null){
+			createGroup.ExitGroup();
+		}*/
 		
 		if(water.gameObject.activeSelf){
 			if(water.openn){
@@ -45,9 +46,11 @@ public class delete : MonoBehaviour {
 				Scroller.GetComponent<undo>().waterL.Remove(thing);	
 				break;
 		}*/
-		GameObject.Destroy(thing);
+		//thing.layer = 0;
+		//thing.transform.Find("outline").gameObject.SetActive(false);
+		thing.SetActive(false);
 		message.Message("Object has been deleted");
-		GameObject.Destroy(GameObject.Find("sizeStuff(Clone)"));
+		GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().deselect();
 		if(GameObject.Find("PleaseOpenTheMenu").GetComponent<open>().opeeen){
 			GameObject.Find("PleaseOpenTheMenu").GetComponent<open>().closeTheMenu();
 		}

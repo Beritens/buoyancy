@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 
 public class loadLevel : MonoBehaviour {
 
+	public GameObject group;
 	public GameObject ground;
 	public GameObject water;
 	public GameObject obstacle;
@@ -25,6 +26,7 @@ public class loadLevel : MonoBehaviour {
 	public Image bgcol1;
 	public Image bgcol2;
 	public PhysicsMaterial2D circlePhysics;
+	Transform[] groups;
 	public Sprite[] shapes;
 
 	 const string characters= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
@@ -90,6 +92,7 @@ public class loadLevel : MonoBehaviour {
 		}
 	}
 	void readFile(string FilePath){
+		bool oldThingCount = true;
 
 		//CompressionHelper.DecompressFile(FilePath);
 		StreamReader sReader = new StreamReader(FilePath);
@@ -107,9 +110,58 @@ public class loadLevel : MonoBehaviour {
 			}
 			GameObject thing = null;
 			switch(info[0]){
-				
+				case "gp":
+					thing = GameObject.Instantiate(group,StringToVector3(info[1]),rot);
+					if(Application.loadedLevel == 1){
+						thing.GetComponent<Draggable>().ObjectLPos = int.Parse(info[7]);
+						undoThing.allThings[int.Parse(info[7])] = thing;
+					}
+					else{
+						groups[int.Parse(info[7])]=thing.transform;
+					}
+					thing.transform.localScale = StringToScale(info[2]);
+					if(Application.loadedLevel == 2){
+						print("blub");
+						thing.GetComponent<Rigidbody2D>().sharedMaterial.bounciness = float.Parse(info[4]);
+						print(info[7]);
+						
+						if(info[5] == "1"){
+							print("hi");
+							thing.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+							//thing.GetComponent<detectWater>().ok = true;
+						}
+						thing.GetComponent<Rigidbody2D>().mass = float.Parse(info[6]);
+						
+					}
+					else{
+						Draggable dragy = thing.GetComponent<Draggable>();
+						dragy.bounciness = float.Parse(info[4]);
+						dragy.falling = info[5]=="1";
+						dragy.mass = float.Parse(info[6]);
+						
+					}
+					if(Application.loadedLevel == 1){
+						//undoThing.groundL++;
+					}
+					break;
 				case "gr":
-					thing = GameObject.Instantiate(ground,StringToVector3(info[1]),rot);
+					thing = GameObject.Instantiate(ground, StringToVector3(info[1]),rot);
+					if(info.Length >9){
+						if(Application.loadedLevel == 1){
+							thing.GetComponent<Draggable>().ObjectLPos = int.Parse(info[9]);
+							undoThing.allThings[int.Parse(info[9])] = thing;
+							if(info[10] != "a"){
+								thing.transform.parent = undoThing.allThings[int.Parse(info[10])].transform;
+							}
+						}
+						else if(info[10] != "a"){
+							thing.transform.parent = groups[int.Parse(info[10])];
+							if(thing.transform.parent.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Dynamic){
+								Destroy(thing.GetComponent<Rigidbody2D>());
+								thing.GetComponent<detectWater>().ok = true;
+							}
+						}
+					}
 					thing.transform.localScale = StringToScale(info[2]);
 					
 					
@@ -117,14 +169,13 @@ public class loadLevel : MonoBehaviour {
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
 						if(info.Length > 5){
 							shape = int.Parse(info[5]);
-							if(info.Length > 6){
+							if(info.Length > 6 && (thing.GetComponent<Rigidbody2D>()!= null || Application.loadedLevel == 1)){
 								if(Application.loadedLevel == 2){
-									print("blub");
+									//print("blub");
 									thing.GetComponent<Rigidbody2D>().sharedMaterial.bounciness = float.Parse(info[6]);
-									print(info[7]);
 									
 									if(info[7] == "1"){
-										print("hi");
+										//print("hi");
 										thing.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 										thing.GetComponent<detectWater>().ok = true;
 									}
@@ -136,6 +187,7 @@ public class loadLevel : MonoBehaviour {
 									}
 								}
 								else{
+									print(info[7]);
 									Draggable dragy = thing.GetComponent<Draggable>();
 									dragy.bounciness = float.Parse(info[6]);
 									dragy.falling = info[7]=="1";
@@ -153,7 +205,20 @@ public class loadLevel : MonoBehaviour {
 					break;
 
 				case "wa":
-					thing = GameObject.Instantiate(water,StringToVector3(info[1]),rot);
+					thing = GameObject.Instantiate(water, StringToVector3(info[1]),rot);
+					if(info.Length >9){
+						if(Application.loadedLevel == 1){
+							thing.GetComponent<Draggable>().ObjectLPos = int.Parse(info[9]);
+							undoThing.allThings[int.Parse(info[9])] = thing;
+							if(info[10] != "a"){
+								thing.transform.parent = undoThing.allThings[int.Parse(info[10])].transform;
+							}
+						}
+						else if(info[10] != "a"){
+							Destroy(thing.GetComponent<Rigidbody2D>());
+							thing.transform.parent = groups[int.Parse(info[10])];
+						}
+					}
 					thing.transform.localScale = StringToScale(info[2]);
 					
 					
@@ -176,14 +241,30 @@ public class loadLevel : MonoBehaviour {
 					break;
 
 				case "ob":
-					thing = GameObject.Instantiate(obstacle,StringToVector3(info[1]),rot);
+					thing = GameObject.Instantiate(obstacle, StringToVector3(info[1]),rot);
+					if(info.Length >9){
+						if(Application.loadedLevel == 1){
+							thing.GetComponent<Draggable>().ObjectLPos = int.Parse(info[9]);
+							undoThing.allThings[int.Parse(info[9])] = thing;
+							if(info[10] != "a"){
+								thing.transform.parent = undoThing.allThings[int.Parse(info[10])].transform;
+							}
+						}
+						else if(info[10] != "a"){
+							thing.transform.parent = groups[int.Parse(info[10])];
+							if(thing.transform.parent.GetComponent<Rigidbody2D>().bodyType == RigidbodyType2D.Dynamic){
+								Destroy(thing.GetComponent<Rigidbody2D>());
+								thing.GetComponent<detectWater>().ok = true;
+							}
+						}
+					}
 					thing.transform.localScale = StringToScale(info[2]);
 					
 					if(info.Length > 4){
 						thing.GetComponent<SpriteRenderer>().color = StringToColor(info[4]);
 						if(info.Length > 5){
 							shape = int.Parse(info[5]);
-							if(info.Length > 6){
+							if(info.Length > 6 && (thing.GetComponent<Rigidbody2D>()!= null || Application.loadedLevel == 1)){
 								if(Application.loadedLevel == 2){
 									thing.GetComponent<Rigidbody2D>().sharedMaterial.bounciness = float.Parse(info[6]);
 									if(info[7] == "1"){
@@ -215,7 +296,20 @@ public class loadLevel : MonoBehaviour {
 					break;
 
 				case "go":
-					thing = GameObject.Instantiate(goal,StringToVector3(info[1]),rot);
+					thing = GameObject.Instantiate(goal, StringToVector3(info[1]),rot);
+					if(info.Length >6){
+						if(Application.loadedLevel == 1){
+							thing.GetComponent<Draggable>().ObjectLPos = int.Parse(info[6]);
+							undoThing.allThings[int.Parse(info[6])] = thing;
+							if(info[7] != "a"){
+								thing.transform.parent = undoThing.allThings[int.Parse(info[7])].transform;
+							}
+						}
+						else if(info[7] != "a"){
+							Destroy(thing.GetComponent<Rigidbody2D>());
+							thing.transform.parent = groups[int.Parse(info[7])];
+						}
+					}
 					thing.transform.localScale = StringToScale(info[2]);
 					
 					
@@ -231,7 +325,20 @@ public class loadLevel : MonoBehaviour {
 					break;
 				
 				case "de":
-					thing = GameObject.Instantiate(deko,StringToVector3(info[1]),rot);
+					thing = GameObject.Instantiate(deko, StringToVector3(info[1]),rot);
+					if(info.Length >6){
+						if(Application.loadedLevel == 1){
+							thing.GetComponent<Draggable>().ObjectLPos = int.Parse(info[6]);
+							undoThing.allThings[int.Parse(info[6])] = thing;
+							if(info[7] != "a"){
+								thing.transform.parent = undoThing.allThings[int.Parse(info[7])].transform;
+							}
+						}
+						else if(info[7] != "a"){
+							Destroy(thing.GetComponent<Rigidbody2D>());
+							thing.transform.parent = groups[int.Parse(info[7])];
+						}
+					}
 					thing.transform.localScale = StringToScale(info[2]);
 					
 					
@@ -247,7 +354,18 @@ public class loadLevel : MonoBehaviour {
 					break;
 				
 				case "pl":
-					thing = GameObject.Instantiate(player,StringToVector3(info[1]),rot);
+					thing = GameObject.Instantiate(player, StringToVector3(info[1]),rot);
+					if(info.Length >8){
+						if(Application.loadedLevel == 1){
+							undoThing.allThings[int.Parse(info[8])] = thing;
+							if(info[9] != "a"){
+								thing.transform.parent = undoThing.allThings[int.Parse(info[9])].transform;
+							}
+						}
+						else if(info[9] != "a"){
+							thing.transform.parent = groups[int.Parse(info[9])];
+						}
+					}
 					thing.transform.localScale = StringToScale(info[2]);
 					
 					
@@ -301,11 +419,19 @@ public class loadLevel : MonoBehaviour {
 						cam.GetComponent<backgroundColor>().color2 = col2;
 					}
 					break;
+				case "c":
+					oldThingCount = false;
+					if(Application.loadedLevel ==1){
+						undoThing.allThings = new List<GameObject>(new GameObject[int.Parse(info[1])]);
+					}
+					else{
+						groups = new Transform[int.Parse(info[1])];
+					}
+					break;	
 				default:
-				print("lol");
 				break;
 			}
-			if(thing != null){
+			if(thing != null && thing.tag != "group"){
 				if(thing.tag != "deko" || Application.loadedLevel != 2){
 					switch(shape){
 						case 0:
@@ -330,13 +456,15 @@ public class loadLevel : MonoBehaviour {
 				}
 				
 				thing.GetComponent<SpriteRenderer>().sprite = shapes[shape];
-				
 			}
 			
 			
 			if(Application.loadedLevel == 1 && thing != null){
-				undoThing.allThings.Add(thing);
-				thing.GetComponent<Draggable>().ObjectLPos = undoThing.allThings.Count-1;
+				if(oldThingCount){
+					undoThing.allThings.Add(thing);
+					thing.GetComponent<Draggable>().ObjectLPos = undoThing.allThings.Count-1;
+				}
+				
 				thing.GetComponent<Draggable>().Shape = shape;
 			}
 			else if(Application.loadedLevel == 2){
@@ -395,7 +523,7 @@ public class loadLevel : MonoBehaviour {
 				}
 			}*/
 
-
+			
 		}
 
 		sReader.Close();
@@ -430,7 +558,7 @@ public class loadLevel : MonoBehaviour {
          // store as a Vector3
          Vector3 result = new Vector3(
              float.Parse(sArray[0]),
-             float.Parse(sArray[1]),0);
+             float.Parse(sArray[1]),1);
  
          return result;
      }

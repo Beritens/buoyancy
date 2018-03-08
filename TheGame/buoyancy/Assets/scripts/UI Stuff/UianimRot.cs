@@ -21,7 +21,7 @@ public class UianimRot : MonoBehaviour {
 		print("lololol");
 		while(t < 1)
       	{
-            t += Time.deltaTime / time;
+            t += Time.deltaTime / time /Time.timeScale;
 			transform.Rotate(new Vector3(0,0,amount*100 * Time.deltaTime *direction * t));
 			
             yield return null;

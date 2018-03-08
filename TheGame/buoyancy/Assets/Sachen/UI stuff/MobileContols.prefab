@@ -1338,7 +1338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa1a3e1881bc2a43b0f6be0bf89658d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.02
+  speed: 0.2
   AnchorMin: {x: 0.2, y: 0.4}
   AnchorMax: {x: 0.8, y: 0.85}
   backMulti: 0.1

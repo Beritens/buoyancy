@@ -9,20 +9,32 @@ public class detectWater : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col){
 		if(ok && col.tag == "water"){
-			bool soundy = false;
+			
+            if(transform.parent != null){
+				beingInWater biw = transform.parent.GetComponent<beingInWater>();
+				biw.enabled = true;
+				transform.parent.GetComponent<Rigidbody2D>().drag = 0.2f;
+				power.Add(new Vector2(col.GetComponent<water>().waterForceX,col.GetComponent<water>().waterForceY));
+				if(Mathf.Abs(col.GetComponent<water>().waterForceX) > Mathf.Abs(biw.WaterForceX)){
+					biw.WaterForceX = col.GetComponent<water>().waterForceX;
+				}
+				if(Mathf.Abs(col.GetComponent<water>().waterForceY) > Mathf.Abs(biw.WaterForceY)){
+					biw.WaterForceY = col.GetComponent<water>().waterForceY;
+				}
+			}
+			else{
+				beingInWater biw = GetComponent<beingInWater>();
+				biw.enabled = true;
+				GetComponent<Rigidbody2D>().drag = 0.2f;
+				power.Add(new Vector2(col.GetComponent<water>().waterForceX,col.GetComponent<water>().waterForceY));
+				if(Mathf.Abs(col.GetComponent<water>().waterForceX) > Mathf.Abs(biw.WaterForceX)){
+					biw.WaterForceX = col.GetComponent<water>().waterForceX;
+				}
+				if(Mathf.Abs(col.GetComponent<water>().waterForceY) > Mathf.Abs(biw.WaterForceY)){
+					biw.WaterForceY = col.GetComponent<water>().waterForceY;
+				}
+			}
             
-            beingInWater biw = GetComponent<beingInWater>();
-            biw.enabled = true;
-			GetComponent<Rigidbody2D>().drag = 0.2f;
-			power.Add(new Vector2(col.GetComponent<water>().waterForceX,col.GetComponent<water>().waterForceY));
-			if(Mathf.Abs(col.GetComponent<water>().waterForceX) > Mathf.Abs(biw.WaterForceX)){
-				biw.WaterForceX = col.GetComponent<water>().waterForceX;
-				soundy = true;
-			}
-			if(Mathf.Abs(col.GetComponent<water>().waterForceY) > Mathf.Abs(biw.WaterForceY)){
-				biw.WaterForceY = col.GetComponent<water>().waterForceY;
-				soundy = true;
-			}
 
 			
 		
@@ -56,7 +68,13 @@ public class detectWater : MonoBehaviour {
 	}*/
 	void OnTriggerExit2D(Collider2D col){
 		if(ok && col.tag == "water"){
-			power.Remove(new Vector2(col.GetComponent<water>().waterForceX,col.GetComponent<water>().waterForceY));
+			if(transform.parent != null){
+				transform.parent.GetComponent<beingInWater>().exit(new Vector2(col.GetComponent<water>().waterForceX,col.GetComponent<water>().waterForceY));
+			}
+			else{
+				GetComponent<beingInWater>().exit(new Vector2(col.GetComponent<water>().waterForceX,col.GetComponent<water>().waterForceY));
+			}
+			/*power.Remove(new Vector2(col.GetComponent<water>().waterForceX,col.GetComponent<water>().waterForceY));
 			beingInWater biw = GetComponent<beingInWater>();
 			if(power.Count > 0){
 				float highestX = 0;
@@ -77,7 +95,7 @@ public class detectWater : MonoBehaviour {
 				biw.WaterForceY = 0;
                 biw.enabled = false;
 				GetComponent<Rigidbody2D>().drag = 0f;
-			}
+			}*/
 	
 		}
 		

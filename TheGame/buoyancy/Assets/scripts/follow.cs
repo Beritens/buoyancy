@@ -27,6 +27,7 @@ public class follow : MonoBehaviour {
  	 {
 		if(player != null){
 			if(player.position.y > -20){
+				//Vector3 dPos = 
 				transform.position = new Vector3(player.position.x,player.position.y,-10);
 			}
 			else if(player.position.y < -30 && GetComponent<inGoal>().inTheGoal == false){

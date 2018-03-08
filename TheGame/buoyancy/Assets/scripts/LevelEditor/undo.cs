@@ -28,152 +28,91 @@ public class undo : MonoBehaviour {
 	public Sprite[] shapes;
 	public open menu;
 	bool reddo = true;
-	int HisPos = 0;
+	public int HisPos = 0;
 	public FarbenLager cam;
 	public openColorStuff changeBackground;
 	public optionStuff optionStuff;
+	public createGroup createGroup;
+	public sizeThing sizeThing;
 
 	public void undoo () {
-		if(!reddo && HisPos != 1){
-			if(history[HisPos-1].whatToDo == 0){
-				HisPos++;
-				print("lololololololololololol");
-			}
-			
-			
+		if(sizeThing != null){
+			sizeThing.addCurrent();
 		}
-		if(history[HisPos-1].whatToDo != 0){
-			if(HisPos-1 >1){
-				if(!history[HisPos-1].ae && history[HisPos-2].ae){
-					HisPos--;
-				}
-			}
-			else if(!history[HisPos-1].ae){
-				HisPos--;
-			}
-			
+		else if(sizeThing == null && GameObject.Find("sizeStuff(Clone)")){
+			sizeThing = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>();
+			sizeThing.addCurrent();
 		}
-		if(HisPos >0){
-			HisPos--;
-			if(HisPos>0){
-				blub(true, HisPos);
-			}
-			else{
-				blub(true, 0);
-			}
-			
+		
+		int howMuch = 0;
+		if(!reddo){
+			howMuch++;
 		}
-		else{
-			blub(true, 0);
+		if(history[HisPos+howMuch-1].whatToDo == 0 || history[HisPos+howMuch-1].whatToDo == 14){
+			HisPos++;
 		}
-		if(HisPos == 0){
+		reddo = true;
+		howMuch -= 2;
+		if(HisPos+howMuch == 0){
 			undoB.SetActive(false);
 		}
+		blub(HisPos+howMuch);
+		
 
 		redoB.SetActive(true);
-		reddo = true;
+		
 		
 
 		
 	}
-	/*void Update(){
-		print(HisPos + "pos");
-		print(history.Count + "count");
-		print(reddo + "reddo");
-	}*/
 	public void redo () {
-		undoB.SetActive(true);
-		if(reddo && history[HisPos].whatToDo == 0){
-			blub(false, HisPos);
-			HisPos++;
-			if(HisPos >= history.Count-1){
-				redoB.SetActive(false);
-			}
-			return;
+		if(sizeThing != null){
+			sizeThing.addCurrent();
 		}
-		if(history.Count > HisPos+1){
-			if(history[HisPos+1].whatToDo != 0 && history[HisPos+1].ae && !history[HisPos+2].ae){
-				HisPos++;
-			}
+		else if(sizeThing == null && GameObject.Find("sizeStuff(Clone)")){
+			sizeThing = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>();
+			sizeThing.addCurrent();
+			
+		}
+		int howMuch = 0;
+		if(reddo){
+			howMuch--;
+		}
+		if(history[HisPos+howMuch+1].whatToDo == 0 || history[HisPos+howMuch+1].whatToDo == 14){
+			howMuch--;
 		}
 
 		reddo = false;
-		print("hmmm");
 		
-		HisPos++;
-		if(HisPos >= history.Count-1){
+		howMuch += 2;
+		if(HisPos+howMuch >= history.Count-1){
 			redoB.SetActive(false);
 		}
 		undoB.SetActive(true);
-		/*if(history[HisPos-1].delete){
-			print("lollo");
-			if(history.Count > HisPos){
-				if(history[HisPos-1].number != history[HisPos].number||history[HisPos-1].tag != history[HisPos].tag){
-					print("9_yay");
-					blub(false, HisPos-1);
-					undoB.SetActive(true);
-					reddo = true;
-					return;
-				}
-			}
-			else{
-				print("10_yay");
-				blub(false, HisPos-1);
-				undoB.SetActive(true);
-				reddo = true;
-				return;
-			}
-			
-		}*/
-		blub(false, HisPos);
+
+		blub(HisPos+howMuch);
 		
 		
 		
 	}
-	
-	// Update is called once per frame
 	public void add (GameObject thing, int WhatToDoo, bool ae) {
 		redoB.SetActive(false);
+		if(!reddo){
+			HisPos++;
+		}
+			
 		reddo = true;
 		for(int j = history.Count-1; j>HisPos-1; j--){
+			if(history[j].whatToDo == 0 && !allThings[history[j].number].activeSelf){
+				Destroy(allThings[history[j].number]);
+			}
 			history.RemoveAt(j);
 		}
-		
 		HisPos++;
+		
+		
 		float[] loli = null;
 		switch(WhatToDoo){
-			case 0:
-				if(thing.tag == "water"){
-					loli = new float[13];
-					loli[0] = thing.transform.position.x;
-					loli[1] = thing.transform.position.y;
-					loli[2] = thing.transform.position.z;
-					loli[3] = thing.transform.localScale.x;
-					loli[4] = thing.transform.localScale.y;
-					loli[5] = thing.transform.rotation.eulerAngles.z;
-					loli[6] = thing.GetComponent<SpriteRenderer>().color.r;
-					loli[7] = thing.GetComponent<SpriteRenderer>().color.g;
-					loli[8] = thing.GetComponent<SpriteRenderer>().color.b;
-					loli[9] = thing.GetComponent<SpriteRenderer>().color.a;
-					loli[10] = thing.GetComponent<Draggable>().Shape;
-					loli[11] = thing.GetComponent<water>().waterForceX;
-					loli[12] = thing.GetComponent<water>().waterForceY;
-				}
-				else{
-					loli = new float[11];
-					loli[0] = thing.transform.position.x;
-					loli[1] = thing.transform.position.y;
-					loli[2] = thing.transform.position.z;
-					loli[3] = thing.transform.localScale.x;
-					loli[4] = thing.transform.localScale.y;
-					loli[5] = thing.transform.rotation.eulerAngles.z;
-					loli[6] = thing.GetComponent<SpriteRenderer>().color.r;
-					loli[7] = thing.GetComponent<SpriteRenderer>().color.g;
-					loli[8] = thing.GetComponent<SpriteRenderer>().color.b;
-					loli[9] = thing.GetComponent<SpriteRenderer>().color.a;
-					loli[10] = thing.GetComponent<Draggable>().Shape;
-				}
-				break;
 			case 1:
 				loli = new float[5];
 				loli[0] = thing.transform.position.x;
@@ -212,7 +151,6 @@ public class undo : MonoBehaviour {
 				loli[2] = cam.GetComponent<FarbenLager>().bg2.b;
 				break;	
 			case 7:
-				print("hallo");
 				loli = new float[5];
 				loli[0] = thing.GetComponent<water>().waterForceX;
 				loli[1] = thing.GetComponent<SpriteRenderer>().color.r;
@@ -221,7 +159,6 @@ public class undo : MonoBehaviour {
 				loli[4] = thing.GetComponent<SpriteRenderer>().color.a;
 				break;
 			case 8:
-				print("hallo2");
 				loli = new float[5];
 
 				loli[0] = thing.GetComponent<water>().waterForceY;
@@ -257,6 +194,16 @@ public class undo : MonoBehaviour {
 				loli = new float[1];
 				loli[0] = thing.GetComponent<Draggable>().mass;
 				break;
+			case 14:
+				loli = new float[1];
+				loli[0] = thing.transform.parent.GetComponent<Draggable>().ObjectLPos;
+				break;
+			case 15:
+				loli = new float[3];
+				loli[0] = thing.transform.rotation.eulerAngles.z;
+				loli[1] = thing.transform.position.x;
+				loli[2] = thing.transform.position.y;
+				break;
 
 
 		}
@@ -279,265 +226,201 @@ public class undo : MonoBehaviour {
 		undoB.SetActive(true);
 		
 	}
-	void blub(bool unddo, int Pos){
-
+	void blub(int Pos){
 		//GameObject thing = GetObject(history[Pos].tag, history[Pos].number, Pos);
-		print("hi");
 
 		if(history[Pos].tag != ""){
 			GameObject thing = allThings[history[Pos].number];
 			
-			
-			
-
-			if(history[Pos].whatToDo == 0 && thing != null){
-				if(GameObject.Find("sizeStuff(Clone)")){
-					sizeThing sizeStuff = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>();
-					if(sizeStuff.square.gameObject == thing){
-						Destroy(sizeStuff.gameObject);
-						menu.closeTheMenu();
-					}
+			int WTD =  history[Pos].whatToDo;
+			float[] lol = history[Pos].größen;
+			sizeThing = null;
+			bool change = false;
+			if(GameObject.Find("sizeStuff(Clone)")){
+				sizeThing = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>();
+				if(history[Pos].number != sizeThing.square.GetComponent<Draggable>().ObjectLPos){
+					change = true;
 				}
-				optionStuff.deselect();
-				Destroy(thing);
-				//history.RemoveAt(HisPos);
-				
 			}
-			
-			else if(thing == null && history[Pos].whatToDo == 0){
-				GameObject thingy = null;
-				
-				Infos lol = history[Pos];
-				Vector3 pos = new Vector3(lol.größen[0],lol.größen[1],lol.größen[2]);
-				Quaternion roti = Quaternion.Euler(0,0, lol.größen[5]);
-				Vector3 scali = new Vector3(lol.größen[3],lol.größen[4],0);
-				Color col = new Color(lol.größen[6],lol.größen[7],lol.größen[8],lol.größen[9]);
-				switch(history[Pos].tag){
-					
-					case "ground":
-						thingy = GameObject.Instantiate(ground,pos,roti);
-						thingy.transform.localScale = scali;
-						thingy.GetComponent<SpriteRenderer>().color = col;
-						thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
-						//groundL[history[Pos].number] = thingy;
-						break;
-
-					case "water":
-						thingy = GameObject.Instantiate(water,pos,roti);
-						thingy.transform.localScale = scali;
-						thingy.GetComponent<SpriteRenderer>().color = col;
-						thingy.GetComponent<water>().waterForceY = lol.größen[12];
-						thingy.GetComponent<water>().waterForceX = lol.größen[11];
-						thingy.GetComponent<water>().colorChanged = true;
-						thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
-						//waterL[history[Pos].number] = thingy;
+			switch(WTD){
+				case 0:
+					if(thing.activeSelf){
+						thing.layer = 0;
+						//thing.transform.Find("outline").gameObject.SetActive(false);
+						thing.SetActive(false);
+						if(sizeThing != null && !change){
+							menu.closeTheMenu();
+							sizeThing.deselect();
+						}
 						
-						break;
+						change = false;
+					}
+					else
+						thing.SetActive(true);
+					break;
+				case 1:
+				print("lol");
+					thing.transform.position = new Vector3(lol[0],lol[1],lol[2]);
+					thing.transform.localScale = new Vector3(lol[3],lol[4],0);
+					if(sizeThing != null && !change){
+						sizeThing.reselect(thing.transform);
+						optionStuff.changePosition();
+						optionStuff.changeScale();
+						
+					}
+					break;
+				case 2:
+					thing.transform.position = new Vector3(lol[0],lol[1],lol[2]);
+					if(sizeThing != null && !change){
+						sizeThing.reselect(thing.transform);
+						optionStuff.changePosition();
+					}
+					break;	
+				case 3:
+					thing.transform.rotation = Quaternion.Euler(0,0, lol[0]);
+					if(sizeThing != null && !change){
+						optionStuff.changeRotation();
+						sizeThing.reselect(thing.transform);
+					}
+					break;
+				case 4:
+					Color coloryy = new Color(lol[0],lol[1],lol[2],lol[3]);
+					thing.GetComponent<SpriteRenderer>().color = coloryy;
+					if(!change){
+						optionStuff.changeColor(coloryy);
+					}
+					break;	
+				case 7:
+					thing.GetComponent<water>().waterForceX = lol[0];
+					Color colory = new Color(lol[1],lol[2],lol[3],lol[4]);
+					thing.GetComponent<SpriteRenderer>().color = colory;
+					if(!change){
+						optionStuff.changeWaterX();
+						optionStuff.changeColor(colory);
+					}
+					break;	
+				case 8:
+					thing.GetComponent<water>().waterForceY = lol[0];
+					Color color = new Color(lol[1],lol[2],lol[3],lol[4]);
+					thing.GetComponent<SpriteRenderer>().color = color;
+					if(!change){
+						optionStuff.changeWaterY();
+						optionStuff.changeColor(color);
+					}
+					break;
+				case 9:
+					if(thing.tag == "Player"){
+						thing.GetComponent<CircleCollider2D>().enabled = false;
+					}
+					else{
+						thing.GetComponents<PolygonCollider2D>()[2].enabled = false;
+					}
+					thing.GetComponents<PolygonCollider2D>()[1].enabled = false;
+					thing.GetComponents<PolygonCollider2D>()[0].enabled = false;
+					if(sizeThing == null || change){
+						thing.GetComponent<BoxCollider2D>().enabled = false;
+					}
 
-					case "obstacle":
-						thingy = GameObject.Instantiate(obstacle,pos,roti);
-						thingy.transform.localScale = scali;
-						thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
-						thingy.GetComponent<SpriteRenderer>().color = col;
-						//obstacleL[history[Pos].number] = thingy;
-						break;
-
-					case "goal":
-						thingy = GameObject.Instantiate(goal,pos,roti);
-						thingy.transform.localScale = scali;
-						thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
-						thingy.GetComponent<SpriteRenderer>().color = col;
-						//goalL[history[Pos].number] = thingy;
-						break;
-					
-					case "deko":
-						thingy = GameObject.Instantiate(deko,pos,roti);
-						thingy.transform.localScale = scali;
-						thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
-						thingy.GetComponent<SpriteRenderer>().color = col;
-						//dekoL[history[Pos].number] = thingy;
-							/*if(info.Length >5){
-								thing.GetComponent<SpriteRenderer>().sortingOrder = int.Parse(info[5]);
+					int shape = (int)lol[0];
+					switch(shape){
+						case 0:
+							
+							thing.GetComponent<BoxCollider2D>().enabled = true;
+							break;
+						case 1:
+							if(thing.tag == "Player"){
+								thing.GetComponent<CircleCollider2D>().enabled = true;
 							}
 							else{
-								thing.GetComponent<SpriteRenderer>().sortingOrder = GameObject.FindGameObjectsWithTag("deko").Length-1;
-							}*/
-						
-						break;
-					
-					case "Player":
-						thingy = GameObject.Instantiate(player,pos,roti);
-						thingy.transform.localScale = scali;
-						thingy.GetComponent<SpriteRenderer>().color = col;
-						//playerL[history[Pos].number] = thingy;
-						thingy.GetComponent<Draggable>().ObjectLPos = lol.number;
-						break;
-					default:
-						print("lol");
-					break;
-				}
-				int shape = (int)lol.größen[10];
-				switch(shape){
-					case 0:
-						
-						thingy.GetComponent<BoxCollider2D>().enabled = true;
-						break;
-					case 1:
-						if(history[Pos].tag == "Player"){
-							thingy.GetComponent<CircleCollider2D>().enabled = true;
-						}
-						else{
-							thingy.GetComponents<PolygonCollider2D>()[2].enabled = true;
-						}
-						break;
-					case 2:
-						thingy.GetComponents<PolygonCollider2D>()[1].enabled = true;
-						break;
-					case 3:
-						thingy.GetComponents<PolygonCollider2D>()[0].enabled = true;
-						break;
-				}
-				thingy.GetComponent<SpriteRenderer>().sprite = shapes[shape];
-				allThings[history[Pos].number] = thingy;
-				//history[HisPos]=(new Stuff(thingy, lol.pos,lol.scale,lol.rotation,lol.color, lol.delete, lol.tag,lol.WaterPower));
-
-				
-			}
-			else{
-				int WTD =  history[Pos].whatToDo;
-				float[] lol = history[Pos].größen;
-				sizeThing sizeThing = null;
-				bool change = false;
-				if(GameObject.Find("sizeStuff(Clone)")){
-					sizeThing = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>();
-					if(history[Pos].number != sizeThing.square.GetComponent<Draggable>().ObjectLPos){
-						change = true;
-					}
-				}
-				switch(WTD){
-					case 1:
-						thing.transform.position = new Vector3(lol[0],lol[1],lol[2]);
-						thing.transform.localScale = new Vector3(lol[3],lol[4],0);
-						if(sizeThing != null && !change){
-							sizeThing.reselect(thing.transform);
-							optionStuff.changePosition();
-							optionStuff.changeScale();
-							
-						}
-						break;
-					case 2:
-						thing.transform.position = new Vector3(lol[0],lol[1],lol[2]);
-						if(sizeThing != null && !change){
-							sizeThing.reselect(thing.transform);
-							optionStuff.changePosition();
-						}
-						break;	
-					case 3:
-						thing.transform.rotation = Quaternion.Euler(0,0, lol[0]);
-						if(sizeThing != null && !change){
-							optionStuff.changeRotation();
-							sizeThing.reselect(thing.transform);
-						}
-						break;
-					case 4:
-						Color coloryy = new Color(lol[0],lol[1],lol[2],lol[3]);
-						thing.GetComponent<SpriteRenderer>().color = coloryy;
-						if(!change){
-							optionStuff.changeColor(coloryy);
-						}
-						break;	
-					case 7:
-						thing.GetComponent<water>().waterForceX = lol[0];
-						Color colory = new Color(lol[1],lol[2],lol[3],lol[4]);
-						thing.GetComponent<SpriteRenderer>().color = colory;
-						if(!change){
-							optionStuff.changeWaterX();
-							optionStuff.changeColor(colory);
-						}
-						break;	
-					case 8:
-						thing.GetComponent<water>().waterForceY = lol[0];
-						Color color = new Color(lol[1],lol[2],lol[3],lol[4]);
-						thing.GetComponent<SpriteRenderer>().color = color;
-						if(!change){
-							optionStuff.changeWaterY();
-							optionStuff.changeColor(color);
-						}
-						break;
-					case 9:
-						int shape = (int)lol[0];
-						switch(shape){
-							case 0:
-								
-								thing.GetComponent<BoxCollider2D>().enabled = true;
-								break;
-							case 1:
-								if(thing.tag == "Player"){
-									thing.GetComponent<CircleCollider2D>().enabled = true;
-								}
-								else{
-									thing.GetComponents<PolygonCollider2D>()[2].enabled = true;
-								}
-								
-								break;
-							case 2:
-								thing.GetComponents<PolygonCollider2D>()[1].enabled = true;
-								break;
-							case 3:
-								thing.GetComponents<PolygonCollider2D>()[0].enabled = true;
-								break;
+								thing.GetComponents<PolygonCollider2D>()[2].enabled = true;
 							}
-							thing.GetComponent<SpriteRenderer>().sprite = shapes[shape];
 							
-							if(!change){
-								optionStuff.changeTheShape();
-							}
 							break;
-					case 10:
-						thing.transform.localScale = new Vector3(lol[3],lol[4],0);
-						if(sizeThing != null && !change){
-							optionStuff.changeScale();
-							sizeThing.reselect(thing.transform);
+						case 2:
+							thing.GetComponents<PolygonCollider2D>()[1].enabled = true;
+							break;
+						case 3:
+							thing.GetComponents<PolygonCollider2D>()[0].enabled = true;
+							break;
+						}
+						thing.GetComponent<SpriteRenderer>().sprite = shapes[shape];
+						
+						if(!change){
+							optionStuff.changeTheShape();
 						}
 						break;
-					case 11:
-						thing.GetComponent<Draggable>().bounciness = lol[0];
-						if(!change){
-							optionStuff.changeBounciness();
-						}	
-						break;
-					case 12:
-						thing.GetComponent<Draggable>().falling = lol[0] == 1;
-						if(!change){
-							optionStuff.changeFalling();
-						}	
-						break;
-					case 13:
-						thing.GetComponent<Draggable>().mass = lol[0];
-						if(!change){
-							optionStuff.changeMass();
-						}	
-						break;
-				}
-				if(change){
-					sizeThing.reselect(thing.transform);
-					optionStuff.select(thing);
-				}
-				/*thing.transform.position = lol.pos;
-				thing.transform.localScale = lol.scale;
-				thing.transform.rotation = lol.rotation;
-				thing.GetComponent<SpriteRenderer>().color = lol.color;
-				if(thing.tag == "water"){
-					thing.GetComponent<water>().waterForceX = lol.WaterPower.x;
-					thing.GetComponent<water>().waterForceY = lol.WaterPower.y;
-				}
-				if(GameObject.Find("sizeStuff(Clone)")){
-					sizeThing sizeStuff = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>();
-					if(sizeStuff.square.gameObject == thing){
-						sizeStuff.reselect(thing.transform);
+				case 10:
+					thing.transform.localScale = new Vector3(lol[3],lol[4],0);
+					if(sizeThing != null && !change){
+						optionStuff.changeScale();
+						sizeThing.reselect(thing.transform);
 					}
-				}*/
+					break;
+				case 11:
+					thing.GetComponent<Draggable>().bounciness = lol[0];
+					if(!change){
+						optionStuff.changeBounciness();
+					}	
+					break;
+				case 12:
+					thing.GetComponent<Draggable>().falling = lol[0] == 1;
+					if(!change){
+						optionStuff.changeFalling();
+					}	
+					break;
+				case 13:
+					thing.GetComponent<Draggable>().mass = lol[0];
+					if(!change){
+						optionStuff.changeMass();
+					}	
+					break;
+				case 14:
+					if(thing.transform.parent == allThings[(int)lol[0]].transform){
+						allThings[(int)lol[0]].SetActive(false);
+						thing.transform.parent = null;
+						if(createGroup.groupy == allThings[(int)lol[0]].transform && createGroup.editing){
+							createGroup.darkThingOff();
+							createGroup.editing = false;
+						}
+					}
+					else{
+						allThings[(int)lol[0]].SetActive(true);
+						thing.transform.parent= allThings[(int)lol[0]].transform;
+						if(sizeThing!= null && !change){
+							//change = false;
+							sizeThing.reselect(thing.transform);
+						}
+						
+					}
+					break;
+				case 15:
+					thing.transform.rotation = Quaternion.Euler(0,0, lol[0]);
+					thing.transform.position = new Vector3(lol[1],lol[2],thing.transform.position.z);
+					if(sizeThing != null && !change){
+						sizeThing.reselect(thing.transform);
+						optionStuff.changePosition();
+					}
+					break;	
 			}
+			if(change){
+				sizeThing.reselect(thing.transform);
+				optionStuff.select(thing);
+			}
+			/*thing.transform.position = lol.pos;
+			thing.transform.localScale = lol.scale;
+			thing.transform.rotation = lol.rotation;
+			thing.GetComponent<SpriteRenderer>().color = lol.color;
+			if(thing.tag == "water"){
+				thing.GetComponent<water>().waterForceX = lol.WaterPower.x;
+				thing.GetComponent<water>().waterForceY = lol.WaterPower.y;
+			}
+			if(GameObject.Find("sizeStuff(Clone)")){
+				sizeThing sizeStuff = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>();
+				if(sizeStuff.square.gameObject == thing){
+					sizeStuff.reselect(thing.transform);
+				}
+			}*/
+			
 		}
 		else{
 			float[] lol = history[Pos].größen;
@@ -550,9 +433,9 @@ public class undo : MonoBehaviour {
 			else{
 				cam.bg2 = col;
 			}
-			changeBackground.changebgColor();
+			//changeBackground.changebgColor();
 		}
-		
+		HisPos = Pos;
 	}
 	/*GameObject GetObject(string tag, int nummer, int pos){
 		GameObject thing = null;

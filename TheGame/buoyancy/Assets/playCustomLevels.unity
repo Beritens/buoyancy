@@ -1919,6 +1919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b43c66a1f6e02fe4799b1e53e20548e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  group: {fileID: 1910738959352896, guid: 4bde8d631896b2a4597b43108c99e4b9, type: 2}
   ground: {fileID: 1956549656959350, guid: d130af72da680cd4d98d2bdb0028515b, type: 2}
   water: {fileID: 1626464112822236, guid: 23d99efd53098d34dbdbd714c27ca2bf, type: 2}
   obstacle: {fileID: 1112828322048890, guid: 61c39464c09a90b4ea1619fcd74555a5, type: 2}
@@ -2005,7 +2006,7 @@ MonoBehaviour:
   AnchorMin: {x: 0.35, y: 0.25}
   AnchorMax: {x: 0.65, y: 0.34}
   recT: {fileID: 559883903}
-  speed: 0.02
+  speed: 0.2
   col1: {r: 1, g: 1, b: 1, a: 0}
   col2: {r: 1, g: 1, b: 1, a: 0.253}
   wait: 1
@@ -2427,7 +2428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa1a3e1881bc2a43b0f6be0bf89658d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.02
+  speed: 0.2
   AnchorMin: {x: 0.2, y: 0.4}
   AnchorMax: {x: 0.8, y: 0.9}
   backMulti: 1
@@ -3195,7 +3196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa1a3e1881bc2a43b0f6be0bf89658d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.02
+  speed: 0.2
   AnchorMin: {x: 0.2, y: 0.4}
   AnchorMax: {x: 0.8, y: 0.85}
   backMulti: 1
@@ -3564,7 +3565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa1a3e1881bc2a43b0f6be0bf89658d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.02
+  speed: 0.2
   AnchorMin: {x: 0.2, y: 0.4}
   AnchorMax: {x: 0.8, y: 0.9}
   backMulti: 1
@@ -5498,7 +5499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa1a3e1881bc2a43b0f6be0bf89658d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.02
+  speed: 0.2
   AnchorMin: {x: 0.2, y: 0.4}
   AnchorMax: {x: 0.8, y: 0.9}
   backMulti: 1

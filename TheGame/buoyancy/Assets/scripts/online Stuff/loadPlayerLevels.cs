@@ -23,10 +23,13 @@ public class loadPlayerLevels : MonoBehaviour {
     int whereAmI = 0;
     bool loadMine = true;
     bool searchmine = false;
-    public message message;
+    public GameObject before;
+    public GameObject after;
+    public GameObject somethingwentWrong;
+    //public message message;
 
     public void Start(){
-        if(File.Exists(Application.persistentDataPath+"/PlayerLevelsList.txt")){
+      /*  if(File.Exists(Application.persistentDataPath+"/PlayerLevelsList.txt")){
             StreamReader sr = new StreamReader(Application.persistentDataPath+"/PlayerLevelsList.txt");
             
             while(!sr.EndOfStream){
@@ -39,12 +42,21 @@ public class loadPlayerLevels : MonoBehaviour {
             //Names.Sort();  << das würde es alphabetisch ordnen
             //Names.Reverse(); 
             ListFiles(Names.Count,Names.Count-100,Names);
-        }
+        }*/
+        //StartCoroutine(stuff());
 
         searchBar.onEndEdit.AddListener(search);
         
     }
+    public void playOnline(){
+        before.SetActive(false);
+        after.SetActive(true);
+        StartCoroutine(stuff());
+    }
 	public void click(){
+        foreach (Transform child in container.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
 		StartCoroutine(stuff());
 	}
 	IEnumerator stuff(){
@@ -55,15 +67,21 @@ public class loadPlayerLevels : MonoBehaviour {
         
         if (w.error != null)
         {
-            message.Message("something went wrong");
+            //message.Message("something went wrong");
+            Names.Clear();
             print("error");
-            print ( w.error );    
+            print ( w.error ); 
+            /*if(before.activeSelf){
+                before.SetActive(false);
+            }*/
+            somethingwentWrong.SetActive(true);
         }
         else if(w.isDone){
-            print("hi");
+            somethingwentWrong.SetActive(false);
+            //print("hi");
             string[] bruh = w.text.Split('\n');
             if(!bruh[0].Contains(";")){
-                message.Message("sry, the server is currently sleeping. He will wake up in about 1 hour. This text is way too long to read in just a few seconds but I don't care");
+                //message.Message("sry, the server is currently sleeping. He will wake up in about 1 hour. This text is way too long to read in just a few seconds but I don't care");
                 yield break;
             }
             //string[] lol = new string[bruh.Length];
@@ -74,7 +92,7 @@ public class loadPlayerLevels : MonoBehaviour {
             Names.Clear();
             Names.AddRange(bruh);
             Names.RemoveAt(Names.Count-1);
-            File.WriteAllLines(Application.persistentDataPath+"/PlayerLevelsList.txt",bruh);
+            //File.WriteAllLines(Application.persistentDataPath+"/PlayerLevelsList.txt",bruh);
             loadMine = true;
 
             foreach (Transform child in container.transform) {
@@ -82,13 +100,15 @@ public class loadPlayerLevels : MonoBehaviour {
             }
             if(searching){
                 search(searchBar.text);
+               // message.Message("refreshed!");
             }
             else if(searchmine){
                 loadMyLevels();
+               // message.Message("refreshed!");
             }
             else{
                 ListFiles(Names.Count,Names.Count-100,Names);
-                message.Message("refreshed!");
+               // message.Message("refreshed!");
             }
             
             

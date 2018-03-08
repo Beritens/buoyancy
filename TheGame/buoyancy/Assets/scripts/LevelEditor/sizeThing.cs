@@ -5,7 +5,7 @@ using UnityEngine;
 public class sizeThing : MonoBehaviour {
 
 	public Camera cam;
-	public Transform move;
+	//public Transform move;
 	public Transform alldots;
 	public Transform one;
 	public Transform two;
@@ -22,7 +22,7 @@ public class sizeThing : MonoBehaviour {
 	Transform fourb;
 	optionStuff optionStuff;
 
-	bool beep;
+	bool beep =true;
 	Vector3 unterschied = new Vector3(0,0,0);
 	GameObject Scroller;
 	modis mode;
@@ -35,80 +35,228 @@ public class sizeThing : MonoBehaviour {
 	bool bro = true;
 	Vector3 difference = new Vector3();
 	Vector2 minusOrNot = new Vector2();
+	bool tag_Player = false;
+	createGroup createGroup;
+	Vector2 localCenter;
+	Vector2 Ratio;
+	Vector2 colSize;
 
+	void Bounds(){
+		print("hi");
+		 Quaternion currentRotation = square.rotation;
+         square.rotation = Quaternion.Euler(0f,0f,0f);
+		 Bounds bounds;
+		 if(square.transform.childCount > 5){
+			 bounds = new Bounds(square.transform.GetChild(5).position, Vector3.zero);
+		 }
+         else{
+			 bounds = new Bounds(square.position, Vector3.one*3);
+		 }
+ 
+         /*foreach(Renderer renderer in square.GetComponentsInChildren<Renderer>())
+         {
+             bounds.Encapsulate(renderer.bounds);
+         }*/
+		 for(int i =5; i< square.childCount; i++){
+			 if(square.GetChild(i).gameObject.activeSelf)
+			 	bounds.Encapsulate(square.GetChild(i).GetComponent<Renderer>().bounds);
+		 }
+		onea.position = new Vector3(bounds.min.x,bounds.max.y,square.position.z);
+		twoa.position = new Vector3(bounds.max.x,bounds.max.y,square.position.z);
+		threea.position = new Vector3(bounds.max.x,bounds.min.y,square.position.z);
+		foura.position = new Vector3(bounds.min.x,bounds.min.y,square.position.z);
+		LineRenderer lr = square.GetComponentInChildren<LineRenderer>();
+		lr.SetPosition(0,onea.localPosition);
+		lr.SetPosition(1,twoa.localPosition);
+		lr.SetPosition(2,threea.localPosition);
+		lr.SetPosition(3,foura.localPosition);
+        localCenter = square.InverseTransformPoint(bounds.center);
+		square.GetComponent<BoxCollider2D>().offset = localCenter;
+		colSize = Vector2.Scale(bounds.size, new Vector2(1/square.localScale.x,1/square.localScale.y));
+		square.GetComponent<BoxCollider2D>().size = colSize;
+		square.GetComponent<rotate>().localCenter = localCenter;
+		//print(bounds.size.x + "  " + square.localScale.x + "," + bounds.size.y + "  " + square.localScale.y);
+		Ratio = new Vector2((square.localScale.x*0.6f)/bounds.size.x,(square.localScale.y*0.6f)/bounds.size.y);
+        // bounds.center = localCenter;
+         Debug.Log("The local bounds of this model is " + bounds);
+		 square.rotation = currentRotation;
+	}
 	void Start(){
+		createGroup = GameObject.Find("group button").GetComponent<createGroup>();
 		cam= GameObject.Find("Main Camera").GetComponent<Camera>();
 		Scroller = GameObject.Find("Scroller");
 		optionStuff = GameObject.Find("openOptionWindow").GetComponent<optionStuff>();
 		mode = GameObject.Find("MODE").GetComponent<modis>();
 		
-		move.rotation = square.rotation;
-		move.localScale = square.localScale;
-		move.position = square.position;
-
-		if(square.tag == "goal" || square.tag == "water" || square.tag == "obstacle" || square.tag == "ground" || square.tag == "deko"){
+		
+		//move.rotation = square.rotation;
+		//move.localScale = square.localScale;
+		//move.position = square.position;
+		square.Find("outline").gameObject.SetActive(true);
+		square.GetComponent<BoxCollider2D>().enabled = true;
+		if(square.tag == "goal" || square.tag == "water" || square.tag == "obstacle" || square.tag == "ground" || square.tag == "deko" || square.tag == "group"){
 			
-			alldots.rotation = move.rotation;
+			tag_Player = false;
+			alldots.rotation = square.rotation;
+			
 
-			unterschied =move.position-alldots.position;
+			unterschied =square.position-alldots.position;
 			onea = square.transform.GetChild(0);
 			twoa = square.transform.GetChild(1);
 			threea = square.transform.GetChild(2);
 			foura = square.transform.GetChild(3);
-
+			if(square.tag == "group"){
+				Bounds();
+			}
 			one.position = onea.position;
 			two.position = twoa.position;
 			three.position = threea.position;
 			four.position = foura.position;
 		}
 		else if(square.tag == "Player"){
+			tag_Player = true;
 			alldots.gameObject.SetActive(false);
 		}
 		
+
 		
 	}
+	public void addCurrent(){
+		if(square.GetComponent<rotate>().enabled && square.GetComponent<rotate>().ok){
+			square.GetComponent<rotate>().ok = false;
+			Scroller.GetComponent<scroll>().canIscroll2 = true;
+			if(square.tag == "group")
+				Scroller.GetComponent<undo>().add(square.gameObject, 15, false);
+			else
+				Scroller.GetComponent<undo>().add(square.gameObject, 3, false);
+		}
+		if(oneb != null && oneb.GetComponent<Drag>().ok){
+			oneb.GetComponent<Drag>().ok = false;
+			Scroller.GetComponent<scroll>().canIscroll2 = true;
+			Scroller.GetComponent<undo>().add(square.gameObject, 1, false);
+			//Scroller.GetComponent<undo>().redo();
+		}
+		if(square.GetComponent<Drag>().enabled && square.GetComponent<Drag>().ok) {
+			square.GetComponent<Drag>().ok = false;
+			Scroller.GetComponent<scroll>().canIscroll2 = true;
+			Scroller.GetComponent<undo>().add(square.gameObject, 2, false);
+			//Scroller.GetComponent<undo>().redo();
+		}
+		
+	}
+	public void deselect(){
+		addCurrent();
+		if(!createGroup.editing){
+			createGroup.gameObject.SetActive(false);
+		}
+		
+		if(square.tag == "group"){
+			//square.GetComponent<BoxCollider2D>().size = co;
+			square.GetComponent<BoxCollider2D>().enabled = false;
+		}
+			
+		else{
+			ColliderStuff();
+			square.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f,0.02f);
+		}
+			
+		square.GetComponent<Drag>().enabled = false;
+		square.GetComponent<rotate>().enabled = false;
+		DestroyObject(this.gameObject);
+		square.Find("outline").gameObject.SetActive(false);
+		square.gameObject.layer = 0;
+	}
+	void ColliderStuff(){
+		int howMany = 0;
+		Collider2D[] cols = square.GetComponents<Collider2D>();
+		for(int i = 0; i< cols.Length; i++){
+			
+			if(cols[i].enabled){
+				howMany++;
+			}
+				
+		}
+		if(howMany > 1){
+			square.GetComponent<BoxCollider2D>().enabled = false;
+		}
+	}
 	public void reselect(Transform block){
+		addCurrent();
 
 		if(square != block){
-			move.GetComponent<Drag>().ok = false;
-			print("salami");
+			if(square.tag == "group"){
+				//square.GetComponent<BoxCollider2D>().size = new Vector2 (0.6f,0.6f);
+				square.GetComponent<BoxCollider2D>().enabled = false;
+			}
+				
+			else{
+				square.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f,0.02f);
+				ColliderStuff();
+			}
+				
+			square.GetComponent<Drag>().enabled = false;
+			square.GetComponent<rotate>().enabled = false;
 			square.Find("outline").gameObject.SetActive(false);
 			square.gameObject.layer = 0;
+			if(square.tag == "group"){
+				
+				square.GetComponent<BoxCollider2D>().enabled = false;
+			}
+			
 			square = block;
-
 			square.Find("outline").gameObject.SetActive(true);
-			square.gameObject.layer = 2;
+			square.gameObject.layer = 8;
 			ja = true;
+			beep = true;
 			bro = true;
 			difference = new Vector3();
 			minusOrNot = new Vector2();
+			square.GetComponent<BoxCollider2D>().enabled = true;
+			
+			
+		}
+		if(square.parent != null){
+			createGroup.EditGroup(square);
+		}
+		else if(square.tag == "group"){
+			createGroup.select();
+		}
+		else{
+			createGroup.darkThingOff();
+			createGroup.state = 0;
+			createGroup.textMesh.text = "create group";
 		}
 
 		
 
 		
 
-		move.rotation = square.rotation;
-		move.localScale = square.localScale;
-		move.position = square.position;
+		
 
-		if(square.tag == "goal" || square.tag == "water" || square.tag == "obstacle" || square.tag == "ground" || square.tag == "deko"){
+		if(square.tag == "goal" || square.tag == "water" || square.tag == "obstacle" || square.tag == "ground" || square.tag == "deko" || square.tag == "group"){
+			tag_Player = false;
 			alldots.gameObject.SetActive(true);
-			alldots.rotation = move.rotation;
+			alldots.rotation = square.rotation;
 			
-			unterschied =move.position-alldots.position;
+			unterschied =square.position-alldots.position;
 			onea = square.transform.GetChild(0);
 			twoa = square.transform.GetChild(1);
 			threea = square.transform.GetChild(2);
 			foura = square.transform.GetChild(3);
-
+			if(square.tag == "group"){
+						
+				square.GetComponent<BoxCollider2D>().enabled = true;
+				Bounds();
+			}
 			one.position = onea.position;
 			two.position = twoa.position;
 			three.position = threea.position;
 			four.position = foura.position;
 			
+			
 		}
 		else if(square.tag == "Player"){
+			tag_Player = true;
 			alldots.gameObject.SetActive(false);
 		}
 
@@ -130,20 +278,33 @@ public class sizeThing : MonoBehaviour {
 		
 		if((mode.moveOn && !mode.scaleOn) || mode.rotateOn){
 			scalililili = true;
-			
-			move.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f+cam.orthographicSize/Mathf.Abs(move.localScale.x*4),0.02f+cam.orthographicSize/Mathf.Abs(move.localScale.y*4));
+			if(square.tag == "group")
+				square.GetComponent<BoxCollider2D>().size = new Vector2 (colSize.x+cam.orthographicSize/Mathf.Abs(square.localScale.x*4),colSize.y+cam.orthographicSize/Mathf.Abs(square.localScale.y*4));
+			else
+				square.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f+cam.orthographicSize/Mathf.Abs(square.lossyScale.x*4),0.02f+cam.orthographicSize/Mathf.Abs(square.lossyScale.y*4));
+				/*if(square.parent != null){
+					square.GetComponent<BoxCollider2D>().size = new Vector2 (square.GetComponent<BoxCollider2D>().size.x/Mathf.Abs(square.parent.localScale.x),square.GetComponent<BoxCollider2D>().size.y/Mathf.Abs(square.parent.localScale.y));
+				}*/
 			movee = true;
+			
 		}
 		else if(movee && !mode.rotateOn){
-			move.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f,0.02f);
+			if(square.tag == "group")
+				square.GetComponent<BoxCollider2D>().size = colSize;
+			else
+				square.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f,0.02f);
 			movee = false;
 			
 			
 		}
-
+		if(mode.moveOn)
+			square.GetComponent<Drag>().enabled = true;
+		else
+			square.GetComponent<Drag>().enabled = false;
+		
 
 		if(!Scroller.GetComponent<isSomethingOpen>().SomethingOpen){
-			if(square.tag == "goal" || square.tag == "water" || square.tag == "obstacle" || square.tag == "ground" || square.tag == "deko"){
+			if(!tag_Player){
 			if(!one.GetComponent<Drag>().ok && !two.GetComponent<Drag>().ok && !three.GetComponent<Drag>().ok && !four.GetComponent<Drag>().ok ){
 				Scroller.GetComponent<scroll>().canIscroll = true;
 			}
@@ -179,6 +340,7 @@ public class sizeThing : MonoBehaviour {
 
 
 				if(!mode.moveOn){
+					
 					if(ja){
 						one.GetComponent<BoxCollider2D>().size = new Vector2(0.4f, 0.4f);
 						two.GetComponent<BoxCollider2D>().size = new Vector2(0.4f, 0.4f);
@@ -294,13 +456,12 @@ public class sizeThing : MonoBehaviour {
 		}
 		
 		if(Input.touchCount == 1){
-			if(square.tag == "goal" || square.tag == "water" || square.tag == "obstacle" || square.tag == "ground" || square.tag == "deko"){
+			if(!tag_Player){
 				if(mode.scaleOn){
 					
 					if(one.GetComponent<Drag>().ok){
 						minusOrNot.x = -1;
 						minusOrNot.y = 1;
-						print("1");
 						oneb = one;
 						twob = two;
 						threeb = three;
@@ -347,19 +508,18 @@ public class sizeThing : MonoBehaviour {
 				
 				
 				
-				if(move.GetComponent<Drag>().ok && mode.moveOn){
+				if(square.GetComponent<Drag>().ok && mode.moveOn){
 					Touch touch = Input.GetTouch(0);
 
 					Vector3 touchPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x,touch.position.y,10));
 					Vector2 touchPosWorld2D = new Vector2(touchPos.x,touchPos.y);
 					if(bro){
-						difference = new Vector3(move.position.x-touchPos.x,move.position.y-touchPos.y,-10);
+						difference = new Vector3(square.position.x-touchPos.x,square.position.y-touchPos.y,-10);
 						isSomethingOpen.modified = true;
 						Scroller.GetComponent<scroll>().canIscroll2 = false;
 						Scroller.GetComponent<undo>().add(square.gameObject, 2, true);
 						bro = false;
 					}
-					print("jabadabadu");
 					Vector3 movePos = new Vector3(touchPos.x,touchPos.y, square.position.z)+new Vector3(difference.x,difference.y,0);
 					if(beep){
 						unterschied = movePos-alldots.position;
@@ -371,9 +531,8 @@ public class sizeThing : MonoBehaviour {
 					optionStuff.changePosition();
 					alldots.position = movePos-unterschied;
 					square.position = movePos;
-					move.position = movePos;
 					if(touch.phase == TouchPhase.Ended){
-						move.GetComponent<Drag>().ok = false;
+						square.GetComponent<Drag>().ok = false;
 						Scroller.GetComponent<scroll>().canIscroll2 = true;
 						Scroller.GetComponent<undo>().add(square.gameObject, 2, false);
 						bro = true;
@@ -390,7 +549,6 @@ public class sizeThing : MonoBehaviour {
 					if(bro){
 						difference = new Vector3(oneb.position.x-touchPos.x,oneb.position.y-touchPos.y,-10);
 						isSomethingOpen.modified = true;
-						print("yrah");
 						Scroller.GetComponent<scroll>().canIscroll2 = false;
 						Scroller.GetComponent<undo>().add(square.gameObject, 1, true);
 						bro = false;
@@ -398,14 +556,49 @@ public class sizeThing : MonoBehaviour {
 						
 					}
 					Vector3 onebPos = new Vector3(touchPos.x,touchPos.y,square.position.z)+new Vector3(difference.x,difference.y,0);
-
-					Vector2 lol = new Vector2((alldots.InverseTransformPoint(onebPos).x-alldots.InverseTransformPoint(threeb.position).x)*minusOrNot.x,(alldots.InverseTransformPoint(onebPos).y-alldots.InverseTransformPoint(threeb.position).y)*minusOrNot.y)*50;
-
-					move.localScale = lol;
-					move.position = new Vector3((onebPos.x + threeb.position.x)/2,(onebPos.y + threeb.position.y)/2,move.position.z);
 					
-					square.localScale = lol;
-					square.position = new Vector3((onebPos.x + threeb.position.x)/2,(onebPos.y + threeb.position.y)/2,square.position.z);
+
+					Vector2 onebInverse;
+					Vector2 threebInverse;
+					if(square.parent != null){
+						//Hey Ben aus der Zukunft, Ich habe kp wie ich das gemacht habe... wenn du es auch nur falsch anguckst wird es nichtmehr funktionieren.
+						onebInverse = Quaternion.Inverse(square.localRotation)*(square.parent.InverseTransformPoint(onebPos)-square.localPosition);
+						threebInverse = Quaternion.Inverse(square.localRotation)*(square.parent.InverseTransformPoint(threeb.position)-square.localPosition);
+					}
+					else{
+						onebInverse = square.InverseTransformDirection(onebPos);
+						threebInverse = square.InverseTransformDirection(threeb.position);
+					}
+					Vector2 lol;
+					if(square.tag == "group"){
+						//print(onebPos +" "+threeb.position);
+						lol = lol = new Vector2((onebInverse.x-threebInverse.x)*minusOrNot.x,(onebInverse.y-threebInverse.y)*minusOrNot.y)/0.6f;
+						lol= Vector2.Scale(lol,Ratio);
+						//Vector3 deltaPos = square.TransformPoint(localCenter);
+						print(square.TransformPoint(localCenter));
+						square.localScale = lol;
+						square.position -= square.TransformPoint(localCenter) - (onebPos+threeb.position)*0.5f;
+						//square.position -= square.TransformPoint(localCenter) -  new Vector3((onebPos.x + threeb.position.x)/2,(onebPos.y + threeb.position.y)/2,0);
+					}
+					else{
+						lol = lol = new Vector2((onebInverse.x-threebInverse.x)*minusOrNot.x,(onebInverse.y-threebInverse.y)*minusOrNot.y)*50;
+						square.localScale = lol;
+						square.position = (onebPos+threeb.position)*0.5f;
+					}
+					
+
+					/*if(square.parent != null){
+						Vector2 Ps = new Vector2(1/square.parent.localScale.x,1/square.parent.localScale.y);
+						lol = Vector2.Scale(Ps,Quaternion.Inverse(square.parent.rotation) *lol);
+					}*/
+					
+					
+					
+
+					
+					
+					
+					
 					optionStuff.changePosition();
 					optionStuff.changeScale();
 					one.position = onea.position;
@@ -423,21 +616,20 @@ public class sizeThing : MonoBehaviour {
 						Scroller.GetComponent<undo>().add(square.gameObject, 1, false);
 						bro = true;
 						Scroller.GetComponent<scroll>().canIscroll2 = true;
-						print("hilo");
 					}
 					
 				}
 			
 			}
-			else if(square.tag == "Player"){
+			else if(tag_Player){
 				//square.position = move.position;
-				if(move.GetComponent<Drag>().ok && mode.moveOn){
+				if(square.GetComponent<Drag>().ok && mode.moveOn){
 					Touch touch = Input.GetTouch(0);
 
 					Vector3 touchPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x,touch.position.y,10));
 					Vector2 touchPosWorld2D = new Vector2(touchPos.x,touchPos.y);
 					if(bro){
-						difference = new Vector3(move.position.x-touchPos.x,move.position.y-touchPos.y,-10);
+						difference = new Vector3(square.position.x-touchPos.x,square.position.y-touchPos.y,-10);
 						isSomethingOpen.modified = true;
 						print("yrah");
 						Scroller.GetComponent<scroll>().canIscroll2 = false;
@@ -445,18 +637,17 @@ public class sizeThing : MonoBehaviour {
 						bro = false;
 					}
 					Vector3 movePos = new Vector3(touchPos.x,touchPos.y, square.position.z)+new Vector3(difference.x,difference.y,0);
-					if(beep){
-						unterschied =movePos-alldots.position;
+					//if(beep){
+						//unterschied =movePos-alldots.position;
 					
-					}
+					//}
 					
 
 					beep = false;
 					square.position = movePos;
 					optionStuff.changePosition();
-					move.position = movePos;
 					if(touch.phase == TouchPhase.Ended){
-						move.GetComponent<Drag>().ok = false;
+						square.GetComponent<Drag>().ok = false;
 						Scroller.GetComponent<undo>().add(square.gameObject, 2, false);
 						bro = true;
 						Scroller.GetComponent<scroll>().canIscroll2 = true;
@@ -464,17 +655,21 @@ public class sizeThing : MonoBehaviour {
 				}
 			}
 			if(mode.rotateOn){
+				square.GetComponent<rotate>().enabled = true;
 				scalililili = true;
 				//move.GetComponent<BoxCollider2D>().size = new Vector2 (0.02f+cam.orthographicSize/(move.localScale.x*4),0.02f+cam.orthographicSize/(move.localScale.y*4));
 				movee = true;
-				if(move.GetComponent<rotate>().ok){
-					square.rotation = move.rotation;
+				if(square.GetComponent<rotate>().ok){
+					square.rotation = square.rotation;
 					if(alldots != null){
-						alldots.rotation = move.rotation;
+						alldots.rotation = square.rotation;
 					}
 					
 				}
 					
+			}
+			else{
+				square.GetComponent<rotate>().enabled = false;
 			}
 		}
 		

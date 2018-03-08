@@ -37,6 +37,8 @@ public class deleteOnlineLevel : MonoBehaviour {
 		
 		GameObject.Find("rlyController").GetComponent<openSomething>().open();
 		GameObject.Find("rlyText").GetComponent<TextMeshProUGUI>().text = "are you sure that you want to delete " + splitty[0] +"?";
-		GameObject.Find("yesDelete").GetComponent<delPlaceholder>().button = this;
+		delPlaceholder lol = GameObject.Find("yesDelete").GetComponent<delPlaceholder>();
+		lol.button = this;
+		lol.online = true;
 	}
 }

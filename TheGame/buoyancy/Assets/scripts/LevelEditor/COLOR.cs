@@ -52,15 +52,18 @@ public class COLOR : MonoBehaviour {
 		if(eye){
 			if(!bg1on && !bg2on && GameObject.Find("sizeStuff(Clone)")){
 				Transform square = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square;
-				Scroller.GetComponent<undo>().add(square.gameObject, 4, true);
+				if(square.tag != "group"){
+					Scroller.GetComponent<undo>().add(square.gameObject, 4, true);
 				
-				square.GetComponent<SpriteRenderer>().color = color;
-				optionStuff.changeColor(color);
-				if(square.tag == "water"){
-					square.GetComponent<water>().colorChanged = true;
+					square.GetComponent<SpriteRenderer>().color = color;
+					optionStuff.changeColor(color);
+					if(square.tag == "water"){
+						square.GetComponent<water>().colorChanged = true;
+					}
+					isSomethingOpen.modified = true;
+					Scroller.GetComponent<undo>().add(square.gameObject, 4, false);
 				}
-				isSomethingOpen.modified = true;
-				Scroller.GetComponent<undo>().add(square.gameObject, 4, false);
+				
 			}
 			else if(bg1on){
 				isSomethingOpen.modified = true;
@@ -143,13 +146,16 @@ public class COLOR : MonoBehaviour {
 				Color endColor = new Color(color.r,color.g,color.b,a);
 				
 				Transform thing = GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square;
-				thing.GetComponent<SpriteRenderer>().color = endColor;
-				optionStuff.changeColor(endColor);
-				isSomethingOpen.modified = true;
-				if(thing.tag == "water"){
-					print("dasHier");
-					thing.GetComponent<water>().colorChanged = true;
+				if(thing.tag != "group"){
+					thing.GetComponent<SpriteRenderer>().color = endColor;
+					optionStuff.changeColor(endColor);
+					isSomethingOpen.modified = true;
+					if(thing.tag == "water"){
+						print("dasHier");
+						thing.GetComponent<water>().colorChanged = true;
+					}
 				}
+				
 			}
 			/*if(touch.phase == TouchPhase.Ended && on){
 
@@ -160,7 +166,7 @@ public class COLOR : MonoBehaviour {
 	}
 	public void DOWN(){
 		on = true;
-		if(GameObject.Find("sizeStuff(Clone)") && !bg1on && !bg2on){
+		if(GameObject.Find("sizeStuff(Clone)") && GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.tag != "group" && !bg1on && !bg2on){
 			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject,4, true);
 		}
 		else if(bg1on){
@@ -172,7 +178,7 @@ public class COLOR : MonoBehaviour {
 	}
 	public void UP(){
 		on = false;
-		if(GameObject.Find("sizeStuff(Clone)") && !bg1on && !bg2on){
+		if(GameObject.Find("sizeStuff(Clone)") && GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.tag != "group" && !bg1on && !bg2on){
 			Undo.add(GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject,4, false);
 		}
 		else if(bg1on){

@@ -5,7 +5,7 @@ using UnityEngine;
 public class spawn : MonoBehaviour {
 
 	
-	GameObject Scroller;
+	public GameObject Scroller;
 	public GameObject thing;
 	public bool player;
 	public bool ground;
@@ -17,8 +17,8 @@ public class spawn : MonoBehaviour {
 	public open openMenu;
 	public optionStuff optionStuff;
 	undo Undo;
+	public createGroup createGroup;
 	void Start(){
-		Scroller = GameObject.Find("Scroller");
 		Undo = Scroller.GetComponent<undo>();
 	}
 	public void spawnDaThing(){
@@ -28,7 +28,10 @@ public class spawn : MonoBehaviour {
 			bob.GetComponent<Draggable>().ok = true;
 			Scroller.GetComponent<scroll>().canIscroll = false;
 			
-
+			if(createGroup.editing == true){
+				bob.transform.parent = createGroup.groupy;
+				bob.GetComponent<SpriteRenderer>().sortingOrder = 9;
+			}
 			//Position
 			if(deko){
 				//GameObject[] lol = GameObject.FindGameObjectsWithTag("deko");
@@ -124,6 +127,7 @@ public class spawn : MonoBehaviour {
 					bob.GetComponents<PolygonCollider2D>()[0].enabled = true;
 					break;
 			}
+			
 			bob.GetComponent<SpriteRenderer>().sprite = shapee.shapes[shape];
 			bob.GetComponent<Draggable>().Shape = shape;
 
@@ -134,7 +138,7 @@ public class spawn : MonoBehaviour {
 
 
 
-			if(GameObject.Find("sizeStuff(Clone)")){
+			/*if(GameObject.Find("sizeStuff(Clone)")){
 				optionStuff.deselect();
 				GameObject.Find("sizeStuff(Clone)").GetComponent<sizeThing>().square.gameObject.layer = 0;
 				if(openMenu.opeeen){
@@ -150,7 +154,7 @@ public class spawn : MonoBehaviour {
 				GameObject.Destroy(sizeStuff);
 
 				
-			}
+			}*/
 		}
 		
 	}

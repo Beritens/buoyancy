@@ -42,7 +42,7 @@ public class UiAnimation : MonoBehaviour {
 
 		while(t <= 1 && an)
        {
-            t += Time.deltaTime / speed;
+            t += Time.deltaTime / speed/Time.timeScale;
             recT.anchorMin = Vector2.Lerp(rAnchorMin,AnchorMin, t);
 			recT.anchorMax = Vector2.Lerp(rAnchorMax,AnchorMax, t);
             yield return null;
@@ -53,7 +53,7 @@ public class UiAnimation : MonoBehaviour {
 
 		while(t >= 0 & !an)
        {
-            t -= (Time.deltaTime / speed) * backMulti;
+            t -= (Time.deltaTime / speed) * backMulti/Time.timeScale;
             recT.anchorMin = Vector2.Lerp(rAnchorMin,AnchorMin, t);
 			recT.anchorMax = Vector2.Lerp(rAnchorMax,AnchorMax, t);
             yield return null;

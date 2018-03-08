@@ -15,6 +15,7 @@ public class move : MonoBehaviour {
 	public bool UseCustomFriction = true;
 	public AudioClip[] JumpSound;
 	public AudioClip[] whooosh;
+	public AudioClip[] impact;
 	//public Color color1;
 	//public Color color2;
 	GameObject cameraa;
@@ -33,7 +34,7 @@ public class move : MonoBehaviour {
 
 	void Start () {
 		cameraa = GameObject.Find("Main Camera");
-		audioSource2 = cameraa.transform.GetChild(0).GetComponent<AudioSource>();
+		audioSource2 = GetComponent<AudioSource>();
 		rb = GetComponent<Rigidbody2D>();
 		if(Application.loadedLevel == 2 && !changeSceneOnline.tempo){
 			lol = GameObject.Find("lol").GetComponent<Back>().online;
@@ -41,6 +42,8 @@ public class move : MonoBehaviour {
 	}
 	
 	void Update(){
+		//audioSource2.volume = Mathf.Clamp(rb.velocity.magnitude/40,0,1);
+		//audioSource2.clip = whooosh[Random.Range(0,whooosh.Length-1)];
 		if(GameObject.Find("functions") != null){
 			leftrightinput = GameObject.Find("functions").GetComponent<leftright>().leftorright;
 		}
@@ -55,6 +58,9 @@ public class move : MonoBehaviour {
 		
 		
 	}
+	/*void LateUpdate(){
+		
+	}*/
 	void FixedUpdate () {
 		
 		groundcheck();
@@ -123,6 +129,7 @@ public class move : MonoBehaviour {
 			}
 			if(soundy){
 				if(PlayerPrefs.GetInt("sound")==1){
+					audioSource2.volume = Mathf.Clamp(rb.velocity.magnitude/40,0,1);
 					audioSource2.clip = whooosh[Random.Range(0,whooosh.Length-1)];
 					audioSource2.Play();
 				}
@@ -150,12 +157,11 @@ public class move : MonoBehaviour {
 				lol.SetActive(true);
 
 			}
-			
-			if(GameObject.Find("pause") && GameObject.Find("pause").GetComponent<openSomething>().openn == false){
-				GameObject pausi = GameObject.Find("pause");
-				pausi.GetComponent<openSomething>().open();
-				pausi.GetComponent<TIME>().inGoal();
-			}
+			//GameObject.Find("music").GetComponent<AudioSource>().Pause();
+			cameraa.transform.GetChild(0).GetComponent<AudioSource>().Play();
+			GameObject pausi = GameObject.Find("pause");
+			pausi.GetComponent<openSomething>().open();
+			pausi.GetComponent<TIME>().inGoal();
 		}
             
         
@@ -186,6 +192,7 @@ public class move : MonoBehaviour {
 				waterForceY = 0;
 				rb.drag = 0f;
 				if(PlayerPrefs.GetInt("sound")==1){
+					audioSource2.volume = Mathf.Clamp(rb.velocity.magnitude/40,0,1);
 					audioSource2.clip = whooosh[Random.Range(0,whooosh.Length-1)];
 					audioSource2.Play();
 				}
@@ -194,7 +201,16 @@ public class move : MonoBehaviour {
 		}
 		
 	}
-
+	void OnCollisionEnter2D(Collision2D col){
+		//audioSource2.volume = Mathf.Clamp(rb.velocity.magnitude/40,0,1);
+		if(PlayerPrefs.GetInt("sound")==1 && col.relativeVelocity.magnitude > 2){
+			//print(col.relativeVelocity.magnitude);
+			audioSource2.volume =  col.relativeVelocity.magnitude/15;
+			//print(audioSource2.volume);
+			audioSource2.clip = impact[Random.Range(0,impact.Length-1)];
+			audioSource2.Play();
+		}
+	}
 	
 	public void Jump(){
 		if(grounded){

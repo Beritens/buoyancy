@@ -44,6 +44,7 @@ public class optionStuff : MonoBehaviour {
 	public Color colori;
 	
 	void Start () {
+		
 		px.onEndEdit.AddListener(pxS);
 		py.onEndEdit.AddListener(pyS);
 		pz.onEndEdit.AddListener(pzS);
@@ -56,6 +57,7 @@ public class optionStuff : MonoBehaviour {
 		b2.onEndEdit.AddListener(bS);
 		m1.onEndEdit.AddListener(mS);
 		m2.onEndEdit.AddListener(mS);
+		
 	}
 	public void select(GameObject obj){
 		editObj = obj;
@@ -99,8 +101,19 @@ public class optionStuff : MonoBehaviour {
 		}
 		else{
 			type.text = editObj.tag;
+			
 		}
-		colorButton.color = editObj.GetComponent<SpriteRenderer>().color;
+		if(editObj.tag != "group"){
+			colorButton.color = editObj.GetComponent<SpriteRenderer>().color;
+			appeareance.SetActive(true);
+			physics1.GetComponent<RectTransform>().anchorMax = new Vector2(1,0.2f);
+			physics1.GetComponent<RectTransform>().anchorMin = new Vector2(0,0);
+		}
+		else{
+			physics1.GetComponent<RectTransform>().anchorMax = new Vector2(1,0.4f);
+			physics1.GetComponent<RectTransform>().anchorMin = new Vector2(0,0.2f);
+			appeareance.SetActive(false);
+		}
 		Transform trans = editObj.transform;
 		px.text = trans.position.x.ToString("0.###");
 		py.text = trans.position.y.ToString("0.###");
@@ -136,11 +149,10 @@ public class optionStuff : MonoBehaviour {
 				fx.text = water.waterForceX.ToString("0.####");
 				fy.text = water.waterForceY.ToString("0.####");
 			}
-			else if(editObj.tag == "obstacle" || editObj.tag == "ground"){
+			else if(editObj.tag == "obstacle" || editObj.tag == "ground" || editObj.tag == "group"){
 				flow.SetActive(false);
 				physics1.SetActive(true);
 				b1.text = (editObj.GetComponent<Draggable>().bounciness*100).ToString("0.###");
-				print((editObj.GetComponent<Draggable>().bounciness*100).ToString("0.###"));
 				m1.text = (editObj.GetComponent<Draggable>().mass*10).ToString("0.###");
 				if(editObj.GetComponent<Draggable>().falling){
 					fallingStuff.sprite = falling;
@@ -395,7 +407,6 @@ public class optionStuff : MonoBehaviour {
 		float X = water.waterForceX;
 		float Y = water.waterForceY;
 		var angle = (150 - (Mathf.Atan2(0 - Y, 0 - X)) * 180 / Mathf.PI)/360;
-		print(angle + "angle");
 		float h,s,v;
 		Color.RGBToHSV(colori,out h, out s, out v);
 		Color col = Color.HSVToRGB(angle,s,v);

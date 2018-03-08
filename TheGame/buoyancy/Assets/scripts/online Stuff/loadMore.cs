@@ -7,7 +7,7 @@ public class loadMore : MonoBehaviour {
 	
 	loadPlayerLevels load;
 	void Start () {
-		load = GameObject.Find("loadPLayerLevelsButton").GetComponent<loadPlayerLevels>();
+		load = GetComponentInParent<loadPlayerLevels>();
 	}
 	
 	// Update is called once per frame

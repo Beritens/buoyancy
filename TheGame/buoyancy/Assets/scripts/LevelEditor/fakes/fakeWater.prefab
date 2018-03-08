@@ -41,6 +41,8 @@ GameObject:
   - component: {fileID: 60828118586991766}
   - component: {fileID: 60558118947212560}
   - component: {fileID: 60096138140443248}
+  - component: {fileID: 114671901698025682}
+  - component: {fileID: 114971576206679958}
   m_Layer: 0
   m_Name: fakeWater
   m_TagString: water
@@ -350,6 +352,7 @@ MonoBehaviour:
   sizecontrol: {fileID: 1010768312966218, guid: a22c930dc2b555948ac874ef06c2be12,
     type: 2}
   falling: 0
+  mass: 1
   bounciness: 0
   ObjectLPos: 0
   Shape: 0
@@ -367,6 +370,40 @@ MonoBehaviour:
   colorChanged: 0
   waterForceY: 1
   waterForceX: 0
+--- !u!114 &114671901698025682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1465344077699402}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 275e5bb0c7f5dac4caf1382c853d3c4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difference: {x: 0, y: 0, z: 0}
+  ok: 0
+  scaleThing: 0
+  moveThing: 1
+  maski:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!114 &114971576206679958
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1465344077699402}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a4ce64e8797968439446f9f4bb2cc00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: {fileID: 0}
+  ok: 0
+  maski:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!120 &120647338791424982
 LineRenderer:
   m_ObjectHideFlags: 1

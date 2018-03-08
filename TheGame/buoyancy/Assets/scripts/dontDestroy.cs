@@ -12,6 +12,6 @@ public class dontDestroy : MonoBehaviour {
 		}
 
 		DontDestroyOnLoad(gameObject);
-		
+		//GetComponent<AudioSource>().UnPause();
 	}
 }
